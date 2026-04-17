@@ -1,0 +1,147 @@
+@import "tailwindcss";
+
+@theme {
+    /* Colors */
+    --color-gray-10: #F6F6F6;
+    --color-gray-20: #EEEEEE;
+    --color-gray-30: #E6E6E6;
+    --color-gray-40: #C8C8C8;
+    --color-gray-50: #B9B9B9;
+    --color-gray-60: #969696;
+    --color-gray-70: #646464;
+    --color-gray-80: #323232;
+    --color-gray-90: #191919;
+
+    --color-white: #ffffff;
+    --color-black: #000000;
+    --color-transparent: transparent;
+
+    /* Special colors */
+    --color-focus-line: #FFE300FF;
+    --color-focus-dotted: #323232FF;
+    --color-youtube-red: #FF0033;
+
+    /* Breakpoints */
+    --breakpoint-3xl: 112rem;
+    --breakpoint-4xl: 128rem;
+
+    /* Max Width */
+    --max-width-bt: 95rem;
+
+    /* Border Width */
+    --border-width-1: 1px;
+
+    /* Font Families */
+    --font-sans: var(--font-sans-noto, Arial, Helvetica, sans-serif);
+    --font-serif: var(--font-serif-noto, Georgia, 'Times New Roman', serif);
+
+    /* Z-Index */
+    --z-index-popup: 9000;
+}
+
+html {
+    block-size: 100%;
+}
+
+body {
+    text-rendering: optimizeLegibility;
+    text-wrap: pretty;
+    @apply font-sans text-gray-90 bg-gray-10;
+}
+
+@layer base {
+    :root {
+        --focus-radius: 0;
+        --focus-x-offset: -0.5rem;
+        --focus-y-offset: -0.5rem;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+        }
+    }
+}
+
+@layer components {
+    .bt-link {
+        @apply text-sm text-gray-90 hover:underline;
+    }
+
+    .bt-link-bold {
+        @apply font-bold text-sm text-gray-90 hover:underline;
+    }
+}
+
+@layer utilities {
+    /* Font Sizes - Small */
+    .text-2xs {
+        font-size: 0.625rem;  /* 10px */
+        line-height: 1.5;
+    }
+
+    .text-3xs {
+        font-size: 0.5rem;  /* 8px */
+        line-height: 1.5;
+    }
+
+    .text-4xs {
+        font-size: 0.375rem; /* 6px */
+        line-height: 1.5;
+    }
+
+    .text-5xs {
+        font-size: 0.25rem; /* 4px */
+        line-height: 1.5;
+    }
+
+    .skeleton-pulse {
+        animation: skeleton-pulse 2s ease-in-out infinite;
+        background: linear-gradient(
+                -45deg,
+                var(--color-gray-30) 25%,
+                var(--color-gray-20) 50%,
+                var(--color-gray-30) 75%
+        );
+        background-size: 400% 400%;
+    }
+
+    .focus-visible-facelift {
+        position: relative;
+
+        &::before,
+        &::after {
+            position: absolute;
+            content: '';
+            pointer-events: none;
+        }
+
+        &:focus-visible {
+            outline: none;
+
+            &::before {
+                inset: var(--focus-y-offset, -0.6rem) var(--focus-x-offset, -0.6rem);
+                border: 0.6rem solid var(--color-focus-line);
+                border-radius: var(--focus-radius, 0);
+                z-index: 1;
+            }
+
+            &::after {
+                inset: calc(var(--focus-y-offset, -0.6rem) + 0.2rem) calc(var(--focus-x-offset, -0.6rem) + 0.2rem);
+                border: 0.2rem dotted var(--color-focus-dotted);
+                border-radius: calc(var(--focus-radius, 0) - 0.2rem);
+                z-index: 2;
+            }
+        }
+    }
+}
+
+@keyframes skeleton-pulse {
+    0% { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+}

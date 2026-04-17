@@ -1,0 +1,30 @@
+{
+    "home": "Homepage",
+    "generic": {
+        "search": "Search",
+        "menu": "Menu"
+    },
+    "skiplinks": {
+        "label": "Skiplinks",
+        "to_main": "Skip to main content",
+        "to_navigation": "Skip to navigation"
+    },
+    "header": {
+        "sign_language": "Sign language",
+        "simple_language": "Simple language",
+        "back_to_german": "Zur deutschen Startseite",
+        "navigation": {
+            "flyout": "Flyout-Navigation",
+            "service": "Site Navigation",
+            "breadcrumb": "Breadcrumb navigation"
+        },
+        "change_langauge_to": "Change language to",
+        "announcement_bar":{
+            "dismiss": "Close announcement"
+        }
+    },
+    "404": {
+        "title": "Page not found",
+        "backhome": "Back to homepage"
+    }
+}
