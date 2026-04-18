@@ -19,6 +19,7 @@ export default async function ServiceBar({ locale }: ServiceBarProps) {
 				<div className="flex flex-row gap-4">
 					<a href={`tel:${telephone}`}
 					   className="flex flex-row items-center gap-2 text-white transition-colors duration-100 hover:text-gray-20 hover:cursor-pointer"
+					   title={t(locale, 'header.service_bar.telephone', telephone)}
 					   aria-label={t(locale, 'header.service_bar.telephone', telephone)}
 					>
 						<IconTelephone className="w-4 h-4"/>
@@ -27,6 +28,7 @@ export default async function ServiceBar({ locale }: ServiceBarProps) {
 
 					<a href={`mailto:${email}`}
 					   className="flex flex-row items-center gap-2 text-white transition-colors duration-100 hover:text-gray-20 hover:cursor-pointer"
+					   title={t(locale, 'header.service_bar.email', email)}
 					   aria-label={t(locale, 'header.service_bar.email', email)}
 					>
 						<IconMail className="w-4 h-4"/>
