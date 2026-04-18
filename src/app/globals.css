@@ -2,7 +2,7 @@
 
 @theme {
     /* Colors */
-    --color-primary: #E41E24;
+    --color-primary: #E30613;
     --color-gray-10: #F4F4F4;
     --color-gray-20: #E2E2E2;
     --color-gray-80: #262626;
@@ -28,8 +28,7 @@
     --border-width-1: 1px;
 
     /* Font Families */
-    --font-sans: var(--font-sans-noto, Arial, Helvetica, sans-serif);
-    --font-serif: var(--font-serif-noto, Georgia, 'Times New Roman', serif);
+    --font-display: var(--font-jakarta-sans, Arial, Helvetica, sans-serif);
 
     /* Z-Index */
     --z-index-popup: 9000;
@@ -42,7 +41,7 @@ html {
 body {
     text-rendering: optimizeLegibility;
     text-wrap: pretty;
-    @apply font-sans bg-gray-10 text-gray-90;
+    @apply font-display bg-gray-10 text-gray-90;
 }
 
 @layer base {

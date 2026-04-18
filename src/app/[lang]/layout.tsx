@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { availableLanguages, DEFAULT_LOCALE, getLocaleFromLang } from '@/lib/locale/locales';
 import { getConfig } from '@/lib/storyblok-queries';
 import { BASE_URL } from '@/lib/site';
-import { notoSans, notoSerif } from '@/app/fonts';
+import { jakartaSans } from '@/app/fonts';
 import SkipLinks from '@/components/layout/SkipLinks';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
@@ -39,7 +39,7 @@ export default async function LangLayout({ children, params,}: LangLayoutProps) 
 
 	return (
 		<html lang={locale.language}
-					className={`${notoSans.variable} ${notoSerif.variable}`}
+					className={`${jakartaSans.variable}`}
 					data-scroll-behavior="smooth"
 		>
 			<body className="bg-white subpixel-antialiased flex flex-col w-full min-h-screen">
