@@ -22,3 +22,4 @@ export { default as IconPlay } from "./IconPlay";
 export { default as IconPlus } from "./IconPlus";
 export { default as IconTelephone } from "./IconTelephone";
 export { default as IconMail } from "./IconMail";
+export { default as IconFullLogo } from "./IconFullLogo";
