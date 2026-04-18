@@ -92,7 +92,7 @@ export default async function Breadcrumbs({ locale, entry, items, includeSchema 
 						return (
 							<li key={item.href} className="flex items-center gap-2">
 								{index > 0 && (
-									<span className="text-sm text-gray-40" aria-hidden="true">|</span>
+									<span className="text-sm text-gray-80" aria-hidden="true">/</span>
 								)}
 
 								{isLast ? (
