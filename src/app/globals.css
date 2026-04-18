@@ -2,12 +2,15 @@
 
 @theme {
     /* Colors */
-    /*--color-primary: #E30613;*/
+    --color-primary-light:   #F0A030;
+    --color-primary:         #E08818;
+    --color-primary-darker:  #C07010;
+    --color-primary-darkest: #9A5A0A;
 
-    --color-primary-light: #F7052D;
-    --color-primary: #D90429;
-    --color-primary-dark: #CD0426;
-    --color-primary-darker: #AB031F;
+    /*--color-primary-light: #e84045;*/
+    /*--color-primary: #E41E24;*/
+    /*--color-primary-darker: #c4171d;*/
+    /*--color-primary-darkest: #a11318;*/
 
 
     --color-gray-10: #F4F4F4;
