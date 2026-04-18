@@ -1,13 +1,13 @@
 import { BASE_URL } from '@/lib/site';
-import { DEFAULT_LOCALE } from '@/lib/locale/locales';
+import { DEFAULT_LOCALE, locales } from '@/lib/locale/locales';
 import { getSlugMap, getTitle, translatePath } from '@/lib/locale/slug-map';
-import { getSiteMeta } from '@/lib/site-server';
+import { getConfig } from "@/lib/storyblok-queries";
 
 export const revalidate = 3600;
 
 export async function GET() {
 	const map = await getSlugMap();
-	const siteMeta = await getSiteMeta(DEFAULT_LOCALE);
+	const config = await getConfig(DEFAULT_LOCALE);
 
 	const lines: string[] = [];
 	for (const entry of map.byReal.values()) {
@@ -19,11 +19,11 @@ export async function GET() {
 	}
 
 	const homeEntry = map.byReal.get('home');
-	const homeTitle = homeEntry ? getTitle(homeEntry, DEFAULT_LOCALE.language) : siteMeta.name;
+	const homeTitle = homeEntry ? getTitle(homeEntry, DEFAULT_LOCALE.language) : config.site_name;
 
-	const content = `# ${siteMeta.name}
+	const content = `# ${config.site_name}
 
-> ${siteMeta.description ?? ''}
+> ${config.site_description ?? ''}
 
 ## Seiten
 
