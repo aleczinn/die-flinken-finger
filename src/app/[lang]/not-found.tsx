@@ -10,9 +10,6 @@ export default function NotFound() {
 	const lang = pathname.split('/').filter(Boolean)[0] ?? '';
 	const locale = getLocaleFromLang(lang) ?? DEFAULT_LOCALE;
 
-	console.log("NOT FOUNDasd asd");
-	console.log(locale);
-
 	return (
 		<main className="flex-1 flex flex-col justify-center items-center min-h-[70vh]">
 			<h1 className="text-7xl mb-8">
