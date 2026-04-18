@@ -10,8 +10,8 @@ interface ServiceBarProps {
 
 export default async function ServiceBar({ locale }: ServiceBarProps) {
 	const config = await getConfig(locale);
-	const telephone = config.company.telephone;
-	const email = config.company.email;
+	const telephone = config.telephone;
+	const email = config.email;
 
 	return (
 		<div className="bg-gray-90 text-white">

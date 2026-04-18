@@ -4,6 +4,9 @@ import { getConfig } from "@/lib/storyblok-queries";
 import { t } from "@/lib/i18n";
 import { IconFullLogoLight, IconHome, IconMail, IconTelephone } from "@/components/icons";
 import Link from "next/link";
+import { Button } from "@/components/ui/Button";
+import { buildLocalizedHref } from "@/lib/locale/links";
+import OpeningHours from "@/components/modules/OpeningHours";
 
 interface FooterProps {
 	locale: Locale;
@@ -11,67 +14,88 @@ interface FooterProps {
 
 export default async function Footer({ locale }: FooterProps) {
 	const config = await getConfig(locale);
+	const language = locale.language;
 	const currentYear = new Date().getFullYear();
+
+	const [
+		impressumHref,
+		datenschutzHref,
+	] = await Promise.all([
+		buildLocalizedHref('impressum', language),
+		buildLocalizedHref('datenschutz', language),
+	]);
+
+	const impressumTitle = t(locale, 'footer.impressum');
+	const datenschutzTitle = t(locale, 'footer.datenschutz');
 
 	return (
 		<footer className="flex flex-col text-gray-10 border-t-4 border-solid border-primary">
 			<div className="w-full bg-gray-90">
 				<Section as="div" variant="capped" className="flex flex-col sm:flex-row justify-center sm:justify-between py-12">
-					<div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-						<div>
-				            <IconFullLogoLight className="w-48 h-auto mb-4" />
-
-						</div>
-
-                        <div>
+					<div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 md:gap-4">
+						{/* Kontakt */}
+						<div className="flex flex-col">
 							<span className="text-primary text-sm font-bold uppercase mb-2">
-								{t(locale, 'footer.navigation.label')}
-							</span>
-                        </div>
-
-                        <div className="flex flex-col">
-							<span className="text-primary text-sm font-bold uppercase mb-4">
 								{t(locale, 'footer.contact.label')}
 							</span>
 
-                            <ul className="flex flex-col gap-4">
-                                <li className="flex flex-row gap-2">
-									<div>
-										<IconHome className="w-6 h-auto mt-1" />
-									</div>
+							<div className="flex flex-col">
+								<span className="">{config.site_name.toUpperCase()}</span>
+								<span className="">{config.address_street_house_number}</span>
+								<span className="">{config.address_plz_town}</span>
+							</div>
 
-									<div className="flex flex-col">
-										<span className="text-sm">{config.company.street} {config.company.house_number}</span>
-										<span className="text-sm">{config.company.postal_code} {config.company.town}</span>
-									</div>
-                                </li>
+							<div className="flex-1 min-h-8"></div>
 
-                                <li className="flex flex-row items-center gap-2">
-                                    <IconTelephone className="w-6 h-auto" />
-                                    <span className="text-sm">{config.company.telephone}</span>
-                                </li>
+							<div className="flex flex-col">
+								<a href={`tel:${config.telephone}`}
+								   className="flex flex-row items-center gap-2 text-gray-10 transition-colors duration-100 hover:text-primary-light hover:cursor-pointer"
+								   title={t(locale, 'generic.telephone', config.telephone)}
+								   aria-label={t(locale, 'generic.telephone', config.telephone)}
+								>
+									<IconTelephone className="w-4 h-auto"/>
+									<span className="text-sm">{config.telephone}</span>
+								</a>
 
-								<li className="flex flex-row items-center gap-2">
-									<IconMail className="w-6 h-auto" />
-									<span className="text-sm">{config.company.email}</span>
-								</li>
-                            </ul>
+								<a href={`mailto:${config.email}`}
+								   className="flex flex-row items-center gap-2 text-gray-10 transition-colors duration-100 hover:text-primary-light hover:cursor-pointer"
+								   title={t(locale, 'generic.email', config.email)}
+								   aria-label={t(locale, 'generic.email', config.email)}
+								>
+									<IconMail className="w-4 h-auto"/>
+									<span className="text-sm">{config.email}</span>
+								</a>
+							</div>
+						</div>
+
+						{/* Navigation */}
+						<div className="hidden lg:flex flex-col">
+							<span className="text-primary text-sm font-bold uppercase mb-2">
+								{t(locale, 'footer.navigation.label')}
+							</span>
+
+							<ul className="">
+								<li></li>
+							</ul>
                         </div>
 
-                        <div>
+						{/* Öffnungszeiten */}
+						<div className="flex flex-col">
 							<span className="text-primary text-sm font-bold uppercase mb-2">
 								{t(locale, 'footer.hours_of_operation.label')}
 							</span>
+
+							<OpeningHours locale={locale} items={config.opening_hours ?? []} />
                         </div>
 					</div>
 				</Section>
 			</div>
 
 			<div className="w-full bg-gray-80">
-				<Section as="div" variant="capped" className="flex flex-col sm:flex-row justify-center sm:justify-between py-6">
-					<div>logo</div>
-					<div></div>
-					<div></div>
+				<Section as="div" variant="capped" className="flex flex-col lg:flex-row justify-center sm:justify-between items-center py-6 gap-2 lg:gap-8">
+					<IconFullLogoLight className="w-48 h-auto" />
+					<span className="font-bold text-lg text-wrap text-center">Spezialist von hochwertigen Elektroinstallationen im Rhein-Main-Gebiet</span>
+					<Button variant="primary" iconLeft={<IconTelephone className="w-5 h-auto" />}>Jetzt anrufen</Button>
 				</Section>
 			</div>
 
@@ -80,9 +104,15 @@ export default async function Footer({ locale }: FooterProps) {
 					<span className="text-sm">{t(locale, "footer.copyright", currentYear, config.site_name)}</span>
 
 					{/* Social links (Facebook, Instagram etc.) */}
-					<div className="flex flex-row gap-2">
-						<Link href=""></Link>
-					</div>
+					<ul className="flex flex-row gap-2">
+						<li>
+							<Link href={impressumHref} title={impressumTitle} className="text-sm hover:underline">{impressumTitle}</Link>
+						</li>
+
+						<li>
+							<Link href={datenschutzHref} title={datenschutzTitle} className="text-sm hover:underline">{datenschutzTitle}</Link>
+						</li>
+					</ul>
 				</Section>
 			</div>
 		</footer>

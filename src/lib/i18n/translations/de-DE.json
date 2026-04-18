@@ -4,7 +4,8 @@
         "search": "Suche",
         "menu": "Menü",
         "telephone": "Rufen Sie uns gerne unter {0} an!",
-        "email": "Schreiben Sie uns eine E-Mail mit Ihrem Anliegen an {0}"
+        "email": "Schreiben Sie uns eine E-Mail mit Ihrem Anliegen an {0}",
+        "closed": "Geschlossen"
     },
     "skiplinks": {
         "label": "Sprunglinks",
@@ -19,6 +20,8 @@
     },
     "footer": {
         "copyright": "© Copyright {0} {1}. Alle Rechte vorbehalten.",
+        "impressum": "Impressum",
+        "datenschutz": "Datenschutz",
         "contact": {
             "label": "Kontakt"
         },

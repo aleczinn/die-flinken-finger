@@ -4,7 +4,8 @@
         "search": "Search",
         "menu": "Menu",
         "telephone": "Call us under {0}",
-        "email": "Schreiben Sie uns gerne eine E-Mail an {0}"
+        "email": "Schreiben Sie uns gerne eine E-Mail an {0}",
+        "closed": "Closed"
     },
     "skiplinks": {
         "label": "Skiplinks",
@@ -19,6 +20,8 @@
     },
     "footer": {
         "copyright": "© Copyright {0} {1}. All rights reserved.",
+        "impressum": "Legal notice",
+        "datenschutz": "Privacy Policy",
         "contact": {
             "label": "Contact"
         },
