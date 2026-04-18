@@ -47,7 +47,7 @@ export default async function Footer({ locale }: FooterProps) {
 
 							<div className="flex-1 min-h-8"></div>
 
-							<div className="flex flex-col">
+							<div className="flex flex-col gap-2">
 								<a href={`tel:${config.telephone}`}
 								   className="flex flex-row items-center gap-2 text-gray-10 transition-colors duration-100 hover:text-primary-light hover:cursor-pointer"
 								   title={t(locale, 'generic.telephone', config.telephone)}
