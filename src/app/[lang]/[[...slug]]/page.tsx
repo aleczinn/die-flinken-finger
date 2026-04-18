@@ -1,7 +1,7 @@
 import { StoryblokStory } from '@storyblok/react/rsc';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
-import { getGlobalConfig, getStory } from '@/lib/storyblok-queries';
+import { getConfig, getStory } from '@/lib/storyblok-queries';
 import { BASE_URL } from '@/lib/site';
 import Breadcrumbs, { buildBreadcrumbs } from '@/components/layout/Breadcrumbs';
 import {
@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 	const [entry, config] = await Promise.all([
 		resolveEntry(slug, locale.language),
-		getGlobalConfig(locale),
+		getConfig(locale),
 	]);
 
 	if (!entry) {
@@ -143,7 +143,7 @@ export default async function Page({ params }: PageProps) {
 	}
 
 	const isHomepage = entry.realSlug === 'home';
-	const config = await getGlobalConfig(locale);
+	const config = await getConfig(locale);
 
 	return (
 		<main id="main-content" className="flex-1 flex flex-col">

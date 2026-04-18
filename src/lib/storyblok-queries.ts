@@ -3,11 +3,20 @@ import { getStoryblokApi } from '@/lib/storyblok';
 import { DEFAULT_LOCALE, Locale } from '@/lib/locale/locales';
 import { draftMode } from 'next/headers';
 
-export interface GlobalConfig {
+export interface Config {
     site_name: string;
     site_description: string;
+    company: ConfigCompany;
+}
+
+interface ConfigCompany {
+    managing_director: string;
     telephone: string;
     email: string;
+    street: string;
+    house_number: string;
+    postal_code: string;
+    town: string;
 }
 
 export async function getVersion(): Promise<'draft' | 'published'> {
@@ -72,19 +81,20 @@ export const getLinks = cache(async (locale?: Locale) => {
 /**
  * Lädt die globale Konfiguration aus Storyblok, welche z. B. Inhalte wie Announcement-Bars beinhaltet.
  */
-export const getGlobalConfig = cache(async (locale: Locale): Promise<GlobalConfig> => {
+export const getConfig = cache(async (locale: Locale): Promise<Config> => {
     const storyblokApi = getStoryblokApi();
     const version = await getVersion();
 
-    const { data } = await storyblokApi.get('cdn/stories/config/global', {
+    const { data } = await storyblokApi.get('cdn/stories/config', {
         version,
         language: locale.storyblokCode,
     });
 
     const content = data.story.content;
+
     return {
-        ...content,
         site_name: content.site_name || process.env.NEXT_PUBLIC_SITE_NAME || 'Website',
-        site_description: content.site_description || process.env.NEXT_PUBLIC_SITE_DESCRIPTION || ''
+        site_description: content.site_description || process.env.NEXT_PUBLIC_SITE_DESCRIPTION || '',
+        company: content.company[0]
     };
 });

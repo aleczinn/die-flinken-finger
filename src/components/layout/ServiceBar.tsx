@@ -2,16 +2,16 @@ import { Locale } from '@/lib/locale/locales';
 import Section from '@/components/layout/Section';
 import { t } from "@/lib/i18n";
 import { IconMail, IconTelephone } from "@/components/icons";
-import { getGlobalConfig } from "@/lib/storyblok-queries";
+import { getConfig } from "@/lib/storyblok-queries";
 
 interface ServiceBarProps {
 	locale: Locale;
 }
 
 export default async function ServiceBar({ locale }: ServiceBarProps) {
-	const config = await getGlobalConfig(locale);
-	const telephone = config.telephone.replace(/\s/g, '');
-	const email = config.email;
+	const config = await getConfig(locale);
+	const telephone = config.company.telephone;
+	const email = config.company.email;
 
 	return (
 		<div className="bg-gray-90 text-white">

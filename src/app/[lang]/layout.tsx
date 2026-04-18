@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { availableLanguages, DEFAULT_LOCALE, getLocaleFromLang } from '@/lib/locale/locales';
-import { getGlobalConfig } from '@/lib/storyblok-queries';
+import { getConfig } from '@/lib/storyblok-queries';
 import { BASE_URL } from '@/lib/site';
 import { notoSans, notoSerif } from '@/app/fonts';
 import SkipLinks from '@/components/layout/SkipLinks';
@@ -19,7 +19,7 @@ export async function generateStaticParams() {
 export default async function LangLayout({ children, params,}: LangLayoutProps) {
 	const { lang } = await params;
 	const locale = getLocaleFromLang(lang) ?? DEFAULT_LOCALE;
-	const config = await getGlobalConfig(locale);
+	const config = await getConfig(locale);
 
 	const orgSchema = {
 		'@context': 'https://schema.org',
