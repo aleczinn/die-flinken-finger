@@ -55,7 +55,7 @@ export default function MediaWithText({ blok, priority = false }: MediaWithTextP
 				)}
 
 				{blok.button_text && (
-					<Button className="mt-8" variant="primary" mode="dark">
+					<Button className="mt-8" variant="primary">
 						{blok.button_text}
 					</Button>
 				)}
