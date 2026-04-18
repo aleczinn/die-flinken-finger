@@ -10,7 +10,11 @@
         "to_navigation": "Skip to navigation"
     },
     "header": {
-        "service_bar": "Service bar",
+        "service_bar": {
+            "label": "Service bar",
+            "telephone": "Call us under {0}",
+            "email": "Schreiben Sie uns gerne eine E-Mail an {0}"
+        },
         "change_langauge_to": "Change language to"
     },
     "404": {

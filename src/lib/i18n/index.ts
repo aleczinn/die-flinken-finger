@@ -42,34 +42,32 @@ function resolve(obj: Record<string, unknown>, key: string): string | undefined 
  *   3. App-Default (erster Eintrag in locales, normalerweise de-DE)
  *   4. Key selbst (macht fehlende Übersetzungen sofort sichtbar)
  */
-export function t(locale: Locale, key: string): string {
+export function t(locale: Locale, key: string, ...args: (string | number)[]): string {
 	const tag = toLocaleTag(locale);
+	let result: string | undefined;
 
 	// Exakte Locale
 	const exact = translationMap.get(tag);
-	if (exact) {
-		const value = resolve(exact, key);
-		if (value) return value;
-	}
+	if (exact) result = resolve(exact, key);
 
-	// Sprach-Default (de-AT → de-DE)
-	const langDefault = getDefaultForLanguage(locale.language);
-	if (langDefault && langDefault !== locale) {
-		const fallback = translationMap.get(toLocaleTag(langDefault));
-		if (fallback) {
-			const value = resolve(fallback, key);
-			if (value) return value;
+	// Sprach-Default (de-AT -> de-DE)
+	if (!result) {
+		const langDefault = getDefaultForLanguage(locale.language);
+		if (langDefault && langDefault !== locale) {
+			const fallback = translationMap.get(toLocaleTag(langDefault));
+			if (fallback) result = resolve(fallback, key);
 		}
 	}
 
 	// App-Default
-	if (DEFAULT_LOCALE !== locale && DEFAULT_LOCALE !== langDefault) {
-		const appDefault = translationMap.get(toLocaleTag(DEFAULT_LOCALE));
-		if (appDefault) {
-			const value = resolve(appDefault, key);
-			if (value) return value;
+	if (!result) {
+		const langDefault = getDefaultForLanguage(locale.language);
+		if (DEFAULT_LOCALE !== locale && DEFAULT_LOCALE !== langDefault) {
+			const appDefault = translationMap.get(toLocaleTag(DEFAULT_LOCALE));
+			if (appDefault) result = resolve(appDefault, key);
 		}
 	}
 
-	return key;
+	// Platzhalter ersetzen, Fallback auf Key
+	return (result ?? key).replace(/\{(\d+)}/g, (_, i) => String(args[Number(i)] ?? ''));
 }

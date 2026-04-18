@@ -10,7 +10,11 @@
         "to_navigation": "Zur Navigation"
     },
     "header": {
-        "service_bar": "Servicenavigation",
+        "service_bar": {
+            "label": "Servicenavigation",
+            "telephone": "Rufen Sie uns gerne unter {0} an!",
+            "email": "Schreiben Sie uns eine E-Mail mit Ihrem Anliegen an {0}"
+        },
         "change_langauge_to": "Sprache wechseln zu"
     },
     "404": {
