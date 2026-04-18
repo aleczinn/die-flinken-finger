@@ -34,7 +34,8 @@
         }
     },
     "404": {
-        "title": "Seite nicht gefunden",
+        "title": "Diese Seite existiert nicht",
+        "description": "Wir konnten leider nichts finden, nachdem du suchst.",
         "backhome": "Zurück zur Startseite"
     }
 }
