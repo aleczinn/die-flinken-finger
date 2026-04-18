@@ -1,5 +1,6 @@
-export { default as IconBundestagDesktop } from "./IconBundestagDesktop";
-export { default as IconBundestagMobile } from "./IconBundestagMobile";
+import IconMail from "@/components/icons/IconMail";
+
+export { default as IconLogo } from "./IconLogo";
 export { default as IconEasy } from "./IconEasy";
 export { default as IconGlobe } from "./IconGlobe";
 export { default as IconSign } from "./IconSign";
@@ -19,3 +20,5 @@ export { default as IconYouTube } from "./IconYouTube";
 export { default as IconXing } from "./IconXing";
 export { default as IconPlay } from "./IconPlay";
 export { default as IconPlus } from "./IconPlus";
+export { default as IconTelephone } from "./IconTelephone";
+export { default as IconMail } from "./IconMail";
