@@ -8,7 +8,7 @@ type SectionProps<T extends ElementType> = {
 } & ComponentPropsWithoutRef<T>;
 
 const variantClasses: Record<Variant, string> = {
-	capped: 'max-w-bt mx-auto w-full px-4 md:px-8',
+	capped: 'max-w-bt mx-auto w-full px-4 sm:px-6 md:px-8',
 	full: 'w-full px-4 md:px-8',
 	none: '',
 };
