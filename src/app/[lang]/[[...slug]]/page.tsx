@@ -1,9 +1,8 @@
 import { StoryblokStory } from '@storyblok/react/rsc';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
-import { getStory } from '@/lib/storyblok-queries';
+import { getGlobalConfig, getStory } from '@/lib/storyblok-queries';
 import { BASE_URL } from '@/lib/site';
-import { getSiteMeta } from '@/lib/site-server';
 import Breadcrumbs, { buildBreadcrumbs } from '@/components/layout/Breadcrumbs';
 import {
 	availableLanguages,
@@ -43,9 +42,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 	const { lang, slug } = await params;
 	const locale = getLocaleFromLang(lang) ?? DEFAULT_LOCALE;
 
-	const [entry, siteMeta] = await Promise.all([
+	const [entry, config] = await Promise.all([
 		resolveEntry(slug, locale.language),
-		getSiteMeta(locale),
+		getGlobalConfig(locale),
 	]);
 
 	if (!entry) {
@@ -79,11 +78,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 	const browserTitle = content.title || story.name; // Browser-Tab: kurz, UI-orientiert
 	const socialTitle = content.seo_title || content.title || story.name; // Social Sharing: ausführlich, SEO-optimiert (Fallback auf title)
-	const description = content.seo_description || siteMeta.description;
+	const description = content.seo_description || config.site_description;
 	const ogImage = content.seo_og_image?.filename || `${BASE_URL}/og-default.jpg`;
 
 	return {
-		title: isHomepage ? siteMeta.name : `${browserTitle} – ${siteMeta.name}`,
+		title: isHomepage ? config.site_name : `${browserTitle} – ${config.site_name}`,
 		description,
 		alternates: {
 			canonical,
@@ -97,7 +96,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 			locale: getOgLocale(locale),
 			alternateLocale: getAlternateOgLocales(locale),
 			title: socialTitle,
-			siteName: siteMeta.name,
+			siteName: config.site_name,
 			description: description,
 			url: canonical,
 			type: content.seo_og_type || 'website',
@@ -143,23 +142,21 @@ export default async function Page({ params }: PageProps) {
 		return notFound();
 	}
 
-	const breadcrumbs = await buildBreadcrumbs(locale, entry);
 	const isHomepage = entry.realSlug === 'home';
-	const siteMeta = await getSiteMeta(locale);
+	const config = await getGlobalConfig(locale);
 
 	return (
 		<main id="main-content" className="flex-1 flex flex-col">
-			<Breadcrumbs locale={locale} entry={entry} items={breadcrumbs} includeSchema={true} />
+			<Breadcrumbs locale={locale} entry={entry} includeSchema={true} />
 			<div className="flex-1">
 				{isHomepage && (
 					<div className="sr-only">
-						<h1>{siteMeta.name}</h1>
+						<h1>{config.site_name}</h1>
 					</div>
 				)}
 
 				<StoryblokStory story={result.data.story} />
 			</div>
-			<Breadcrumbs locale={locale} entry={entry} items={breadcrumbs} />
 		</main>
 	)
 }

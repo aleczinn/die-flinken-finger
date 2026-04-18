@@ -4,23 +4,23 @@ import { DEFAULT_LOCALE, Locale } from '@/lib/locale/locales';
 import { draftMode } from 'next/headers';
 
 export interface GlobalConfig {
-	site_name: string;
-	site_description: string;
-	telephone: string;
-	email: string;
+    site_name: string;
+    site_description: string;
+    telephone: string;
+    email: string;
 }
 
 export async function getVersion(): Promise<'draft' | 'published'> {
-	if (process.env.NODE_ENV === 'development') {
-		return 'draft';
-	}
+    if (process.env.NODE_ENV === 'development') {
+        return 'draft';
+    }
 
-	try {
-		const draft = await draftMode();
-		return draft.isEnabled ? 'draft' : 'published';
-	} catch {
-		return 'published';
-	}
+    try {
+        const draft = await draftMode();
+        return draft.isEnabled ? 'draft' : 'published';
+    } catch {
+        return 'published';
+    }
 }
 
 /**
@@ -35,22 +35,22 @@ export async function getVersion(): Promise<'draft' | 'published'> {
  * @see https://react.dev/reference/react/cache
  */
 export const getStory = cache(async (locale: Locale = DEFAULT_LOCALE, slug: string) => {
-	const storyblokApi = getStoryblokApi();
-	const version = await getVersion();
+    const storyblokApi = getStoryblokApi();
+    const version = await getVersion();
 
-	try {
-		return await storyblokApi.get(`cdn/stories/${slug}`, {
-			version,
-			language: locale.storyblokCode,
-		});
-	} catch (error: any) {
-		// Storyblok wirft bei 404 einen Fehler mit status 404
-		if (error?.status === 404 || error?.response?.status === 404) {
-			return null;
-		}
-		// Echte Fehler weiterwerfen -> Next.js zeigt error.tsx
-		throw error;
-	}
+    try {
+        return await storyblokApi.get(`cdn/stories/${slug}`, {
+            version,
+            language: locale.storyblokCode,
+        });
+    } catch (error: any) {
+        // Storyblok wirft bei 404 einen Fehler mit status 404
+        if (error?.status === 404 || error?.response?.status === 404) {
+            return null;
+        }
+        // Echte Fehler weiterwerfen -> Next.js zeigt error.tsx
+        throw error;
+    }
 });
 
 /**
@@ -60,25 +60,31 @@ export const getStory = cache(async (locale: Locale = DEFAULT_LOCALE, slug: stri
  * ISR-Revalidierung übernimmt `cachedFetch` in storyblok.ts (60s in prod).
  */
 export const getLinks = cache(async (locale?: Locale) => {
-	const storyblokApi = getStoryblokApi();
-	const version = await getVersion();
+    const storyblokApi = getStoryblokApi();
+    const version = await getVersion();
 
-	return storyblokApi.get('cdn/links', {
-		version,
-		...(locale && { language: locale.storyblokCode }),
-	});
+    return storyblokApi.get('cdn/links', {
+        version,
+        ...(locale && { language: locale.storyblokCode }),
+    });
 });
 
 /**
  * Lädt die globale Konfiguration aus Storyblok, welche z. B. Inhalte wie Announcement-Bars beinhaltet.
  */
 export const getGlobalConfig = cache(async (locale: Locale): Promise<GlobalConfig> => {
-	const storyblokApi = getStoryblokApi();
-	const version = await getVersion();
+    const storyblokApi = getStoryblokApi();
+    const version = await getVersion();
 
-	const { data } = await storyblokApi.get('cdn/stories/config/global', {
-		version,
-		language: locale.storyblokCode,
-	});
-	return data.story.content;
+    const { data } = await storyblokApi.get('cdn/stories/config/global', {
+        version,
+        language: locale.storyblokCode,
+    });
+
+    const content = data.story.content;
+    return {
+        ...content,
+        site_name: content.site_name || process.env.NEXT_PUBLIC_SITE_NAME || 'Website',
+        site_description: content.site_description || process.env.NEXT_PUBLIC_SITE_DESCRIPTION || ''
+    };
 });

@@ -42,7 +42,7 @@ html {
 body {
     text-rendering: optimizeLegibility;
     text-wrap: pretty;
-    @apply font-sans bg-white text-gray-90;
+    @apply font-sans bg-gray-10 text-gray-90;
 }
 
 @layer base {

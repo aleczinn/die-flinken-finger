@@ -1,8 +1,7 @@
 import { ReactNode } from 'react';
 import { availableLanguages, DEFAULT_LOCALE, getLocaleFromLang } from '@/lib/locale/locales';
 import { getGlobalConfig } from '@/lib/storyblok-queries';
-import { BASE_URL, getActiveAnnouncementBar } from '@/lib/site';
-import { getSiteMeta } from '@/lib/site-server';
+import { BASE_URL } from '@/lib/site';
 import { notoSans, notoSerif } from '@/app/fonts';
 import SkipLinks from '@/components/layout/SkipLinks';
 import Header from '@/components/layout/Header';
@@ -20,13 +19,12 @@ export async function generateStaticParams() {
 export default async function LangLayout({ children, params,}: LangLayoutProps) {
 	const { lang } = await params;
 	const locale = getLocaleFromLang(lang) ?? DEFAULT_LOCALE;
-
-	const siteMeta = await getSiteMeta(locale);
+	const config = await getGlobalConfig(locale);
 
 	const orgSchema = {
 		'@context': 'https://schema.org',
 		'@type': 'Organization',
-		name: siteMeta.name,
+		name: config.site_name,
 		url: BASE_URL,
 		logo: `${BASE_URL}/logo.png`,
 	};
@@ -34,7 +32,7 @@ export default async function LangLayout({ children, params,}: LangLayoutProps) 
 	const siteSchema = {
 		'@context': 'https://schema.org',
 		'@type': 'WebSite',
-		name: siteMeta.name,
+		name: config.site_name,
 		url: BASE_URL,
 		inLanguage: `${locale.language}-${locale.country}`,
 	};
