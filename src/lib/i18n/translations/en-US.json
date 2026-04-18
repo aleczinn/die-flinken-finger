@@ -2,7 +2,9 @@
     "home": "Homepage",
     "generic": {
         "search": "Search",
-        "menu": "Menu"
+        "menu": "Menu",
+        "telephone": "Call us under {0}",
+        "email": "Schreiben Sie uns gerne eine E-Mail an {0}"
     },
     "skiplinks": {
         "label": "Skiplinks",
@@ -11,11 +13,21 @@
     },
     "header": {
         "service_bar": {
-            "label": "Service bar",
-            "telephone": "Call us under {0}",
-            "email": "Schreiben Sie uns gerne eine E-Mail an {0}"
+            "label": "Service bar"
         },
         "change_langauge_to": "Change language to"
+    },
+    "footer": {
+        "copyright": "© Copyright {0} {1}. All rights reserved.",
+        "contact": {
+            "label": "Contact"
+        },
+        "navigation": {
+            "label": "Navigation"
+        },
+        "hours_of_operation": {
+            "label": "Hours of operation"
+        }
     },
     "404": {
         "title": "Page not found",

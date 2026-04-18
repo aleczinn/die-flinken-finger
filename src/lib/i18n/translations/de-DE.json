@@ -2,7 +2,9 @@
     "home": "Startseite",
     "generic": {
         "search": "Suche",
-        "menu": "Menü"
+        "menu": "Menü",
+        "telephone": "Rufen Sie uns gerne unter {0} an!",
+        "email": "Schreiben Sie uns eine E-Mail mit Ihrem Anliegen an {0}"
     },
     "skiplinks": {
         "label": "Sprunglinks",
@@ -11,11 +13,21 @@
     },
     "header": {
         "service_bar": {
-            "label": "Servicenavigation",
-            "telephone": "Rufen Sie uns gerne unter {0} an!",
-            "email": "Schreiben Sie uns eine E-Mail mit Ihrem Anliegen an {0}"
+            "label": "Servicenavigation"
         },
         "change_langauge_to": "Sprache wechseln zu"
+    },
+    "footer": {
+        "copyright": "© Copyright {0} {1}. Alle Rechte vorbehalten.",
+        "contact": {
+            "label": "Kontakt"
+        },
+        "navigation": {
+            "label": "Navigation"
+        },
+        "hours_of_operation": {
+            "label": "Öffnungszeiten"
+        }
     },
     "404": {
         "title": "Seite nicht gefunden",
