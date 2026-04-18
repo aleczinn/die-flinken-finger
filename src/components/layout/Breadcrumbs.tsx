@@ -81,7 +81,7 @@ export default async function Breadcrumbs({ locale, entry, items, includeSchema 
 			)}
 
 			<Section as="nav"
-							 variant="full"
+							 variant="capped"
 							 className="h-16 flex flex-row items-center bg-gray-10"
 							 aria-label={t(locale, 'header.navigation.breadcrumb')}
 			>
