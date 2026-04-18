@@ -23,3 +23,4 @@ export { default as IconPlus } from "./IconPlus";
 export { default as IconTelephone } from "./IconTelephone";
 export { default as IconMail } from "./IconMail";
 export { default as IconFullLogo } from "./IconFullLogo";
+export { default as IconFullLogoLight } from "./IconFullLogoLight";
