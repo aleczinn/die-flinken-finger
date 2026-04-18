@@ -32,9 +32,9 @@ export default async function Footer({ locale }: FooterProps) {
 	const contactTitle = t(locale, 'footer.contact.contact_us');
 
 	return (
-		<footer className="flex flex-col text-gray-10 border-t-4 border-solid border-primary">
+		<footer className="flex flex-col text-gray-10 border-t-4 border-solid border-primary shrink-0">
 			<div className="w-full bg-gray-90">
-				<Section as="div" variant="capped" className="flex flex-col sm:flex-row justify-center sm:justify-between py-12">
+				<Section as="div" variant="capped" className="flex flex-col sm:flex-row justify-center sm:justify-between py-16">
 					<div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 md:gap-4">
 						{/* Kontakt */}
 						<div className="flex flex-col">
@@ -96,9 +96,11 @@ export default async function Footer({ locale }: FooterProps) {
 
 			{/* Banner */}
 			<div className="w-full bg-gray-80">
-				<Section as="div" variant="capped" className="flex flex-col lg:flex-row justify-center sm:justify-between items-center py-6 gap-2 lg:gap-8">
-					<IconFullLogoLight className="w-48 h-auto" />
-					<span className="font-bold text-lg text-wrap text-center">Spezialist von hochwertigen Elektroinstallationen im Rhein-Main-Gebiet</span>
+				<Section as="div" variant="capped" className="flex flex-col lg:flex-row justify-center sm:justify-between items-center py-6 gap-0 lg:gap-8">
+					<IconFullLogoLight className="w-48 h-auto mb-4" />
+
+					<span className="font-bold text-lg text-wrap text-center mb-8">Spezialist von hochwertigen Elektroinstallationen im Rhein-Main-Gebiet</span>
+
 					<Button variant="primary" href={contactHref}>
 						{contactTitle}
 					</Button>

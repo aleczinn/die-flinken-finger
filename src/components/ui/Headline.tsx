@@ -11,14 +11,14 @@ type HeadlineProps<T extends HeadlineTag = 'h2'> = {
 } & ComponentPropsWithoutRef<T>;
 
 const variantClasses: Record<HeadlineTag, string> = {
-	h1: 'font-serif text-5xl text-gray-90',
-	h2: 'font-serif text-4xl text-gray-90',
-	h3: 'font-serif text-3xl text-gray-90',
-	h4: 'font-serif text-2xl text-gray-90',
-	h5: 'font-serif text-xl text-gray-90',
-	h6: 'font-serif text-lg text-gray-90',
-	p: 'font-sans text-base text-gray-90',
-	span: 'font-sans text-sm text-gray-90',
+	h1: 'font-display text-5xl text-gray-90',
+	h2: 'font-display text-4xl text-gray-90',
+	h3: 'font-display text-3xl text-gray-90',
+	h4: 'font-display text-2xl text-gray-90',
+	h5: 'font-display text-xl text-gray-90',
+	h6: 'font-display text-lg text-gray-90',
+	p: 'font-display text-base text-gray-90',
+	span: 'font-display text-sm text-gray-90',
 };
 
 const designClasses: Record<HeadlineDesign, string> = {

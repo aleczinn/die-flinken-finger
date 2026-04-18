@@ -11,7 +11,7 @@ interface HeaderProps {
 
 export default async function Header({ locale }: HeaderProps) {
 	return (
-		<header className="shadow-xl shadow-gray-90/3 z-50">
+		<header className="shadow-xl shadow-gray-90/3 z-50 shrink-0">
 			<ServiceBar locale={locale} />
 
 			<div className="bg-white">
