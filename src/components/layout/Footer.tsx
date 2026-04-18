@@ -20,13 +20,16 @@ export default async function Footer({ locale }: FooterProps) {
 	const [
 		impressumHref,
 		datenschutzHref,
+		contactHref,
 	] = await Promise.all([
 		buildLocalizedHref('impressum', language),
 		buildLocalizedHref('datenschutz', language),
+		buildLocalizedHref('kontakt', language),
 	]);
 
 	const impressumTitle = t(locale, 'footer.impressum');
 	const datenschutzTitle = t(locale, 'footer.datenschutz');
+	const contactTitle = t(locale, 'footer.contact.contact_us');
 
 	return (
 		<footer className="flex flex-col text-gray-10 border-t-4 border-solid border-primary">
@@ -91,14 +94,18 @@ export default async function Footer({ locale }: FooterProps) {
 				</Section>
 			</div>
 
+			{/* Banner */}
 			<div className="w-full bg-gray-80">
 				<Section as="div" variant="capped" className="flex flex-col lg:flex-row justify-center sm:justify-between items-center py-6 gap-2 lg:gap-8">
 					<IconFullLogoLight className="w-48 h-auto" />
 					<span className="font-bold text-lg text-wrap text-center">Spezialist von hochwertigen Elektroinstallationen im Rhein-Main-Gebiet</span>
-					<Button variant="primary" iconLeft={<IconTelephone className="w-5 h-auto" />}>Jetzt anrufen</Button>
+					<Button variant="primary" href={contactHref}>
+						{contactTitle}
+					</Button>
 				</Section>
 			</div>
 
+			{/* Copyright */}
 			<div className="bg-gray-90">
 				<Section as="div" variant="capped" className="flex flex-col sm:flex-row justify-center sm:justify-between py-12 items-center">
 					<span className="text-sm">{t(locale, "footer.copyright", currentYear, config.site_name)}</span>

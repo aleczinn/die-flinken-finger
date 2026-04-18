@@ -3,8 +3,8 @@
     "generic": {
         "search": "Suche",
         "menu": "Menü",
-        "telephone": "Rufen Sie uns gerne unter {0} an!",
-        "email": "Schreiben Sie uns eine E-Mail mit Ihrem Anliegen an {0}",
+        "telephone": "Jetzt anrufen: {0}",
+        "email": "E-Mail schreiben: {0}",
         "closed": "Geschlossen"
     },
     "skiplinks": {
@@ -23,7 +23,8 @@
         "impressum": "Impressum",
         "datenschutz": "Datenschutz",
         "contact": {
-            "label": "Kontakt"
+            "label": "Kontakt",
+            "contact_us": "Kontaktiere uns!"
         },
         "navigation": {
             "label": "Navigation"

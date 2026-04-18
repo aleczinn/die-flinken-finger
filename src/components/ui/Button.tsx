@@ -1,28 +1,41 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
+import Link from "next/link";
 
 type Variant = 'primary' | 'secondary';
 
 type BaseProps = {
-	variant?: Variant
-	fullWidth?: boolean
-} & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'>
+	variant?: Variant;
+	fullWidth?: boolean;
+	iconLeft?: React.ReactNode;
+	iconRight?: React.ReactNode;
+};
 
-type WithChildren = BaseProps & {
-	children: React.ReactNode
-	iconLeft?: React.ReactNode
-	iconRight?: React.ReactNode
-	'aria-label'?: string
-}
+type AsButton = BaseProps &
+	Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'> & {
+	href?: never;
+	target?: never;
+	children?: React.ReactNode;
+	'aria-label'?: string;
+};
 
-type IconOnly = BaseProps & {
-	children?: never
-	iconLeft?: React.ReactNode
-	iconRight?: React.ReactNode
-	'aria-label': string
-}
+type AsLink = BaseProps &
+	Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'children'> & {
+	href: string;
+	target?: '_blank' | '_self';
+	children?: React.ReactNode;
+	'aria-label'?: string;
+};
 
-type ButtonProps = WithChildren | IconOnly
+type ButtonProps = AsButton | AsLink;
+
+const baseClasses = [
+	'flex flex-row justify-center items-center gap-2',
+	'text-sm font-normal px-6 py-2.5 rounded-md',
+	'hover:cursor-pointer',
+	'transition-colors duration-200',
+	'focus-visible-facelift',
+].join(' ');
 
 const variantClasses: Record<Variant, string> = {
 	primary: 'bg-primary text-gray-10 hover:bg-primary-darker active:bg-primary-darkest disabled:bg-white disabled:text-gray-20',
@@ -38,27 +51,48 @@ export function Button({
 												 className,
 												 ...props
 											 }: ButtonProps) {
-	const isIconOnly = !children && (!!iconLeft || !!iconRight);
+	const classes = cn(
+		baseClasses,
+		!('href' in props) && 'disabled:cursor-not-allowed',
+		fullWidth && 'w-full',
+		variantClasses[variant],
+		className,
+	);
 
-	return (
-		<button type="button"
-						style={{ '--focus-radius': '0.9rem' } as React.CSSProperties}
-						className={cn(
-							'flex flex-row justify-center items-center gap-2',
-							'text-sm font-normal px-6 py-2.5 rounded-md',
-							'hover:cursor-pointer',
-							'transition-colors duration-200',
-							'disabled:cursor-not-allowed',
-							'focus-visible-facelift',
-							fullWidth && 'w-full',
-							variantClasses[variant] ?? variantClasses.primary,
-							className,
-						)}
-						{...props}
-		>
+	const content = (
+		<>
 			{iconLeft && <span className="flex shrink-0" aria-hidden="true">{iconLeft}</span>}
 			{children && <span className="whitespace-nowrap">{children}</span>}
 			{iconRight && <span className="flex shrink-0" aria-hidden="true">{iconRight}</span>}
+		</>
+	);
+
+	if ('href' in props && props.href) {
+		const { href, target, ...rest } = props as AsLink;
+		const isExternal = href.startsWith('http');
+
+		return (
+			<Link href={href}
+				  target={target ?? (isExternal ? '_blank' : undefined)}
+				  rel={isExternal ? 'noopener noreferrer' : undefined}
+				  style={{ '--focus-radius': '0.9rem' } as React.CSSProperties}
+				  className={classes}
+				  {...(rest as any)}
+			>
+				{content}
+			</Link>
+		);
+	}
+
+	const { ...rest } = props as AsButton;
+
+	return (
+		<button type="button"
+				style={{ '--focus-radius': '0.9rem' } as React.CSSProperties}
+				className={classes}
+				{...rest}
+		>
+			{content}
 		</button>
 	);
 }
