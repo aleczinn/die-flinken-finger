@@ -18,7 +18,7 @@ export default async function ServiceBar({ locale }: ServiceBarProps) {
 			<Section as="nav" variant="capped" className="flex flex-row justify-center sm:justify-end items-center py-2" aria-label={t(locale, 'header.service_bar.label')}>
 				<div className="flex flex-row gap-4">
 					<a href={`tel:${telephone}`}
-					   className="flex flex-row items-center gap-2 text-white transition-colors duration-100 hover:text-primary hover:cursor-pointer"
+					   className="flex flex-row items-center gap-2 text-white transition-colors duration-100 hover:text-primary-light hover:cursor-pointer"
 					   title={t(locale, 'generic.telephone', telephone)}
 					   aria-label={t(locale, 'generic.telephone', telephone)}
 					>
@@ -27,7 +27,7 @@ export default async function ServiceBar({ locale }: ServiceBarProps) {
 					</a>
 
 					<a href={`mailto:${email}`}
-					   className="flex flex-row items-center gap-2 text-white transition-colors duration-100 hover:text-primary hover:cursor-pointer"
+					   className="flex flex-row items-center gap-2 text-white transition-colors duration-100 hover:text-primary-light hover:cursor-pointer"
 					   title={t(locale, 'generic.email', email)}
 					   aria-label={t(locale, 'generic.email', email)}
 					>
