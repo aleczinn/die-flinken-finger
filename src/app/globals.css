@@ -2,24 +2,20 @@
 
 @theme {
     /* Colors */
-    --color-gray-10: #F6F6F6;
-    --color-gray-20: #EEEEEE;
-    --color-gray-30: #E6E6E6;
-    --color-gray-40: #C8C8C8;
-    --color-gray-50: #B9B9B9;
-    --color-gray-60: #969696;
-    --color-gray-70: #646464;
-    --color-gray-80: #323232;
-    --color-gray-90: #191919;
+    --color-primary: #E41E24;
+    --color-gray-10: #F4F4F4;
+    --color-gray-20: #E2E2E2;
+    --color-gray-80: #262626;
+    --color-gray-90: #171717;
 
     --color-white: #ffffff;
     --color-black: #000000;
     --color-transparent: transparent;
 
     /* Special colors */
-    --color-focus-line: #FFE300FF;
-    --color-focus-dotted: #323232FF;
-    --color-youtube-red: #FF0033;
+    --color-focus-line: #FFE300;
+    --color-focus-dotted: #323232;
+    --color-youtube: #FF0033;
 
     /* Breakpoints */
     --breakpoint-3xl: 112rem;
@@ -46,7 +42,7 @@ html {
 body {
     text-rendering: optimizeLegibility;
     text-wrap: pretty;
-    @apply font-sans text-gray-90 bg-gray-10;
+    @apply font-sans bg-white text-gray-90;
 }
 
 @layer base {
@@ -65,16 +61,6 @@ body {
             transition-duration: 0.01ms !important;
             scroll-behavior: auto !important;
         }
-    }
-}
-
-@layer components {
-    .bt-link {
-        @apply text-sm text-gray-90 hover:underline;
-    }
-
-    .bt-link-bold {
-        @apply font-bold text-sm text-gray-90 hover:underline;
     }
 }
 
@@ -104,9 +90,9 @@ body {
         animation: skeleton-pulse 2s ease-in-out infinite;
         background: linear-gradient(
                 -45deg,
-                var(--color-gray-30) 25%,
-                var(--color-gray-20) 50%,
-                var(--color-gray-30) 75%
+                var(--color-gray-20) 25%,
+                var(--color-gray-10) 50%,
+                var(--color-gray-20) 75%
         );
         background-size: 400% 400%;
     }
