@@ -7,7 +7,6 @@ import { notoSans, notoSerif } from '@/app/fonts';
 import SkipLinks from '@/components/layout/SkipLinks';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import AnnouncementBar from '@/components/layout/AnnouncementBar';
 
 interface LangLayoutProps {
 	children: ReactNode;
@@ -22,12 +21,7 @@ export default async function LangLayout({ children, params,}: LangLayoutProps) 
 	const { lang } = await params;
 	const locale = getLocaleFromLang(lang) ?? DEFAULT_LOCALE;
 
-	const [config, siteMeta] = await Promise.all([
-		getGlobalConfig(locale),
-		getSiteMeta(locale),
-	]);
-
-	const activeBar = getActiveAnnouncementBar(config.announcement_bars ?? []);
+	const siteMeta = await getSiteMeta(locale);
 
 	const orgSchema = {
 		'@context': 'https://schema.org',
@@ -59,9 +53,6 @@ export default async function LangLayout({ children, params,}: LangLayoutProps) 
 				/>
 
 				<SkipLinks locale={locale} />
-				{activeBar && (
-					<AnnouncementBar locale={locale} item={activeBar} />
-				)}
 				<Header locale={locale} />
 				{children}
 				<Footer locale={locale} />
