@@ -19,20 +19,20 @@ export default async function ServiceBar({ locale }: ServiceBarProps) {
 				<div className="flex flex-row gap-4">
 					<a href={`tel:${telephone}`}
 					   className="flex flex-row items-center gap-2 text-white transition-colors duration-100 hover:text-gray-20 hover:cursor-pointer"
-					   title={t(locale, 'header.service_bar.telephone', telephone)}
-					   aria-label={t(locale, 'header.service_bar.telephone', telephone)}
+					   title={t(locale, 'generic.telephone', telephone)}
+					   aria-label={t(locale, 'generic.telephone', telephone)}
 					>
 						<IconTelephone className="w-4 h-4"/>
-						<span>{telephone}</span>
+						<span className="text-sm font-medium">{telephone}</span>
 					</a>
 
 					<a href={`mailto:${email}`}
 					   className="flex flex-row items-center gap-2 text-white transition-colors duration-100 hover:text-gray-20 hover:cursor-pointer"
-					   title={t(locale, 'header.service_bar.email', email)}
-					   aria-label={t(locale, 'header.service_bar.email', email)}
+					   title={t(locale, 'generic.email', email)}
+					   aria-label={t(locale, 'generic.email', email)}
 					>
 						<IconMail className="w-4 h-4"/>
-						<span>{email}</span>
+						<span className="text-sm font-medium">{email}</span>
 					</a>
 				</div>
 			</Section>
