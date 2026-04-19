@@ -32,7 +32,7 @@ export default async function Footer({ locale }: FooterProps) {
 	const contactTitle = t(locale, 'footer.contact.contact_us');
 
 	return (
-		<footer className="flex flex-col text-gray-10 border-t-4 border-solid border-primary shrink-0 pb-[env(safe-area-inset-bottom)]">
+		<footer className="flex flex-col text-gray-10 border-t-4 border-solid border-primary shrink-0">
 			<div className="w-full bg-gray-90">
 				<Section as="div" variant="capped" className="flex flex-col sm:flex-row justify-center sm:justify-between py-16">
 					<div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 md:gap-4">
@@ -108,7 +108,7 @@ export default async function Footer({ locale }: FooterProps) {
 			</div>
 
 			{/* Copyright */}
-			<div className="bg-gray-90">
+			<div className="bg-gray-90 pb-[env(safe-area-inset-bottom)]">
 				<Section as="div" variant="capped" className="flex flex-col sm:flex-row justify-center sm:justify-between py-12 items-center">
 					<span className="text-sm">{t(locale, "footer.copyright", currentYear, config.site_name)}</span>
 

@@ -46,7 +46,11 @@
     --z-index-popup: 9000;
 }
 
-html, body {
+html {
+    min-height: 100%;
+}
+
+body {
     min-height: 100dvh;
     text-rendering: optimizeLegibility;
 }
