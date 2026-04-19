@@ -42,7 +42,7 @@ export default async function LangLayout({ children, params,}: LangLayoutProps) 
 					className={`${jakartaSans.variable}`}
 					data-scroll-behavior="smooth"
 		>
-			<body className="subpixel-antialiased flex flex-col w-full min-h-dvh">
+			<body className="font-display bg-gray-90 text-gray-90 text-pretty subpixel-antialiased flex flex-col w-full min-h-dvh">
 				<script type="application/ld+json"
 								dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
 				/>

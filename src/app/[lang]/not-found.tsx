@@ -14,7 +14,7 @@ export default function NotFound() {
 	const locale = getLocaleFromLang(lang) ?? DEFAULT_LOCALE;
 
 	return (
-		<main id="main-content" className="grow flex flex-col">
+		<main id="main-content" className="grow flex flex-col bg-gray-10">
 			<Section variant="capped"
 					 className="flex-1 flex flex-col items-center justify-center text-center py-40 gap-6 text-gray-90"
 					 aria-describedby="error-heading"
