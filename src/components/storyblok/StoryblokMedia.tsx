@@ -13,6 +13,8 @@ export type StoryblokMediaProps = {
 	sizes?: string;
 	/** Optionale Untertitel-URL (VTT) für lokale Videos */
 	captionsSrc?: string;
+	/** Background-Modus: füllt den Parent komplett (object-cover) */
+	background?: boolean;
 }
 
 export function StoryblokMedia(props: StoryblokMediaProps) {

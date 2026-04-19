@@ -41,11 +41,11 @@ export default function MediaWithText({ blok, priority = false }: MediaWithTextP
 
 			<div className={`flex flex-col justify-center ${isMediaLeft ? 'order-2' : 'order-1'}`}>
 				{blok.tagline && (
-					<span className="font-serif text-gray-70">{blok.tagline}</span>
+					<span className="font-display text-gray-80 mb-1">{blok.tagline}</span>
 				)}
 
 				{blok.headline && (
-					<Headline id={headingId} as="h2" variant="h3" className="mb-4">
+					<Headline id={headingId} as="h2" variant="h3" className="mb-4 font-semibold">
 						{blok.headline}
 					</Headline>
 				)}

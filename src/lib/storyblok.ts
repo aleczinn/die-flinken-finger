@@ -1,5 +1,7 @@
 import { apiPlugin, storyblokInit } from '@storyblok/react/rsc';
 import Page from '@/components/blocks/Page';
+import Hero from "@/components/blocks/Hero";
+import MediaWithText from "@/components/blocks/MediaWithText";
 
 const cachedFetch = (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
 	return fetch(input, {
@@ -16,8 +18,8 @@ export const getStoryblokApi = storyblokInit({
 	use: [apiPlugin],
 	components: {
 		page: Page,
-		// hero: Hero,
-		// media_with_text: MediaWithText,
+		hero: Hero,
+		media_with_text: MediaWithText,
 		// accordion: Accordion
 	},
 	apiOptions: {

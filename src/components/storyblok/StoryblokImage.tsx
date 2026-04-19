@@ -3,14 +3,30 @@ import { StoryblokMediaProps } from '@/components/storyblok/StoryblokMedia';
 import { parseStoryblokDimensions, resolveDimensions } from '@/components/storyblok/utils';
 import { FadeImage } from '@/components/ui/FadeImage';
 
-type Props = Pick<StoryblokMediaProps, 'asset' | 'width' | 'height' | 'priority' | 'className' | 'sizes'>;
+type Props = Pick<StoryblokMediaProps, 'asset' | 'width' | 'height' | 'priority' | 'className' | 'sizes' | 'background'>;
 
 const DEFAULT_SIZES = "(max-width: 768px) 100vw, 50vw"
 
-export function StoryblokImage({ asset, width, height, priority, className, sizes }: Props) {
+export function StoryblokImage({ asset, width, height, priority, className, sizes, background  }: Props) {
 	const intrinsic = parseStoryblokDimensions(asset.filename);
 	const dims = resolveDimensions(width, height, intrinsic);
 	const alt = asset.alt ?? asset.title ?? '';
+
+	// Background-Modus: fill + object-cover, füllt den Parent
+	if (background) {
+		return (
+			<Image
+				src={asset.filename}
+				alt={alt}
+				fill
+				priority={priority}
+				fetchPriority={priority ? 'high' : undefined}
+				sizes={sizes ?? '100vw'}
+				style={{ objectFit: 'cover' }}
+				className={className}
+			/>
+		);
+	}
 
 	if (dims) {
 		const SharedProps = {

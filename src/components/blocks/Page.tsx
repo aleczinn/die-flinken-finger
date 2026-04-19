@@ -3,7 +3,7 @@ import { SbBlokData } from '@storyblok/react';
 
 interface PageProps {
 	blok: SbBlokData & {
-		body: SbBlokData[];
+		content: SbBlokData[];
 	};
 }
 
@@ -14,7 +14,7 @@ export default function Page({ blok }: PageProps) {
 
 	return (
 		<div className="flex flex-col" {...storyblokEditable(blok)}>
-			{blok.body?.map((nestedBlok, index) => {
+			{blok.content?.map((nestedBlok, index) => {
 				const isLcpCandidate = !lcpAssigned && COMPONENTS_WITH_LCP_IMAGE.has(nestedBlok.component ?? '');
 
 				if (isLcpCandidate) {
