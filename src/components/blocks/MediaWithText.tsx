@@ -26,9 +26,11 @@ export default function MediaWithText({ blok, priority = false }: MediaWithTextP
 	const isMediaLeft = blok.layout === 'media_left';
 
 	return (
-		<Section className="grid grid-cols-1 md:grid-cols-2 gap-8 py-16"
-						 aria-labelledby={blok.headline ? headingId : undefined}
-						 {...storyblokEditable(blok)}
+		<Section variant="capped"
+				 outerClassName="py-24"
+				 innerClassName="grid grid-cols-1 md:grid-cols-2 gap-8"
+				 aria-labelledby={blok.headline ? headingId : undefined}
+				 {...storyblokEditable(blok)}
 		>
 			<div className={`flex flex-col justify-center ${isMediaLeft ? 'order-1' : 'order-2'}`}>
 				<StoryblokMedia asset={blok.media}
