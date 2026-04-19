@@ -14,7 +14,7 @@ export default async function ServiceBar({ locale }: ServiceBarProps) {
 	const email = config.email;
 
 	return (
-		<div className="bg-gray-90 text-white">
+		<div className="bg-gray-90 text-white pt-[env(safe-area-inset-top)]">
 			<Section as="nav" variant="capped" className="flex flex-row justify-center sm:justify-end items-center py-2" aria-label={t(locale, 'header.service_bar.label')}>
 				<div className="flex flex-row gap-4">
 					<a href={`tel:${telephone}`}
