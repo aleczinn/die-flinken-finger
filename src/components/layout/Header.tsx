@@ -15,7 +15,7 @@ export default async function Header({ locale }: HeaderProps) {
 			<ServiceBar locale={locale} />
 
 			<div className="bg-white">
-				<Section as="div" variant="capped" className="py-5 bg-white">
+				<Section as="div" variant="capped" outerClassName="py-5 bg-white">
 					<div className="flex justify-center sm:justify-start">
 						<Link href="/" className="hover:cursor-pointer" title={t(locale, 'home')} aria-label={t(locale, 'home')}>
 							<IconFullLogo className="w-60 h-auto"/>
