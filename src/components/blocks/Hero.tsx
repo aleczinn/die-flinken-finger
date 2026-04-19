@@ -22,9 +22,9 @@ export default function Hero({ blok, priority = false }: HeroProps) {
 
 	return (
 		<Section variant="none"
-						 className="relative w-full min-h-[25rem] h-[calc(100svh-22rem)] flex items-end overflow-hidden isolate"
-						 aria-labelledby={blok.headline ? headingId : undefined}
-						 {...storyblokEditable(blok)}
+				 className="relative w-full min-h-[25rem] h-[calc(100svh-22rem)] flex items-end overflow-hidden isolate"
+				 aria-labelledby={blok.headline ? headingId : undefined}
+				 {...storyblokEditable(blok)}
 		>
 			{/* Hintergrund-Medium: absolute, füllt die Section */}
 			{blok.background && (
@@ -45,7 +45,7 @@ export default function Hero({ blok, priority = false }: HeroProps) {
 			<div className="absolute inset-0 -z-10 bg-black/60" aria-hidden="true" />
 
 			{/* Content: capped, also bündig zur restlichen Seite */}
-			<Section variant="capped" className="h-full">
+			<Section variant="capped" outerClassName="h-full" innerClassName="h-full">
 				<div className="h-full max-w-none md:max-w-1/2 flex flex-col justify-center text-white">
 					<h1 className="font-display text-gray-10 font-semibold text-6xl md:text-7xl mb-8">
 						Ihre <span className="text-primary">Flinken Finger</span>: Für jedes Problem eine Lösung!
