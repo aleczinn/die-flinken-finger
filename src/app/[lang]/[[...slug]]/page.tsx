@@ -148,7 +148,7 @@ export default async function Page({ params }: PageProps) {
 	return (
 		<main id="main-content" className="grow flex flex-col">
 			<Breadcrumbs locale={locale} entry={entry} includeSchema={true} />
-			<div className="flex-1 min-h-80">
+			<div className="flex-1 min-h-80 bg-gray-10">
 				{isHomepage && (
 					<div className="sr-only">
 						<h1>{config.site_name}</h1>
