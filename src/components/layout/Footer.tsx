@@ -109,8 +109,8 @@ export default async function Footer({ locale }: FooterProps) {
 
 			{/* Copyright */}
 			<div className="bg-gray-90 pb-[env(safe-area-inset-bottom)]">
-				<Section as="div" variant="capped" className="flex flex-col sm:flex-row justify-center sm:justify-between gap-2 py-12 items-center">
-					<span className="text-sm">{t(locale, "footer.copyright", currentYear, config.site_name)}</span>
+				<Section as="div" variant="capped" className="flex flex-col md:flex-row justify-center sm:justify-between gap-2 py-12 items-center">
+					<span className="text-sm text-center md:text-left">{t(locale, "footer.copyright", currentYear, config.site_name)}</span>
 
 					{/* Social links (Facebook, Instagram etc.) */}
 					<ul className="flex flex-row gap-2">
