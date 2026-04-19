@@ -99,7 +99,7 @@ export default async function Footer({ locale }: FooterProps) {
 				<Section as="div" variant="capped" className="flex flex-col lg:flex-row justify-center sm:justify-between items-center py-6 gap-0 lg:gap-8">
 					<IconFullLogoLight className="w-48 h-auto mb-4" />
 
-					<span className="font-bold text-lg text-wrap text-center mb-8">Spezialist von hochwertigen Elektroinstallationen im Rhein-Main-Gebiet</span>
+					<span className="font-bold text-lg text-wrap text-center mb-8 lg:mb-0">Spezialist von hochwertigen Elektroinstallationen im Rhein-Main-Gebiet</span>
 
 					<Button variant="primary" href={contactHref}>
 						{contactTitle}
@@ -109,7 +109,7 @@ export default async function Footer({ locale }: FooterProps) {
 
 			{/* Copyright */}
 			<div className="bg-gray-90 pb-[env(safe-area-inset-bottom)]">
-				<Section as="div" variant="capped" className="flex flex-col sm:flex-row justify-center sm:justify-between py-12 items-center">
+				<Section as="div" variant="capped" className="flex flex-col sm:flex-row justify-center sm:justify-between gap-2 py-12 items-center">
 					<span className="text-sm">{t(locale, "footer.copyright", currentYear, config.site_name)}</span>
 
 					{/* Social links (Facebook, Instagram etc.) */}
