@@ -16,7 +16,7 @@ interface MediaWithTextProps {
 		headline: string;
 		text: any;
 		button_text?: string;
-		button_url?: any;
+		button_link?: any;
 	};
 	priority?: boolean;
 }
@@ -24,10 +24,11 @@ interface MediaWithTextProps {
 export default function MediaWithText({ blok, priority = false }: MediaWithTextProps) {
 	const headingId = `mwt-${blok._uid}`;
 	const isMediaLeft = blok.layout === 'media_left';
+	const href = blok.button_link?.cached_url || blok.button_link?.url;
 
 	return (
 		<Section variant="capped"
-				 outerClassName="py-24"
+				 outerClassName="py-section"
 				 innerClassName="grid grid-cols-1 md:grid-cols-2 gap-8"
 				 aria-labelledby={blok.headline ? headingId : undefined}
 				 {...storyblokEditable(blok)}
@@ -57,7 +58,7 @@ export default function MediaWithText({ blok, priority = false }: MediaWithTextP
 				)}
 
 				{blok.button_text && (
-					<Button className="mt-8" variant="primary">
+					<Button variant="primary" href={href} className="mt-8">
 						{blok.button_text}
 					</Button>
 				)}
