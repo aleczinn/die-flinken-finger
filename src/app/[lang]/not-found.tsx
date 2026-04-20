@@ -16,7 +16,7 @@ export default function NotFound() {
 	return (
 		<main id="main-content" className="grow flex flex-col bg-gray-10">
 			<Section variant="capped"
-					 className="flex-1 flex flex-col items-center justify-center text-center py-40 gap-6 text-gray-90"
+					 innerClassName="flex-1 flex flex-col items-center justify-center text-center py-40 gap-6 text-gray-90"
 					 aria-describedby="error-heading"
 			>
 				<h1 id="error-heading" className="uppercase text-sm">
