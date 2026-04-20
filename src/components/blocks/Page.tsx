@@ -22,7 +22,7 @@ export default function Page({ blok }: PageProps) {
 				}
 
 				return (
-					<div key={nestedBlok._uid} className={index % 2 !== 0 ? 'bg-white' : ''}>
+					<div key={nestedBlok._uid} className={index % 2 !== 0 ? 'bg-white' : 'bg-transparent'}>
 						<StoryblokServerComponent blok={nestedBlok} priority={isLcpCandidate} />
 					</div>
 				);
