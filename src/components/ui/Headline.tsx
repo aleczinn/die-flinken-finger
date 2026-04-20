@@ -11,12 +11,12 @@ type HeadlineProps<T extends HeadlineTag = 'h2'> = {
 } & ComponentPropsWithoutRef<T>;
 
 const variantClasses: Record<HeadlineTag, string> = {
-    h1: 'font-display text-fluid-h1',
-    h2: 'font-display text-fluid-h2',
-    h3: 'font-display text-fluid-h3',
-    h4: 'font-display text-fluid-h4',
-    h5: 'font-display text-fluid-h5',
-    h6: 'font-display text-fluid-h6',
+    h1: 'font-display text-fluid-h1 font-semibold',
+    h2: 'font-display text-fluid-h2 font-semibold',
+    h3: 'font-display text-fluid-h3 font-semibold',
+    h4: 'font-display text-fluid-h4 font-semibold',
+    h5: 'font-display text-fluid-h5 font-semibold',
+    h6: 'font-display text-fluid-h6 font-semibold',
     p: 'font-display text-base',
     span: 'font-display text-sm',
 };

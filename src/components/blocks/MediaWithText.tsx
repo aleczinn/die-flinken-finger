@@ -48,7 +48,7 @@ export default function MediaWithText({ blok, priority = false }: MediaWithTextP
 				)}
 
 				{blok.headline && (
-					<Headline id={headingId} as="h2" variant="h3" className="mb-4 font-semibold">
+					<Headline id={headingId} as="h2" variant="h3" className="mb-4">
 						{blok.headline}
 					</Headline>
 				)}
