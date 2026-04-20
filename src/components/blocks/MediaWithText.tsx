@@ -29,7 +29,7 @@ export default function MediaWithText({ blok, priority = false }: MediaWithTextP
 	return (
 		<Section variant="capped"
 				 outerClassName="py-section"
-				 innerClassName="grid grid-cols-1 md:grid-cols-2 gap-8"
+				 innerClassName="grid grid-cols-1 lg:grid-cols-2 gap-8"
 				 aria-labelledby={blok.headline ? headingId : undefined}
 				 {...storyblokEditable(blok)}
 		>
