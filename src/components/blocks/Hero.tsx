@@ -49,8 +49,7 @@ export default function Hero({ blok, priority = false }: HeroProps) {
 			{/* Content: capped, also bündig zur restlichen Seite */}
 			<Section variant="capped" outerClassName="h-full" innerClassName="h-full">
 				<div className="h-full max-w-none md:max-w-1/2 flex flex-col justify-center text-white py-section">
-					<h1 className="font-display text-gray-10 font-semibold mb-8 text-fluid-h1">
-						{/*Ihre <span className="text-primary">Flinken Finger</span>: Für jedes Problem eine Lösung!*/}
+					<Headline as="h1" id={headingId} variant="h1" className="text-gray-10 font-semibold mb-8">
 						{parseHighlights(blok.headline).map((segment, i) => (
 							segment.highlight ? (
 								<span key={i} className="text-primary">{segment.text}</span>
@@ -58,10 +57,10 @@ export default function Hero({ blok, priority = false }: HeroProps) {
 								<span key={i}>{segment.text}</span>
 							)
 						))}
-					</h1>
+					</Headline>
 
 					{blok.text && (
-						<p className="font-display text-xl font-normal text-gray-10 max-w-none md:max-w-[40ch]">
+						<p className="font-display text-fluid-h6 font-normal text-gray-10 max-w-none md:max-w-[40ch]">
 							{blok.text}
 						</p>
 					)}
