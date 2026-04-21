@@ -1,6 +1,6 @@
 import { storyblokEditable } from '@storyblok/react/rsc';
 import { renderRichText, SbBlokData } from '@storyblok/react';
-import Section from '@/components/layout/Section';
+import Section, { SectionBackground } from '@/components/layout/Section';
 import { Button } from '@/components/ui/Button';
 import { Headline } from '@/components/ui/Headline';
 import { StoryblokMedia } from '@/components/storyblok/StoryblokMedia';
@@ -22,15 +22,17 @@ interface MediaWithTextProps {
 	};
 	priority?: boolean;
 	locale: Locale;
+	background?: SectionBackground;
 }
 
-export default async function MediaWithText({ blok, priority = false, locale }: MediaWithTextProps) {
+export default async function MediaWithText({ blok, priority = false, locale, background }: MediaWithTextProps) {
 	const headingId = `mwt-${blok._uid}`;
 	const isMediaLeft = blok.layout === 'media_left';
 	const href = await resolveStoryblokLink(blok.button_link, locale.language);
 
 	return (
 		<Section variant="capped"
+				 background={background}
 				 outerClassName="py-section"
 				 innerClassName="grid grid-cols-1 lg:grid-cols-2 gap-8"
 				 aria-labelledby={blok.headline ? headingId : undefined}

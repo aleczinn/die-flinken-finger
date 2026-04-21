@@ -3,11 +3,17 @@ import { BASE_URL } from '@/lib/site';
 import { availableLanguages } from '@/lib/locale/locales';
 import { getSlugMap, translatePath } from '@/lib/locale/slug-map';
 
+const EXCLUDED_FROM_SITEMAP = new Set(['impressum', 'datenschutz']);
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	const map = await getSlugMap();
 	const entries: MetadataRoute.Sitemap = [];
 
 	for (const entry of map.byReal.values()) {
+		if (EXCLUDED_FROM_SITEMAP.has(entry.realSlug)) {
+			continue;
+		}
+
 		const isHome = entry.realSlug === 'home';
 
 		for (const lang of availableLanguages) {

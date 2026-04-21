@@ -162,14 +162,12 @@ export default async function Page({ params }: PageProps) {
 
 	return (
 		<main id="main-content" className="grow flex flex-col bg-gray-10 min-h-[50svh]">
-			<div className="flex-1">
-				<StoryblokStory locale={locale}
-								story={result.data.story}
-								breadcrumbs={breadcrumbs}
-								isHomepage={isHomepage}
-								pageHeadline={pageHeadline}
-				/>
-			</div>
+			<StoryblokStory locale={locale}
+							story={result.data.story}
+							breadcrumbs={breadcrumbs}
+							isHomepage={isHomepage}
+							pageHeadline={pageHeadline}
+			/>
 		</main>
 	)
 }

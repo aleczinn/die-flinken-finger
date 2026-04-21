@@ -4,6 +4,7 @@ import { Fragment, ReactNode } from "react";
 import { Locale } from "@/lib/locale/locales";
 import Section from "@/components/layout/Section";
 import { Headline } from "@/components/ui/Headline";
+import { findLcpBlockIndex } from "@/lib/blocks";
 
 interface PageProps {
 	locale: Locale;
@@ -15,19 +16,13 @@ interface PageProps {
 	pageHeadline: string;
 }
 
-// Nur in den ersten N Blocks nach einem LCP-Kandidaten suchen.
-// 1 = ausschließlich Block 0. 2 = auch Block 1 (falls Hero fehlt, aber früh ein Bild kommt).
-// Alles darüber ist unterhalb des Folds und verschwendet den priority hint.
-const LCP_SEARCH_LIMIT = 2;
-const COMPONENTS_WITH_LCP_IMAGE = new Set(['hero', 'media_with_text']);
-
 export default function Page({ locale, blok, breadcrumbs, pageHeadline, isHomepage = false }: PageProps) {
-	let lcpAssigned = false;
+	const lcpIndex = findLcpBlockIndex(blok.content);
 	const firstBlokComponent = blok.content?.[0]?.component;
 	const breadcrumbsAfterHero = firstBlokComponent === 'hero';
 
 	return (
-		<div className="flex flex-col" {...storyblokEditable(blok)}>
+		<div className="flex-1 flex flex-col" {...storyblokEditable(blok)}>
 			{/* Default: Breadcrumbs vor allen Blocks. Entfällt bei Hero oder Homepage. */}
 			{breadcrumbs && !breadcrumbsAfterHero && breadcrumbs}
 
@@ -44,22 +39,18 @@ export default function Page({ locale, blok, breadcrumbs, pageHeadline, isHomepa
 			)}
 
 			{blok.content?.map((nestedBlok, index) => {
-				const isLcpCandidate =
-					!lcpAssigned &&
-					index < LCP_SEARCH_LIMIT &&
-					COMPONENTS_WITH_LCP_IMAGE.has(nestedBlok.component ?? '');
-
-				if (isLcpCandidate) {
-					lcpAssigned = true;
-				}
+				const background = index % 2 === 0 ? 'transparent' : 'white';
 
 				return (
 					<Fragment key={nestedBlok._uid}>
-						<div className={index % 2 !== 0 ? 'bg-white' : 'bg-transparent'}>
-							<StoryblokServerComponent locale={locale} blok={nestedBlok} priority={isLcpCandidate} />
-						</div>
+						<StoryblokServerComponent
+							locale={locale}
+							blok={nestedBlok}
+							priority={index === lcpIndex}
+							background={background}
+						/>
 
-						{/* Nach Hero → Breadcrumbs einschieben */}
+						{/* Nach Hero -> Breadcrumbs einschieben */}
 						{index === 0 && breadcrumbs && breadcrumbsAfterHero && breadcrumbs}
 					</Fragment>
 				);

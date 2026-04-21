@@ -13,7 +13,7 @@ export default function Text({ blok }: TextProps) {
     return (
         <Section as="div"
                  variant="capped"
-                 outerClassName="py-section pt-12"
+                 outerClassName="py-section"
                  {...storyblokEditable(blok)}
         >
             <StoryblokRichText content={blok.text} />
