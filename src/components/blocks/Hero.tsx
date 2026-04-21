@@ -5,6 +5,8 @@ import { StoryblokMedia } from "@/components/storyblok/StoryblokMedia";
 import { Headline } from "@/components/ui/Headline";
 import { Button } from "@/components/ui/Button";
 import { parseHighlights } from "@/lib/text";
+import { Locale } from "@/lib/locale/locales";
+import { resolveStoryblokLink } from "@/lib/locale/links";
 
 interface HeroProps {
 	blok: SbBlokData & {
@@ -15,11 +17,12 @@ interface HeroProps {
 		button_link?: any;
 	};
 	priority?: boolean;
+	locale: Locale;
 }
 
-export default async function Hero({ blok, priority = false }: HeroProps) {
+export default async function Hero({ blok, priority = false, locale }: HeroProps) {
 	const headingId = `h-${blok._uid}`;
-	const href = blok.button_link?.cached_url || blok.button_link?.url;
+	const href = await resolveStoryblokLink(blok.button_link, locale.language);
 
 	// min height sagt aus: hero muss mindestens 22rem hoch sein ansonsten 90svh - header höhe
 	return (
