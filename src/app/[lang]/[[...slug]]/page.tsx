@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { getConfig, getStory } from '@/lib/storyblok-queries';
 import { BASE_URL } from '@/lib/site';
-import Breadcrumbs, { buildBreadcrumbs } from '@/components/layout/Breadcrumbs';
+import Breadcrumbs from '@/components/layout/Breadcrumbs';
 import {
 	availableLanguages,
 	DEFAULT_LOCALE,
@@ -145,9 +145,11 @@ export default async function Page({ params }: PageProps) {
 	const isHomepage = entry.realSlug === 'home';
 	const config = await getConfig(locale);
 
+	// Homepage: keine Breadcrumbs. Sonst vorrendern (inkl. Schema) und durchreichen.
+	const breadcrumbs = isHomepage ? null : <Breadcrumbs locale={locale} entry={entry} includeSchema />;
+
 	return (
 		<main id="main-content" className="grow flex flex-col bg-gray-10 min-h-[50svh]">
-			<Breadcrumbs locale={locale} entry={entry} includeSchema={true} />
 			<div className="flex-1">
 				{isHomepage && (
 					<div className="sr-only">
@@ -155,7 +157,7 @@ export default async function Page({ params }: PageProps) {
 					</div>
 				)}
 
-				<StoryblokStory story={result.data.story} />
+				<StoryblokStory story={result.data.story} breadcrumbs={breadcrumbs} />
 			</div>
 		</main>
 	)
