@@ -1,5 +1,6 @@
 import 'server-only';
 import { getSlugMap, translatePath } from '@/lib/locale/slug-map';
+import { locales } from "@/lib/locale/locales";
 
 type StoryblokMultilink = {
 	linktype?: 'story' | 'url' | 'email' | 'asset';
@@ -8,6 +9,27 @@ type StoryblokMultilink = {
 	email?: string;
 	anchor?: string;
 };
+
+/**
+ * Normalisiert eine Storyblok cached_url zu einem reinen realSlug.
+ *
+ * Storyblok liefert das Format abhängig von der abgefragten Sprache:
+ * - Default-Sprache: "kontakt"
+ * - Übersetzte Sprache: "/en/kontakt"
+ *
+ * Dieser Helper glättet beide Varianten auf "kontakt", damit die
+ * nachfolgende SlugMap-Suche deterministisch funktioniert.
+ */
+function normalizeCachedUrl(cachedUrl: string): string {
+	const slug = cachedUrl.replace(/^\/+|\/+$/g, '');
+	if (!slug) return '';
+
+	const [first, ...rest] = slug.split('/');
+	const isLangPrefix = locales.some(
+		(l) => l.storyblokCode === first || l.language === first,
+	);
+	return isLangPrefix ? rest.join('/') : slug;
+}
 
 /** Baut einen lokalisierten Link-Pfad aus einem realSlug. */
 export async function buildLocalizedHref(realSlug: string, lang: string): Promise<string> {
@@ -42,7 +64,7 @@ export async function resolveStoryblokLink(
 	}
 
 	// Story (Default – greift auch, wenn linktype fehlt, aber cached_url gesetzt ist)
-	const rawSlug = link.cached_url?.replace(/\/$/, '');
+	const rawSlug = normalizeCachedUrl(link.cached_url ?? '');
 	if (rawSlug) {
 		const map = await getSlugMap();
 		// Unbekannter Slug? Dann wie eingegeben, damit Redaktion nicht stillschweigend kaputte Links kriegt.

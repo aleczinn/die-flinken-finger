@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/Button';
 import { Headline } from '@/components/ui/Headline';
 import { StoryblokMedia } from '@/components/storyblok/StoryblokMedia';
 import StoryblokRichText from '@/components/storyblok/StoryblokRichText';
+import { resolveStoryblokLink } from "@/lib/locale/links";
+import { Locale } from "@/lib/locale/locales";
 
 type Layout = 'media_left' | 'media_right';
 
@@ -19,12 +21,13 @@ interface MediaWithTextProps {
 		button_link?: any;
 	};
 	priority?: boolean;
+	locale: Locale;
 }
 
-export default function MediaWithText({ blok, priority = false }: MediaWithTextProps) {
+export default async function MediaWithText({ blok, priority = false, locale }: MediaWithTextProps) {
 	const headingId = `mwt-${blok._uid}`;
 	const isMediaLeft = blok.layout === 'media_left';
-	const href = blok.button_link?.cached_url || blok.button_link?.url;
+	const href = await resolveStoryblokLink(blok.button_link, locale.language);
 
 	return (
 		<Section variant="capped"
@@ -57,7 +60,7 @@ export default function MediaWithText({ blok, priority = false }: MediaWithTextP
 					<StoryblokRichText content={blok.text} />
 				)}
 
-				{blok.button_text && (
+				{(blok.button_text && href) && (
 					<Button variant="primary" href={href} className="mt-8">
 						{blok.button_text}
 					</Button>
