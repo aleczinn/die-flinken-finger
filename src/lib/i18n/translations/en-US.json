@@ -15,7 +15,7 @@
     "header": {
         "breadcrumbs": "Breadcrumb navigation",
         "service_bar": "Service bar",
-        "change_langauge_to": "Change language to"
+        "change_language_to": "Change language to"
     },
     "footer": {
         "copyright": "© Copyright {0} {1}. All rights reserved.",

@@ -15,7 +15,7 @@
     "header": {
         "breadcrumbs": "Brotkrumen-Navigation",
         "service_bar": "Servicenavigation",
-        "change_langauge_to": "Sprache wechseln zu"
+        "change_language_to": "Sprache wechseln zu"
     },
     "footer": {
         "copyright": "© Copyright {0} {1}. Alle Rechte vorbehalten.",
