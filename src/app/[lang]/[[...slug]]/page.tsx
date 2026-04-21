@@ -157,7 +157,7 @@ export default async function Page({ params }: PageProps) {
 					</div>
 				)}
 
-				<StoryblokStory story={result.data.story} breadcrumbs={breadcrumbs} />
+				<StoryblokStory locale={locale} story={result.data.story} breadcrumbs={breadcrumbs} />
 			</div>
 		</main>
 	)

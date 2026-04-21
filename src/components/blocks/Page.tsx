@@ -1,8 +1,10 @@
 import { storyblokEditable, StoryblokServerComponent } from '@storyblok/react/rsc';
 import { SbBlokData } from '@storyblok/react';
 import { Fragment, ReactNode } from "react";
+import { Locale } from "@/lib/locale/locales";
 
 interface PageProps {
+	locale: Locale;
 	blok: SbBlokData & {
 		content: SbBlokData[];
 	};
@@ -15,7 +17,7 @@ interface PageProps {
 const LCP_SEARCH_LIMIT = 2;
 const COMPONENTS_WITH_LCP_IMAGE = new Set(['hero', 'media_with_text']);
 
-export default function Page({ blok, breadcrumbs }: PageProps) {
+export default function Page({ locale, blok, breadcrumbs }: PageProps) {
 	let lcpAssigned = false;
 	const firstBlokComponent = blok.content?.[0]?.component;
 	const breadcrumbsAfterHero = firstBlokComponent === 'hero';
@@ -38,7 +40,7 @@ export default function Page({ blok, breadcrumbs }: PageProps) {
 				return (
 					<Fragment key={nestedBlok._uid}>
 						<div className={index % 2 !== 0 ? 'bg-white' : 'bg-transparent'}>
-							<StoryblokServerComponent blok={nestedBlok} priority={isLcpCandidate} />
+							<StoryblokServerComponent locale={locale} blok={nestedBlok} priority={isLcpCandidate} />
 						</div>
 
 						{/* Nach Hero → Breadcrumbs einschieben */}
