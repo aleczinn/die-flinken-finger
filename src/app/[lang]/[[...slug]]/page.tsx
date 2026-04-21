@@ -76,13 +76,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 		),
 	};
 
-	const browserTitle = content.title || story.name; // Browser-Tab: kurz, UI-orientiert
-	const socialTitle = content.seo_title || content.title || story.name; // Social Sharing: ausführlich, SEO-optimiert (Fallback auf title)
+	const resolvedTitle = content.seo_title || content.title || story.name;
+	const title = isHomepage ? config.site_name : `${resolvedTitle} – ${config.site_name}`;
 	const description = content.seo_description || config.site_description;
 	const ogImage = content.seo_og_image?.filename || `${BASE_URL}/og-default.jpg`;
 
 	return {
-		title: isHomepage ? config.site_name : `${browserTitle} – ${config.site_name}`,
+		title: title,
 		description,
 		alternates: {
 			canonical,
@@ -95,7 +95,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 		openGraph: {
 			locale: getOgLocale(locale),
 			alternateLocale: getAlternateOgLocales(locale),
-			title: socialTitle,
+			title: resolvedTitle,
 			siteName: config.site_name,
 			description: description,
 			url: canonical,
@@ -104,7 +104,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 		},
 		twitter: {
 			card: 'summary_large_image',
-			title: socialTitle,
+			title: resolvedTitle,
 			description: description,
 			images: [ogImage],
 		},
