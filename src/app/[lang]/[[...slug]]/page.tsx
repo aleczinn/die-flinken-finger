@@ -14,6 +14,7 @@ import {
 } from '@/lib/locale/locales';
 import { t } from '@/lib/i18n';
 import { getSlugMap, PageEntry, translatePath } from '@/lib/locale/slug-map';
+import { Headline } from "@/components/ui/Headline";
 
 interface PageProps {
 	params: Promise<{
@@ -144,6 +145,17 @@ export default async function Page({ params }: PageProps) {
 
 	const isHomepage = entry.realSlug === 'home';
 	const config = await getConfig(locale);
+	const story = result.data.story;
+	const content = story.content;
+
+	// Hero rendert eigene h1 — keine zusätzliche nötig
+	const firstBlockIsHero = content.content?.[0]?.component === 'hero';
+
+	// H1-Inhalt bestimmen, wenn kein Hero vorhanden ist
+	let pageHeadline: string | null = null;
+	if (!firstBlockIsHero) {
+		pageHeadline = isHomepage ? config.site_description || config.site_name : content.title || story.name;
+	}
 
 	// Homepage: keine Breadcrumbs. Sonst vorrendern (inkl. Schema) und durchreichen.
 	const breadcrumbs = isHomepage ? null : <Breadcrumbs locale={locale} entry={entry} includeSchema />;
@@ -151,13 +163,12 @@ export default async function Page({ params }: PageProps) {
 	return (
 		<main id="main-content" className="grow flex flex-col bg-gray-10 min-h-[50svh]">
 			<div className="flex-1">
-				{isHomepage && (
-					<div className="sr-only">
-						<h1>{config.site_name}</h1>
-					</div>
-				)}
-
-				<StoryblokStory locale={locale} story={result.data.story} breadcrumbs={breadcrumbs} />
+				<StoryblokStory locale={locale}
+								story={result.data.story}
+								breadcrumbs={breadcrumbs}
+								isHomepage={isHomepage}
+								pageHeadline={pageHeadline}
+				/>
 			</div>
 		</main>
 	)

@@ -2,7 +2,7 @@ import { ComponentPropsWithoutRef, ElementType } from 'react';
 import { cn } from '@/lib/utils';
 
 type HeadlineTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span';
-type HeadlineDesign = 'default';
+type HeadlineDesign = 'default' | 'line';
 
 type HeadlineProps<T extends HeadlineTag = 'h2'> = {
     as?: T;
@@ -23,6 +23,7 @@ const variantClasses: Record<HeadlineTag, string> = {
 
 const designClasses: Record<HeadlineDesign, string> = {
     default: '',
+    line: 'pt-2 border-t-3 border-solid border-primary'
 };
 
 export function Headline<T extends HeadlineTag = 'h2'>({

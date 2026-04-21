@@ -2,6 +2,8 @@ import { storyblokEditable, StoryblokServerComponent } from '@storyblok/react/rs
 import { SbBlokData } from '@storyblok/react';
 import { Fragment, ReactNode } from "react";
 import { Locale } from "@/lib/locale/locales";
+import Section from "@/components/layout/Section";
+import { Headline } from "@/components/ui/Headline";
 
 interface PageProps {
 	locale: Locale;
@@ -9,6 +11,8 @@ interface PageProps {
 		content: SbBlokData[];
 	};
 	breadcrumbs?: ReactNode;
+	isHomepage: boolean;
+	pageHeadline: string;
 }
 
 // Nur in den ersten N Blocks nach einem LCP-Kandidaten suchen.
@@ -17,7 +21,7 @@ interface PageProps {
 const LCP_SEARCH_LIMIT = 2;
 const COMPONENTS_WITH_LCP_IMAGE = new Set(['hero', 'media_with_text']);
 
-export default function Page({ locale, blok, breadcrumbs }: PageProps) {
+export default function Page({ locale, blok, breadcrumbs, pageHeadline, isHomepage = false }: PageProps) {
 	let lcpAssigned = false;
 	const firstBlokComponent = blok.content?.[0]?.component;
 	const breadcrumbsAfterHero = firstBlokComponent === 'hero';
@@ -26,6 +30,18 @@ export default function Page({ locale, blok, breadcrumbs }: PageProps) {
 		<div className="flex flex-col" {...storyblokEditable(blok)}>
 			{/* Default: Breadcrumbs vor allen Blocks. Entfällt bei Hero oder Homepage. */}
 			{breadcrumbs && !breadcrumbsAfterHero && breadcrumbs}
+
+			{pageHeadline && (
+				isHomepage ? (
+					<h1 className="sr-only">{pageHeadline}</h1>
+				) : (
+					<Section variant="capped" outerClassName="">
+						<Headline as="h1" variant="h2" design="line">
+							{pageHeadline}
+						</Headline>
+					</Section>
+				)
+			)}
 
 			{blok.content?.map((nestedBlok, index) => {
 				const isLcpCandidate =
