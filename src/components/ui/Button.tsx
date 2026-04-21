@@ -43,14 +43,14 @@ const variantClasses: Record<Variant, string> = {
 }
 
 export function Button({
-												 variant = 'primary',
-												 fullWidth = false,
-												 iconLeft,
-												 iconRight,
-												 children,
-												 className,
-												 ...props
-											 }: ButtonProps) {
+						   variant = 'primary',
+						   fullWidth = false,
+						   iconLeft,
+						   iconRight,
+						   children,
+						   className,
+						   ...props
+					   }: ButtonProps) {
 	const classes = cn(
 		baseClasses,
 		!('href' in props) && 'disabled:cursor-not-allowed',
@@ -67,7 +67,11 @@ export function Button({
 		</>
 	);
 
-	if ('href' in props && props.href) {
+	if ('href' in props) {
+		if (!props.href) {
+			return null;
+		}
+
 		const { href, target, ...rest } = props as AsLink;
 		const isExternal = href.startsWith('http');
 
