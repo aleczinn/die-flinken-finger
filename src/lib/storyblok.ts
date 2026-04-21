@@ -1,3 +1,4 @@
+import 'server-only';
 import { apiPlugin, storyblokInit } from '@storyblok/react/rsc';
 import Page from '@/components/blocks/Page';
 import Hero from "@/components/blocks/Hero";
