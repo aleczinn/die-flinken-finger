@@ -13,9 +13,8 @@
         "to_navigation": "Skip to navigation"
     },
     "header": {
-        "service_bar": {
-            "label": "Service bar"
-        },
+        "breadcrumbs": "Breadcrumb navigation",
+        "service_bar": "Service bar",
         "change_langauge_to": "Change language to"
     },
     "footer": {

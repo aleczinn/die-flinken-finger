@@ -18,7 +18,7 @@ export default async function ServiceBar({ locale }: ServiceBarProps) {
 				 variant="capped"
 				 outerClassName="bg-gray-90 text-white pt-[env(safe-area-inset-top)]"
 				 innerClassName="flex flex-row justify-center sm:justify-end items-center py-2"
-				 aria-label={t(locale, 'header.service_bar.label')}
+				 aria-label={t(locale, 'header.service_bar')}
 		>
 			<div className="flex flex-row gap-4">
 				<a href={`tel:${telephone}`}

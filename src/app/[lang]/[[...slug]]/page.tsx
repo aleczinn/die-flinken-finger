@@ -10,7 +10,7 @@ import {
 	getAlternateOgLocales,
 	getLocaleFromLang,
 	getOgLocale,
-	Locale,
+	Locale, locales, toLocaleTag,
 } from '@/lib/locale/locales';
 import { t } from '@/lib/i18n';
 import { getSlugMap, PageEntry, translatePath } from '@/lib/locale/slug-map';
@@ -69,9 +69,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 	const languages: Record<string, string> = {
 		'x-default': `${BASE_URL}/${DEFAULT_LOCALE.language}/${pathFor(DEFAULT_LOCALE.language)}`.replace(/\/+$/, ''),
 		...Object.fromEntries(
-			availableLanguages.map((lang) => [
-				lang,
-				`${BASE_URL}/${lang}/${pathFor(lang)}`.replace(/\/+$/, ''),
+			locales.map((locale) => [
+				toLocaleTag(locale), // 'de-DE', 'en-US'
+				`${BASE_URL}/${locale.language}/${pathFor(locale.language)}`.replace(/\/+$/, ''),
 			]),
 		),
 	};

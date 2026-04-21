@@ -83,7 +83,7 @@ export default async function Breadcrumbs({ locale, entry, items, includeSchema 
 			<Section as="nav"
 					 variant="capped"
 					 innerClassName="h-16 flex flex-row items-center bg-gray-10"
-					 aria-label={t(locale, 'header.navigation.breadcrumb')}
+					 aria-label={t(locale, 'header.breadcrumbs')}
 			>
 				<ol className="flex flex-wrap items-center gap-2">
 					{breadcrumbs.map((item, index) => {

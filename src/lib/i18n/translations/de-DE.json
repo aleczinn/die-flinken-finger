@@ -13,9 +13,8 @@
         "to_navigation": "Zur Navigation"
     },
     "header": {
-        "service_bar": {
-            "label": "Servicenavigation"
-        },
+        "breadcrumbs": "Brotkrumen-Navigation",
+        "service_bar": "Servicenavigation",
         "change_langauge_to": "Sprache wechseln zu"
     },
     "footer": {
