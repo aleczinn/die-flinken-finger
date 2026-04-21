@@ -17,14 +17,14 @@ interface HeroProps {
 	priority?: boolean;
 }
 
-export default function Hero({ blok, priority = false }: HeroProps) {
+export default async function Hero({ blok, priority = false }: HeroProps) {
 	const headingId = `h-${blok._uid}`;
 	const href = blok.button_link?.cached_url || blok.button_link?.url;
 
 	// min height sagt aus: hero muss mindestens 22rem hoch sein ansonsten 90svh - header höhe
 	return (
 		<Section variant="none"
-				 className="relative w-full min-h-[max(22rem,calc(90svh-13.125rem))] flex items-center overflow-hidden isolate"
+				 className="relative w-full min-h-[max(22rem,calc(90svh-9.125rem))] flex items-center overflow-hidden isolate"
 				 aria-labelledby={blok.headline ? headingId : undefined}
 				 {...storyblokEditable(blok)}
 		>
