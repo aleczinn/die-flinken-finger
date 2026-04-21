@@ -2,7 +2,7 @@
 
 import { storyblokEditable, StoryblokServerComponent } from '@storyblok/react/rsc';
 import { renderRichText, SbBlokData } from '@storyblok/react';
-import Section from '@/components/layout/Section';
+import Section, { SectionBackground } from '@/components/layout/Section';
 import { Headline } from '@/components/ui/Headline';
 import { useState } from 'react';
 import { IconPlus } from '@/components/icons';
@@ -20,9 +20,10 @@ interface AccordionProps {
 		items: AccordionItemData[];
 		allow_multiple_open: boolean;
 	};
+	background?: SectionBackground;
 }
 
-export default function Accordion({ blok }: AccordionProps) {
+export default function Accordion({ blok, background }: AccordionProps) {
 	const headingId = `a-${blok._uid}`;
 
 	const defaultOpen = new Set(
@@ -52,9 +53,10 @@ export default function Accordion({ blok }: AccordionProps) {
 
 	return (
 		<Section variant="capped"
-						 className="py-16"
-						 aria-labelledby={blok.headline ? headingId : undefined}
-						 {...storyblokEditable(blok)}
+				 background={background}
+				 outerClassName="py-section"
+				 aria-labelledby={blok.headline ? headingId : undefined}
+				 {...storyblokEditable(blok)}
 		>
 			{blok.headline && (
 				<Headline id={headingId} as="h2" variant="h3" className="mb-4">
