@@ -80,7 +80,7 @@ export default function Accordion({ blok, background }: AccordionProps) {
 				</Headline>
 			)}
 
-			<div className="flex flex-col gap-4">
+			<div className="flex flex-col">
 				{blok.items?.map((item) => {
 					if (!item._uid) return null;
 
@@ -90,13 +90,16 @@ export default function Accordion({ blok, background }: AccordionProps) {
 					const buttonId = `acc-btn-${uid}`;
 					const panelId = `acc-panel-${uid}`;
 
-					let bgButtonClasses = 'bg-white';
+					let bgButtonClasses = '';
 					switch (background || 'transparent') {
-						case "primary":
-							bgButtonClasses = 'bg-white';
+						case "transparent":
+							bgButtonClasses = 'border-b-1 border-solid border-gray-30';
 							break;
 						case "white":
-							bgButtonClasses = 'bg-gray-10';
+							bgButtonClasses = 'border-b-1 border-solid border-gray-20';
+							break;
+						case "primary":
+							bgButtonClasses = 'bg-white';
 							break;
 					}
 
@@ -108,20 +111,20 @@ export default function Accordion({ blok, background }: AccordionProps) {
 												aria-expanded={isOpen}
 												aria-controls={panelId}
 												onClick={() => toggle(uid)}
-												className={`${bgButtonClasses} w-full flex justify-between items-center px-6 py-4 text-left font-bold focus-visible-facelift transition-colors duration-300 hover:cursor-pointer hover:underline`}
+												className={`${bgButtonClasses} w-full flex justify-between items-center py-4 text-left font-bold focus-visible-facelift transition-colors duration-300 hover:cursor-pointer hover:text-primary-darkest`}
 								>
 									<span>{item.title}</span>
-									<IconPlus className={`text-primary transition-transform duration-300 ${isOpen ? 'rotate-45' : ''}`} />
+									<IconPlus className={`transition-transform duration-300 ${isOpen ? 'rotate-45' : ''}`} />
 								</button>
 							</h3>
 
 							<div id={panelId}
 									 role="region"
 									 aria-labelledby={buttonId}
-									 className={`${bgButtonClasses} grid overflow-hidden transition-[grid-template-rows,opacity] duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+									 className={`grid overflow-hidden transition-[grid-template-rows,opacity] duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
 							>
 								<div className="overflow-hidden">
-									<div className="px-8 py-4">
+									<div className="pt-6 pb-16">
 										<StoryblokRichTextRenderer content={item.text} />
 									</div>
 								</div>
