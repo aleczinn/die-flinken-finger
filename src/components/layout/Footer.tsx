@@ -117,10 +117,10 @@ export default async function Footer({ locale }: FooterProps) {
 					 outerClassName="bg-gray-90 pb-[env(safe-area-inset-bottom)]"
 					 innerClassName="flex flex-col md:flex-row justify-center sm:justify-between gap-2 py-12 items-center"
 			>
-				<span className="text-sm text-center md:text-left">{t(locale, "footer.copyright", currentYear, config.site_name)}</span>
+				<span className="text-sm text-center order-2 md:order-1 md:text-left">{t(locale, "footer.copyright", currentYear, config.site_name)}</span>
 
 				{/* Social links (Facebook, Instagram etc.) */}
-				<ul className="flex flex-row gap-2">
+				<ul className="flex flex-row gap-2 order-1 md:order-2">
 					<li>
 						<Link href={impressumHref} title={impressumTitle} className="text-sm hover:underline">{impressumTitle}</Link>
 					</li>
