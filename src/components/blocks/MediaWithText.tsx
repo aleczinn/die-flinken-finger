@@ -53,7 +53,7 @@ export default async function MediaWithText({ blok, priority = false, locale, ba
 				)}
 
 				{blok.headline && (
-					<Headline id={headingId} as="h2" variant="h3" className="mb-4">
+					<Headline id={headingId} as="h2" variant="h3" design="line-left" className="mb-4">
 						{blok.headline}
 					</Headline>
 				)}
