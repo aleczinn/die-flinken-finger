@@ -16,7 +16,7 @@ export default async function ServiceBar({ locale }: ServiceBarProps) {
 	return (
 		<Section as="nav"
 				 variant="capped"
-				 outerClassName="bg-gray-90 text-white pt-[env(safe-area-inset-top)]"
+				 outerClassName="bg-gray-90 text-white"
 				 innerClassName="flex flex-row justify-center sm:justify-end items-center py-2"
 				 aria-label={t(locale, 'header.service_bar')}
 		>

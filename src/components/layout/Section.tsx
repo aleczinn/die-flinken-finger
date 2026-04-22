@@ -1,7 +1,8 @@
 import { ElementType, ComponentPropsWithoutRef } from 'react';
+import { cn } from "@/lib/utils";
 
 type SectionVariant = 'capped' | 'full' | 'none';
-export type SectionBackground = 'primary' | 'white' | 'transparent';
+export type SectionBackground = 'none' | 'primary' | 'white' | 'transparent';
 
 
 type SectionProps<T extends ElementType> = {
@@ -22,6 +23,7 @@ const variantClasses: Record<Exclude<SectionVariant, 'capped'>, string> = {
 };
 
 const backgroundClasses: Record<SectionBackground, string> = {
+	none: '',
 	primary: 'bg-primary',
 	white: 'bg-white',
 	transparent: 'bg-transparent',
@@ -30,7 +32,7 @@ const backgroundClasses: Record<SectionBackground, string> = {
 export default function Section<T extends ElementType = 'section'>({
 																	   as,
 																	   variant = 'capped',
-																	   background = 'transparent',
+																	   background = 'none',
 																	   className,
 																	   outerClassName,
 																	   innerClassName,
@@ -47,7 +49,12 @@ export default function Section<T extends ElementType = 'section'>({
 
 	if (variant === 'capped') {
 		return (
-			<Component className={`w-full ${bgClass} ${className ?? ''} ${outerClassName ?? ''}`.trim()}
+			<Component className={cn(
+				'w-full',
+				bgClass,
+				className,
+				outerClassName
+			)}
 					   {...props}
 			>
 				<div className={`${innerClasses} ${innerClassName ?? ''}`.trim()}>
