@@ -22,12 +22,12 @@ export default function PageLegal({ blok, breadcrumbs }: PageLegalProps) {
             {breadcrumbs && breadcrumbs}
 
             <Section as="div" variant="capped" outerClassName="">
-                <Headline id={headingId} as="h1" variant="h2" design="default" className="mt-4">
+                <Headline id={headingId} as="h1" variant="h2" design="line-bottom" className="mt-4">
                     {blok.title}
                 </Headline>
             </Section>
 
-            <Section as="div" variant="capped" outerClassName="pt-6 pb-24" aria-labelledby={headingId}>
+            <Section as="div" variant="capped" outerClassName="pt-9 pb-24" aria-labelledby={headingId}>
                 <StoryblokRichTextRenderer content={blok.text} className="max-w-prose" />
             </Section>
         </div>
