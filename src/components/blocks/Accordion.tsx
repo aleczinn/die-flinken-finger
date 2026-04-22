@@ -1,7 +1,7 @@
 'use client';
 
-import { storyblokEditable, StoryblokServerComponent } from '@storyblok/react/rsc';
-import { renderRichText, SbBlokData } from '@storyblok/react';
+import { storyblokEditable } from '@storyblok/react/rsc';
+import { SbBlokData } from '@storyblok/react';
 import Section, { SectionBackground } from '@/components/layout/Section';
 import { Headline } from '@/components/ui/Headline';
 import { useState } from 'react';
