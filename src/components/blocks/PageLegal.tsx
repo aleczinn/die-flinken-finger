@@ -27,7 +27,7 @@ export default function PageLegal({ blok, breadcrumbs }: PageLegalProps) {
                 </Headline>
             </Section>
 
-            <Section as="div" variant="capped" outerClassName="pt-6 pb-12" aria-labelledby={headingId}>
+            <Section as="div" variant="capped" outerClassName="pt-6 pb-24" aria-labelledby={headingId}>
                 <StoryblokRichTextRenderer content={blok.text} className="max-w-prose" />
             </Section>
         </div>
