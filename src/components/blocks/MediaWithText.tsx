@@ -8,11 +8,11 @@ import StoryblokRichTextRenderer from '@/components/storyblok/StoryblokRichTextR
 import { resolveStoryblokLink } from "@/lib/locale/links";
 import { Locale } from "@/lib/locale/locales";
 
-type Layout = 'media_left' | 'media_right';
+type MediaWithTextLayout = 'media_left' | 'media_right';
 
 interface MediaWithTextProps {
 	blok: SbBlokData & {
-		layout: Layout;
+		layout: MediaWithTextLayout;
 		media: any;
 		tagline?: string;
 		headline: string;
@@ -53,7 +53,7 @@ export default async function MediaWithText({ blok, priority = false, locale, ba
 				)}
 
 				{blok.headline && (
-					<Headline id={headingId} as="h2" variant="h3" design="line-left" className="mb-4">
+					<Headline id={headingId} as="h2" variant="h3" design="line-left" className="mb-8">
 						{blok.headline}
 					</Headline>
 				)}

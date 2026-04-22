@@ -69,7 +69,7 @@ export default async function Hero({ blok, priority = false, locale }: HeroProps
 					)}
 
 					{blok.button_text && href && (
-						<Button variant="primary" href={href} className="mt-8 text-xl px-8 py-3.5">
+						<Button variant="primary" href={href} className="mt-8 text-xl">
 							{blok.button_text}
 						</Button>
 					)}

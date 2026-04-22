@@ -3,10 +3,12 @@
 import { storyblokEditable } from '@storyblok/react/rsc';
 import { SbBlokData } from '@storyblok/react';
 import Section, { SectionBackground } from '@/components/layout/Section';
-import { Headline } from '@/components/ui/Headline';
+import { Headline, HeadlineDesign } from '@/components/ui/Headline';
 import { useState } from 'react';
 import { IconPlus } from '@/components/icons';
 import StoryblokRichTextRenderer from '@/components/storyblok/StoryblokRichTextRenderer';
+
+type AccordionLayout = 'left' | 'center' | 'right';
 
 interface AccordionItemData extends SbBlokData {
 	title: string;
@@ -16,6 +18,7 @@ interface AccordionItemData extends SbBlokData {
 
 interface AccordionProps {
 	blok: SbBlokData & {
+		layout: any;
 		headline?: string;
 		items: AccordionItemData[];
 		allow_multiple_open: boolean;
@@ -51,6 +54,19 @@ export default function Accordion({ blok, background }: AccordionProps) {
 		});
 	}
 
+	let headlineDesign: HeadlineDesign = 'default';
+	switch (blok.layout) {
+		case 'left':
+			headlineDesign = 'line-left';
+			break;
+		case 'center':
+			headlineDesign = 'line-center';
+			break;
+		case 'right':
+			headlineDesign = 'line-right';
+			break;
+	}
+
 	return (
 		<Section variant="capped"
 				 background={background}
@@ -59,12 +75,12 @@ export default function Accordion({ blok, background }: AccordionProps) {
 				 {...storyblokEditable(blok)}
 		>
 			{blok.headline && (
-				<Headline id={headingId} as="h2" variant="h3" className="mb-4">
+				<Headline id={headingId} as="h2" variant="h3" design={headlineDesign} className="mb-8">
 					{blok.headline}
 				</Headline>
 			)}
 
-			<div className="flex flex-col">
+			<div className="flex flex-col gap-4">
 				{blok.items?.map((item) => {
 					if (!item._uid) return null;
 
@@ -74,6 +90,16 @@ export default function Accordion({ blok, background }: AccordionProps) {
 					const buttonId = `acc-btn-${uid}`;
 					const panelId = `acc-panel-${uid}`;
 
+					let bgButtonClasses = 'bg-white';
+					switch (background || 'transparent') {
+						case "primary":
+							bgButtonClasses = 'bg-white';
+							break;
+						case "white":
+							bgButtonClasses = 'bg-gray-10';
+							break;
+					}
+
 					return (
 						<div key={uid} {...storyblokEditable(item)}>
 							<h3>
@@ -82,20 +108,20 @@ export default function Accordion({ blok, background }: AccordionProps) {
 												aria-expanded={isOpen}
 												aria-controls={panelId}
 												onClick={() => toggle(uid)}
-												className="w-full flex justify-between items-center px-6 py-4 text-left font-bold focus-visible-facelift bg-gray-20 transition-colors duration-300 hover:bg-gray-30 hover:cursor-pointer mb-4 hover:underline"
+												className={`${bgButtonClasses} w-full flex justify-between items-center px-6 py-4 text-left font-bold focus-visible-facelift transition-colors duration-300 hover:cursor-pointer hover:underline`}
 								>
 									<span>{item.title}</span>
-									<IconPlus className={`transition-transform duration-300 ${isOpen ? 'rotate-45' : ''}`} />
+									<IconPlus className={`text-primary transition-transform duration-300 ${isOpen ? 'rotate-45' : ''}`} />
 								</button>
 							</h3>
 
 							<div id={panelId}
 									 role="region"
 									 aria-labelledby={buttonId}
-									 className={`grid overflow-hidden transition-[grid-template-rows,opacity] duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+									 className={`${bgButtonClasses} grid overflow-hidden transition-[grid-template-rows,opacity] duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
 							>
 								<div className="overflow-hidden">
-									<div className="px-8 py-4 bg-gray-10 mb-12">
+									<div className="px-8 py-4">
 										<StoryblokRichTextRenderer content={item.text} />
 									</div>
 								</div>
