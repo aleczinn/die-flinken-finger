@@ -22,7 +22,7 @@ export default function PageLegal({ blok, breadcrumbs }: PageLegalProps) {
             {breadcrumbs && breadcrumbs}
 
             <Section as="div" variant="capped" outerClassName="">
-                <Headline id={headingId} as="h1" variant="h2" design="line-bottom" className="mt-4">
+                <Headline id={headingId} as="h1" variant="h2" design="line-left" className="mt-4">
                     {blok.title}
                 </Headline>
             </Section>
