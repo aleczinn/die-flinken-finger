@@ -18,7 +18,7 @@ interface AccordionItemData extends SbBlokData {
 
 interface AccordionProps {
 	blok: SbBlokData & {
-		layout: any;
+		layout: AccordionLayout;
 		headline?: string;
 		items: AccordionItemData[];
 		allow_multiple_open: boolean;
