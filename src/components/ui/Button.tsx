@@ -31,7 +31,7 @@ type ButtonProps = AsButton | AsLink;
 
 const baseClasses = [
 	'flex flex-row justify-center items-center gap-2',
-	'font-medium w-fit px-6 py-2.5 rounded-lg',
+	'font-medium w-fit px-6 py-2.5 rounded-bl-lg rounded-bl-lg rounded-tr-lg rounded-bl-lg rounded-br-lg',
 	'hover:cursor-pointer',
 	'transition-colors duration-200',
 	'focus-visible-facelift',

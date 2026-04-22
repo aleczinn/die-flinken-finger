@@ -2,7 +2,7 @@ import { ComponentPropsWithoutRef, ElementType } from 'react';
 import { cn } from '@/lib/utils';
 
 type HeadlineTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span';
-type HeadlineDesign = 'default' | 'line-left' | 'line-right';
+export type HeadlineDesign = 'default' | 'line-left' | 'line-center' | 'line-right';
 
 type HeadlineProps<T extends HeadlineTag = 'h2'> = {
     as?: T;
@@ -24,7 +24,8 @@ const variantClasses: Record<HeadlineTag, string> = {
 const designClasses: Record<HeadlineDesign, string> = {
     default: '',
     "line-left": 'relative after:content-[\'\'] after:block after:h-1.5 after:w-24 after:bg-linear-to-r after:from-primary after:to-transparent after:mt-4 after:rounded-2xl',
-    "line-right": 'relative after:content-[\'\'] after:block after:h-1.5 after:w-24 after:bg-linear-to-r after:from-transparent after:to-primary after:mt-4 after:rounded-2xl after:ml-auto'
+    "line-center": 'text-center relative after:content-[\'\'] after:block after:h-1.5 after:w-48 after:bg-linear-to-r after:from-transparent after:via-primary after:to-transparent after:mt-4 after:rounded-2xl after:mx-auto',
+    "line-right": 'text-right relative after:content-[\'\'] after:block after:h-1.5 after:w-24 after:bg-linear-to-r after:from-transparent after:to-primary after:mt-4 after:rounded-2xl after:ml-auto'
 };
 
 export function Headline<T extends HeadlineTag = 'h2'>({
@@ -39,7 +40,7 @@ export function Headline<T extends HeadlineTag = 'h2'>({
 
     return (
         <Tag className={cn(
-            'w-fit',
+            'w-full',
             variantClasses[variant ?? as ?? 'h2'],
             designClasses[design],
             className
