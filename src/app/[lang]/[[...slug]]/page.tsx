@@ -82,6 +82,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 	const description = content.seo_description || config.site_description;
 	const ogImage = content.seo_og_image?.filename || `${BASE_URL}/og-default.jpg`;
 
+	const isPageLegal = content.component === 'page_legal';
+	const robotsNoIndex = { index: false, follow: false };
+
 	return {
 		title: title,
 		description,
@@ -89,7 +92,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 			canonical,
 			languages,
 		},
-		robots: {
+		robots: isPageLegal ? robotsNoIndex : {
 			index: !content.seo_no_index,
 			follow: !content.seo_no_index,
 		},

@@ -3,7 +3,8 @@ import { apiPlugin, storyblokInit } from '@storyblok/react/rsc';
 import Page from '@/components/blocks/Page';
 import Hero from "@/components/blocks/Hero";
 import MediaWithText from "@/components/blocks/MediaWithText";
-import Text from "@/components/blocks/Text";
+import PageLegal from "@/components/blocks/PageLegal";
+import Accordion from "@/components/blocks/Accordion";
 
 const cachedFetch = (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
 	return fetch(input, {
@@ -19,10 +20,14 @@ export const getStoryblokApi = storyblokInit({
 	accessToken: process.env.STORYBLOK_DELIVERY_API_TOKEN,
 	use: [apiPlugin],
 	components: {
+		// CONTENT-TYPES
 		page: Page,
+		page_legal: PageLegal,
+
+		// COMPONENTS
 		hero: Hero,
 		media_with_text: MediaWithText,
-		text: Text
+		accordion: Accordion
 	},
 	apiOptions: {
 		/** Set the correct region for your space. Learn more: https://www.storyblok.com/docs/packages/storyblok-js#example-region-parameter */
