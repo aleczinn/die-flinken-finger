@@ -2,11 +2,12 @@ import { renderRichText } from '@storyblok/react';
 
 interface StoryblokRichTextProps {
 	content: any;
+	className?: string;
 }
 
-export default function StoryblokRichText({ content }: StoryblokRichTextProps) {
+export default function StoryblokRichTextRenderer({ content, className }: StoryblokRichTextProps) {
 	return (
-		<div className="
+		<div className={`
 			font-display text-gray-90
 			[&_p:not(:last-child)]:mb-2
 
@@ -30,7 +31,9 @@ export default function StoryblokRichText({ content }: StoryblokRichTextProps) {
 
 			[&_strong]:font-bold
 			[&_em]:italic
-		"
+			
+			${className}
+		`}
 				 dangerouslySetInnerHTML={{ __html: renderRichText(content) ?? '' }}
 		/>
 	)

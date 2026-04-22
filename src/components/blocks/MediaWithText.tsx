@@ -4,7 +4,7 @@ import Section, { SectionBackground } from '@/components/layout/Section';
 import { Button } from '@/components/ui/Button';
 import { Headline } from '@/components/ui/Headline';
 import { StoryblokMedia } from '@/components/storyblok/StoryblokMedia';
-import StoryblokRichText from '@/components/storyblok/StoryblokRichText';
+import StoryblokRichTextRenderer from '@/components/storyblok/StoryblokRichTextRenderer';
 import { resolveStoryblokLink } from "@/lib/locale/links";
 import { Locale } from "@/lib/locale/locales";
 
@@ -59,7 +59,7 @@ export default async function MediaWithText({ blok, priority = false, locale, ba
 				)}
 
 				{blok.text && (
-					<StoryblokRichText content={blok.text} />
+					<StoryblokRichTextRenderer content={blok.text} />
 				)}
 
 				{(blok.button_text && href) && (

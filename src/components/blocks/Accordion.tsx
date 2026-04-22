@@ -6,7 +6,7 @@ import Section, { SectionBackground } from '@/components/layout/Section';
 import { Headline } from '@/components/ui/Headline';
 import { useState } from 'react';
 import { IconPlus } from '@/components/icons';
-import StoryblokRichText from '@/components/storyblok/StoryblokRichText';
+import StoryblokRichTextRenderer from '@/components/storyblok/StoryblokRichTextRenderer';
 
 interface AccordionItemData extends SbBlokData {
 	title: string;
@@ -96,7 +96,7 @@ export default function Accordion({ blok, background }: AccordionProps) {
 							>
 								<div className="overflow-hidden">
 									<div className="px-8 py-4 bg-gray-10 mb-12">
-										<StoryblokRichText content={item.text} />
+										<StoryblokRichTextRenderer content={item.text} />
 									</div>
 								</div>
 							</div>
