@@ -17,7 +17,7 @@ export default function OpeningHours({ locale, items }: OpeningHoursProps) {
             {items.map((item) => (
                 <div key={item._uid} className="contents">
                     {/* Tage */}
-                    <dt className="text-sm">
+                    <dt className="">
                         {formatDays(item.days)}
                     </dt>
 
