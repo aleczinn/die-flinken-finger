@@ -15,7 +15,10 @@
     "header": {
         "breadcrumbs": "Brotkrumen-Navigation",
         "service_bar": "Servicenavigation",
-        "change_language_to": "Sprache wechseln zu"
+        "navigation": "Hauptnavigation",
+        "change_language_to": "Sprache wechseln zu {0}",
+        "open_menu": "Menü öffnen",
+        "close_menu": "Menü schließen"
     },
     "footer": {
         "copyright": "© Copyright {0} {1}. Alle Rechte vorbehalten.",
