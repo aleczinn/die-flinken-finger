@@ -1,12 +1,20 @@
 import { Locale } from '@/lib/locale/locales';
 import Section from "@/components/layout/Section";
-import { getConfig } from "@/lib/storyblok-queries";
+import { getConfig, NavigationLink } from "@/lib/storyblok-queries";
 import { t } from "@/lib/i18n";
-import { IconFullLogoLight, IconHome, IconMail, IconTelephone } from "@/components/icons";
+import {
+	IconArrowRight,
+	IconChevronRight,
+	IconFullLogoLight,
+	IconHome,
+	IconMail,
+	IconTelephone
+} from "@/components/icons";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
-import { buildLocalizedHref } from "@/lib/locale/links";
+import { buildLocalizedHref, resolveStoryblokLink } from "@/lib/locale/links";
 import OpeningHours from "@/components/modules/OpeningHours";
+import { storyblokEditable } from "@storyblok/react/rsc";
 
 interface FooterProps {
 	locale: Locale;
@@ -30,6 +38,15 @@ export default async function Footer({ locale }: FooterProps) {
 	const impressumTitle = t(locale, 'footer.impressum');
 	const datenschutzTitle = t(locale, 'footer.datenschutz');
 	const contactTitle = t(locale, 'footer.contact.contact_us');
+
+	const navigation = await Promise.all(
+		(config.footer_navigation ?? []).map(async (item) => ({
+			uid: item._uid,
+			label: item.label,
+			href: await resolveStoryblokLink(item.link, language),
+			editable: storyblokEditable(item),
+		})),
+	);
 
 	return (
 		<footer className="flex flex-col text-gray-10 border-t-4 border-solid border-primary shrink-0">
@@ -75,13 +92,29 @@ export default async function Footer({ locale }: FooterProps) {
 					</div>
 
 					{/* Navigation */}
-					<div className="hidden lg:flex flex-col">
+					<div className="flex flex-col">
 						<span className="text-primary text-sm font-bold uppercase mb-2">
 							{t(locale, 'footer.navigation.label')}
 						</span>
 
-						<ul className="">
-							<li></li>
+						<ul className="flex flex-col gap-2">
+							{navigation.map((item) => {
+								if (!item.href) return null;
+
+								return (
+									<li key={item.uid} {...item.editable}>
+										<Link href={item.href}
+											  title={`${item.label}`}
+											  className="group flex flex-row items-center gap-2 w-fit text-gray-10 transition-colors duration-200 hover:text-primary"
+										>
+											<IconChevronRight className="w-4 h-auto" />
+											<span className="">
+												{item.label}
+											</span>
+										</Link>
+									</li>
+								);
+							})}
 						</ul>
 					</div>
 
