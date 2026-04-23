@@ -25,3 +25,5 @@ export { default as IconMail } from "./IconMail";
 export { default as IconFullLogo } from "./IconFullLogo";
 export { default as IconFullLogoLight } from "./IconFullLogoLight";
 export { default as IconHome } from "./IconHome";
+export { default as IconChevronRight } from "./IconChevronRight";
+export { default as IconChevronLeft } from "./IconChevronLeft";
