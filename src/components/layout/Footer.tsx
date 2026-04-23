@@ -40,7 +40,7 @@ export default async function Footer({ locale }: FooterProps) {
 	const contactTitle = t(locale, 'footer.contact.contact_us');
 
 	const navigation = await Promise.all(
-		(config.footer_navigation ?? []).map(async (item) => ({
+		(config.footer_navigation ?? []).map(async (item: NavigationLink) => ({
 			uid: item._uid,
 			label: item.label,
 			href: await resolveStoryblokLink(item.link, language),
@@ -72,7 +72,7 @@ export default async function Footer({ locale }: FooterProps) {
 
 						<div className="flex flex-col gap-2">
 							<a href={`tel:${config.telephone}`}
-							   className="flex flex-row items-center gap-2 text-gray-10 transition-colors duration-100 hover:text-primary-light hover:cursor-pointer"
+							   className="flex flex-row items-center gap-2 text-gray-10 transition-colors duration-100 hover:text-primary-light hover:cursor-pointer focus-visible-facelift"
 							   title={t(locale, 'generic.telephone', config.telephone)}
 							   aria-label={t(locale, 'generic.telephone', config.telephone)}
 							>
@@ -81,7 +81,7 @@ export default async function Footer({ locale }: FooterProps) {
 							</a>
 
 							<a href={`mailto:${config.email}`}
-							   className="flex flex-row items-center gap-2 text-gray-10 transition-colors duration-100 hover:text-primary-light hover:cursor-pointer"
+							   className="flex flex-row items-center gap-2 text-gray-10 transition-colors duration-100 hover:text-primary-light hover:cursor-pointer focus-visible-facelift"
 							   title={t(locale, 'generic.email', config.email)}
 							   aria-label={t(locale, 'generic.email', config.email)}
 							>
@@ -94,7 +94,7 @@ export default async function Footer({ locale }: FooterProps) {
 					{/* Navigation */}
 					<div className="flex flex-col">
 						<span className="text-primary text-sm font-bold uppercase mb-2">
-							{t(locale, 'footer.navigation.label')}
+							{t(locale, 'footer.header.label')}
 						</span>
 
 						<ul className="flex flex-col gap-2">
@@ -105,7 +105,7 @@ export default async function Footer({ locale }: FooterProps) {
 									<li key={item.uid} {...item.editable}>
 										<Link href={item.href}
 											  title={`${item.label}`}
-											  className="group flex flex-row items-center gap-2 w-fit text-gray-10 transition-colors duration-200 hover:text-primary"
+											  className="group flex flex-row items-center gap-2 w-fit text-gray-10 transition-colors duration-200 hover:text-primary focus-visible-facelift"
 										>
 											<IconChevronRight className="w-4 h-auto" />
 											<span className="">
@@ -155,11 +155,11 @@ export default async function Footer({ locale }: FooterProps) {
 				{/* Social links (Facebook, Instagram etc.) */}
 				<ul className="flex flex-row gap-2 order-1 md:order-2">
 					<li>
-						<Link href={impressumHref} title={impressumTitle} className="text-sm hover:underline">{impressumTitle}</Link>
+						<Link href={impressumHref} title={impressumTitle} className="text-sm hover:underline focus-visible-facelift">{impressumTitle}</Link>
 					</li>
 
 					<li>
-						<Link href={datenschutzHref} title={datenschutzTitle} className="text-sm hover:underline">{datenschutzTitle}</Link>
+						<Link href={datenschutzHref} title={datenschutzTitle} className="text-sm hover:underline focus-visible-facelift">{datenschutzTitle}</Link>
 					</li>
 				</ul>
 			</Section>

@@ -53,6 +53,7 @@ export interface OpeningHoursItem {
 
 export interface NavigationItem extends SbBlokData {
     label: string;
+    description?: string;
     link?: StoryblokLink;
     children?: NavigationLink[];
 }
