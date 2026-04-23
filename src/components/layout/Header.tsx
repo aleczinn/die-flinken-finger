@@ -6,12 +6,19 @@ import { t } from "@/lib/i18n";
 import { IconFullLogo } from "@/components/icons";
 import LocaleSwitcher from "@/components/layout/LocaleSwitcher";
 import { getSlugMap, translatePath } from "@/lib/locale/slug-map";
+import { getConfig } from "@/lib/storyblok-queries";
+import { resolveNavigationItem } from "@/lib/locale/navigation";
+import DesktopNavigation from "@/components/layout/header/DesktopNavigation";
+import MobileNavigation from "@/components/layout/header/MobileNavigation";
 
 interface HeaderProps {
     locale: Locale;
 }
 
 export default async function Header({ locale }: HeaderProps) {
+    const config = await getConfig(locale);
+    const language = locale.language;
+
     const map = await getSlugMap();
     const byTranslated: Record<string, Record<string, string>> = {};
     for (const lang of availableLanguages) {
@@ -25,6 +32,14 @@ export default async function Header({ locale }: HeaderProps) {
         }
     }
 
+    const navigation = await Promise.all(
+        (config.header_navigation ?? []).map((item) => resolveNavigationItem(item, language)),
+    );
+
+    const localeSwitcher = (
+        <LocaleSwitcher locale={locale} alternates={{ byTranslated, pathsByReal }} />
+    );
+
     return (
         <>
             <ServiceBar locale={locale}/>
@@ -35,20 +50,23 @@ export default async function Header({ locale }: HeaderProps) {
                          outerClassName="py-4 bg-white"
                          innerClassName="flex flex-row justify-between items-center"
                 >
-                    <Link href="/" className="hover:cursor-pointer"
+                    <Link href="/" className="hover:cursor-pointer focus-visible-facelift"
                           title={t(locale, 'home')}
                           aria-label={t(locale, 'home')}
                     >
-                        <IconFullLogo className="w-60 h-auto"/>
+                        <IconFullLogo className="w-40 sm:w-48 md:w-56 lg:w-60 h-auto"/>
                     </Link>
 
-                    <div>
-                        navigation
+                    <DesktopNavigation locale={locale} items={navigation} />
+
+                    <div className="hidden lg:block">
+                        {localeSwitcher}
                     </div>
 
-                    <div>
-                        <LocaleSwitcher locale={locale} alternates={{ byTranslated, pathsByReal }} />
-                    </div>
+                    <MobileNavigation locale={locale}
+                                      items={navigation}
+                                      localeSwitcher={localeSwitcher}
+                    />
                 </Section>
             </header>
         </>

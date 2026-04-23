@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 import { IconGlobe } from '@/components/icons';
 import { availableLanguages, locales, Locale } from '@/lib/locale/locales';
+import { t } from "@/lib/i18n";
 
 interface AlternateMap {
 	/** translatedPath (ohne führenden Slash, "" für Home) -> realSlug */
@@ -15,13 +16,14 @@ interface AlternateMap {
 interface LocaleSwitcherProps {
 	locale: Locale;
 	alternates: AlternateMap;
+	className?: string;
 }
 
 const uniqueLanguages = availableLanguages.map(
 	(lang) => locales.find((l) => l.language === lang)!,
 );
 
-export default function LocaleSwitcher({ locale, alternates }: LocaleSwitcherProps) {
+export default function LocaleSwitcher({ locale, alternates, className }: LocaleSwitcherProps) {
 	const pathname = usePathname();
 
 	const currentIndex = uniqueLanguages.findIndex((l) => l.language === locale.language);
@@ -40,14 +42,14 @@ export default function LocaleSwitcher({ locale, alternates }: LocaleSwitcherPro
 		return isHome ? `/${nextLocale.language}` : `/${nextLocale.language}/${translated}`;
 	}, [pathname, locale.language, nextLocale.language, alternates]);
 
-	const title = `Switch language to ${nextLocale.label}`;
+	const title = t(locale, 'header.change_language_to', nextLocale.label);
 
 	return (
 		<a href={targetHref}
 			 title={title}
 			 aria-label={title}
 			 hrefLang={nextLocale.language}
-			 className="h-full flex flex-row items-center gap-1 text-gray-90 hover:cursor-pointer"
+			 className={`h-full flex flex-row items-center gap-1 text-gray-90 hover:cursor-pointer focus-visible-facelift ${className}`}
 		>
 			<IconGlobe />
 			<span className="text-sm">{locale.language.toUpperCase()}</span>
