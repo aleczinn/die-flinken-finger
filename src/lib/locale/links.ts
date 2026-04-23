@@ -1,14 +1,7 @@
 import 'server-only';
 import { getSlugMap, translatePath } from '@/lib/locale/slug-map';
 import { locales } from "@/lib/locale/locales";
-
-type StoryblokMultilink = {
-	linktype?: 'story' | 'url' | 'email' | 'asset';
-	cached_url?: string;
-	url?: string;
-	email?: string;
-	anchor?: string;
-};
+import { StoryblokLink } from "@/lib/storyblok-queries";
 
 /**
  * Normalisiert eine Storyblok cached_url zu einem reinen realSlug.
@@ -42,36 +35,59 @@ export async function buildLocalizedHref(realSlug: string, lang: string): Promis
 }
 
 /**
+ * Prüft, ob ein Multilink praktisch leer ist.
+ * Storyblok liefert für ungesetzte Felder ein Objekt mit leeren Strings.
+ */
+function isEmptyLink(link: StoryblokLink): boolean {
+	switch (link.linktype) {
+		case 'email':
+			return !link.email;
+		case 'url':
+		case 'asset':
+			return !link.url;
+		case 'story':
+			return !link.cached_url && !link.url;
+	}
+}
+
+/**
  * Löst ein Storyblok-Multilink-Objekt zu einem fertigen href auf.
  * - Story-Links werden in die aktuelle Sprache übersetzt.
  * - Externe URLs, Mails, Assets werden durchgereicht.
  * - Gibt null zurück, wenn kein Link gesetzt ist – Komponente entscheidet, ob sie den CTA rendert.
  */
 export async function resolveStoryblokLink(
-	link: StoryblokMultilink | undefined | null,
+	link: StoryblokLink | undefined | null,
 	lang: string,
 ): Promise<string | null> {
-	if (!link) return null;
+	if (!link || isEmptyLink(link)) {
+		return null;
+	}
 
-	const anchor = link.anchor ? `#${link.anchor}` : '';
-
-	if (link.linktype === 'email' && link.email) {
+	if (link.linktype === 'email') {
 		return `mailto:${link.email}`;
 	}
 
-	if (link.linktype === 'url' && link.url) {
+	if (link.linktype === 'url') {
+		const anchor = link.anchor ? `#${link.anchor}` : '';
 		return `${link.url}${anchor}`;
 	}
 
-	// Story (Default – greift auch, wenn linktype fehlt, aber cached_url gesetzt ist)
+	if (link.linktype === 'asset') {
+		return link.url;
+	}
+
+	// Ab hier: linktype === 'story'
+	const anchor = link.anchor ? `#${link.anchor}` : '';
 	const rawSlug = normalizeCachedUrl(link.cached_url ?? '');
+
 	if (rawSlug) {
 		const map = await getSlugMap();
-		// Unbekannter Slug? Dann wie eingegeben, damit Redaktion nicht stillschweigend kaputte Links kriegt.
 		const path = map.byReal.has(rawSlug)
 			? translatePath(map.byReal, rawSlug, lang)
 			: rawSlug;
 		return `/${lang}/${path}${anchor}`;
 	}
-	return link.url ?? null;
+
+	return link.url || null;
 }

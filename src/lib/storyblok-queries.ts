@@ -2,8 +2,32 @@ import { cache } from 'react';
 import { getStoryblokApi } from '@/lib/storyblok';
 import { DEFAULT_LOCALE, Locale } from '@/lib/locale/locales';
 import { draftMode } from 'next/headers';
+import { SbBlokData } from "@storyblok/react";
 
 type Weekday = 'Mo' | 'Di' | 'Mi' | 'Do' | 'Fr' | 'Sa' | 'So';
+
+export type StoryblokLink = | {
+    linktype: 'story';
+    id?: string;
+    url?: string;
+    cached_url?: string;
+    anchor?: string;
+    target?: '_self' | '_blank';
+} | {
+    linktype: 'url';
+    url: string;
+    cached_url?: string;
+    anchor?: string;
+    target?: '_self' | '_blank';
+} | {
+    linktype: 'email';
+    email: string;
+    target?: '_self' | '_blank';
+} | {
+    linktype: 'asset';
+    url: string;
+    target?: '_self' | '_blank';
+};
 
 export interface Config {
     site_name: string;
@@ -14,6 +38,8 @@ export interface Config {
     address_street_house_number: string;
     address_plz_town: string;
     opening_hours?: OpeningHoursItem[];
+    header_navigation: NavigationItem[];
+    footer_navigation: NavigationLink[];
 }
 
 export interface OpeningHoursItem {
@@ -23,6 +49,17 @@ export interface OpeningHoursItem {
     open?: string;
     close?: string;
     note?: string;
+}
+
+export interface NavigationItem extends SbBlokData {
+    label: string;
+    link?: StoryblokLink;
+    children?: NavigationLink[];
+}
+
+export interface NavigationLink extends SbBlokData {
+    label: string;
+    link: StoryblokLink;
 }
 
 export async function getVersion(): Promise<'draft' | 'published'> {
