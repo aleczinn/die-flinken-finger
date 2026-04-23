@@ -27,3 +27,5 @@ export { default as IconFullLogoLight } from "./IconFullLogoLight";
 export { default as IconHome } from "./IconHome";
 export { default as IconChevronRight } from "./IconChevronRight";
 export { default as IconChevronLeft } from "./IconChevronLeft";
+export { default as IconChevronDown } from "./IconChevronDown";
+export { default as IconChevronUp } from "./IconChevronUp";
