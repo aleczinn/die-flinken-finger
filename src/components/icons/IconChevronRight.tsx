@@ -8,7 +8,7 @@ export default function IconChevronRight({ className }: { className?: string }) 
              className={className}
              aria-hidden="true"
         >
-            <path d="M8.62207 5.24658L15.3716 11.9961L8.62207 18.7456" stroke-width="2.24983" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M8.62207 5.24658L15.3716 11.9961L8.62207 18.7456" strokeWidth="2.24983" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
     );
 }
