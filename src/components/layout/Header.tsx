@@ -11,10 +11,10 @@ interface HeaderProps {
 
 export default async function Header({ locale }: HeaderProps) {
     return (
-        <header className="sticky top-0 shadow-xl shadow-gray-90/3 z-50 shrink-0">
+        <>
             <ServiceBar locale={locale}/>
 
-            <div className="bg-white">
+            <header className="sticky top-0 bg-white shadow-xl shadow-gray-90/5 z-50 shrink-0">
                 <Section as="div" variant="capped" outerClassName="py-5 bg-white">
                     <div className="flex justify-center sm:justify-start">
                         <Link href="/" className="hover:cursor-pointer"
@@ -25,7 +25,7 @@ export default async function Header({ locale }: HeaderProps) {
                         </Link>
                     </div>
                 </Section>
-            </div>
-        </header>
+            </header>
+        </>
     );
 }
