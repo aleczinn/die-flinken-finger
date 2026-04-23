@@ -107,11 +107,11 @@ export default function Accordion({ blok, background }: AccordionProps) {
 						<div key={uid} {...storyblokEditable(item)}>
 							<h3>
 								<button type="button"
-												id={buttonId}
-												aria-expanded={isOpen}
-												aria-controls={panelId}
-												onClick={() => toggle(uid)}
-												className={`${bgButtonClasses} w-full flex justify-between items-center py-4 text-left font-bold focus-visible-facelift transition-colors duration-300 hover:cursor-pointer hover:text-primary`}
+										id={buttonId}
+										aria-expanded={isOpen}
+										aria-controls={panelId}
+										onClick={() => toggle(uid)}
+										className={`${bgButtonClasses} w-full flex justify-between items-center py-4 text-left font-bold focus-visible-facelift transition-colors duration-300 hover:cursor-pointer hover:text-primary`}
 								>
 									<span>{item.title}</span>
 									<IconPlus className={`transition-transform duration-300 ${isOpen ? 'rotate-45' : ''}`} />
