@@ -69,7 +69,7 @@ export default async function Hero({ blok, priority = false, locale }: HeroProps
 					)}
 
 					{blok.button_text && href && (
-						<Button variant="primary" href={href} className="mt-8 text-xl">
+						<Button variant="secondary" href={href} className="mt-8">
 							{blok.button_text}
 						</Button>
 					)}

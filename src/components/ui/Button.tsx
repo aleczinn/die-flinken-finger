@@ -31,7 +31,7 @@ type ButtonProps = AsButton | AsLink;
 
 const baseClasses = [
 	'flex flex-row justify-center items-center gap-2',
-	'font-medium w-fit px-6 py-2.5 rounded-bl-lg rounded-bl-lg rounded-tr-lg rounded-bl-lg rounded-br-lg',
+	'font-medium w-fit px-6 py-2.5 rounded-lg',
 	'hover:cursor-pointer',
 	'transition-colors duration-200',
 	'focus-visible-facelift',
@@ -39,7 +39,7 @@ const baseClasses = [
 
 const variantClasses: Record<Variant, string> = {
 	primary: 'bg-primary text-gray-10 hover:bg-primary-darker active:bg-primary-darkest disabled:bg-white disabled:text-gray-20',
-	secondary: 'bg-transparent border-2 border-solid border-gray-90 text-gray-10 hover:bg-[#111111] active:bg-black disabled:bg-white disabled:text-gray-20'
+	secondary: 'bg-transparent border-1 border-solid border-gray-30 text-gray-10 hover:bg-gray-10 hover:text-gray-90 active:bg-gray-30 active:text-gray-90 disabled:bg-white disabled:text-gray-20'
 }
 
 export function Button({
