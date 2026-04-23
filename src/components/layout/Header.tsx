@@ -4,7 +4,7 @@ import Section from "@/components/layout/Section";
 import Link from "next/link";
 import { t } from "@/lib/i18n";
 import { IconFullLogo } from "@/components/icons";
-import LocaleSwitcher from "@/components/layout/LocaleSwitcher";
+import LocaleSwitcher from "@/components/layout/header/LocaleSwitcher";
 import { getSlugMap, translatePath } from "@/lib/locale/slug-map";
 import { getConfig } from "@/lib/storyblok-queries";
 import { resolveNavigationItem } from "@/lib/locale/navigation";
