@@ -4,7 +4,7 @@ import { NavigationItem, NavigationLink } from '@/lib/storyblok-queries';
 import { resolveStoryblokLink } from '@/lib/locale/links';
 
 export type ResolvedNavigationLink = {
-    uid?: string;
+    uid: string;
     label: string;
     href: string | null;
     editable: Record<string, string>;
@@ -17,7 +17,7 @@ export type ResolvedNavigationItem = ResolvedNavigationLink & {
 
 export async function resolveNavigationLink(item: NavigationLink, lang: string): Promise<ResolvedNavigationLink> {
     return {
-        uid: item._uid,
+        uid: item._uid || 'no_uid',
         label: item.label,
         href: await resolveStoryblokLink(item.link, lang),
         editable: storyblokEditable(item) as Record<string, string>,
@@ -33,7 +33,7 @@ export async function resolveNavigationItem(item: NavigationItem, lang: string):
     ]);
 
     return {
-        uid: item._uid,
+        uid: item._uid || 'no_uid',
         label: item.label,
         description: item.description,
         href,
