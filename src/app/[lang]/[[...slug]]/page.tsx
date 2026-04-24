@@ -164,7 +164,7 @@ export default async function Page({ params }: PageProps) {
 	const breadcrumbs = isHomepage ? null : <Breadcrumbs locale={locale} entry={entry} includeSchema />;
 
 	return (
-		<main id="main-content" className="grow flex flex-col bg-gray-10 min-h-[50svh]">
+		<main id="main" className="grow flex flex-col bg-gray-10 min-h-[50svh]">
 			<StoryblokStory locale={locale}
 							story={result.data.story}
 							breadcrumbs={breadcrumbs}

@@ -7,8 +7,8 @@ interface SkipLinksProps {
 
 export default function SkipLinks({ locale }: SkipLinksProps) {
     const links = [
-        { href: '#main-content', label: t(locale, 'skiplinks.to_main') },
-        { href: '#main-navigation', label: t(locale, 'skiplinks.to_navigation') },
+        { href: '#main', label: t(locale, 'skiplinks.to_main') },
+        { href: '#navigation', label: t(locale, 'skiplinks.to_navigation') },
     ];
 
     return (

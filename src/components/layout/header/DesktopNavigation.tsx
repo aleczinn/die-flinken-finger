@@ -16,7 +16,7 @@ export default function DesktopNavigation({ locale, items }: HeaderNavigationPro
     const label = t(locale, 'header.navigation');
 
     return (
-        <nav id="main-navigation" className="hidden lg:block" aria-label={label}>
+        <nav id="navigation" className="hidden lg:block" aria-label={label}>
             <ul className="flex flex-row items-center gap-2">
                 {items.map((item) => (
                     <HeaderNavigationItem key={item.uid} locale={locale} item={item} />

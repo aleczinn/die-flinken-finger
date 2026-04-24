@@ -176,6 +176,7 @@ export default function MobileNavigation({ locale, items, localeSwitcher }: Mobi
     return (
         <>
             <button ref={triggerRef}
+                    id="navigation"
                     type="button"
                     onClick={() => setIsOpen((prev) => !prev)}
                     aria-expanded={isOpen}
