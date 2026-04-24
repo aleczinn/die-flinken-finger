@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ResolvedNavigationItem } from '@/lib/locale/navigation';
@@ -21,7 +21,8 @@ export default function MobileNavigation({ locale, items, localeSwitcher }: Mobi
     const triggerRef = useRef<HTMLButtonElement>(null);
     const panelRef = useRef<HTMLDivElement>(null);
     const pathname = usePathname();
-    const panelId = 'mobile-navigation-panel';
+    const panelId = useId();
+    const [resetKey, setResetKey] = useState(0);
 
     const labels = {
         mainNav: t(locale, 'header.main_navigation'),
@@ -30,6 +31,10 @@ export default function MobileNavigation({ locale, items, localeSwitcher }: Mobi
     };
 
     const close = useCallback(() => setIsOpen(false), []);
+
+    useEffect(() => {
+        if (isOpen) setResetKey((k) => k + 1);
+    }, [isOpen]);
 
     // Escape schließt, Fokus zurück auf Trigger
     useEffect(() => {
@@ -212,7 +217,7 @@ export default function MobileNavigation({ locale, items, localeSwitcher }: Mobi
                          style={{ maxHeight: `calc(100dvh - ${headerBottom}px)` }}
                     >
                         <nav aria-label={labels.mainNav}>
-                            <ul className="flex flex-col">
+                            <ul key={resetKey} className="flex flex-col">
                                 {items.map((item) => (
                                     <MobileMenuItem key={item.uid} item={item} onNavigate={close} />
                                 ))}
