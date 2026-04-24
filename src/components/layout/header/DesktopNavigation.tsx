@@ -103,7 +103,8 @@ function HeaderNavigationDropdown({ locale, item }: { locale: Locale, item: Reso
     }, [isOpen]);
 
     const panelId = useId();
-    const triggerLabel = hasHref ? t(locale, 'header.open_submenu_for', item.label) : item.label;
+    const labelTrigger = hasHref ? t(locale, 'header.open_submenu_for', item.label) : item.label;
+    const labelPanel = t(locale, 'header.submenu_for', item.label);
 
     return (
         <li ref={containerRef}
@@ -127,7 +128,7 @@ function HeaderNavigationDropdown({ locale, item }: { locale: Locale, item: Reso
                             type="button"
                             aria-expanded={isOpen}
                             aria-controls={panelId}
-                            aria-label={triggerLabel}
+                            aria-label={labelTrigger}
                             onClick={() => setIsOpen((prev) => !prev)}
                             className={`flex items-center pl-1 pr-2 py-2 transition-colors duration-150 focus-visible-facelift hover:cursor-pointer ${
                                 isOpen ? 'text-primary' : 'text-gray-90 group-hover/trigger:text-primary'
@@ -157,6 +158,7 @@ function HeaderNavigationDropdown({ locale, item }: { locale: Locale, item: Reso
                  inert={!isOpen}
                  onMouseEnter={open}
                  onMouseLeave={close}
+                 aria-label={labelPanel}
                  className={`
                      absolute top-full left-0 right-0 mt-0
                      flex justify-center
