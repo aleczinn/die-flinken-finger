@@ -47,11 +47,17 @@ const variantClasses: Record<Variant, string> = {
 		'bg-primary text-white',
 		'hover:bg-primary-darker',
 		'active:bg-primary-darkest',
-		'disabled:bg-gray-30 disabled:text-gray-30',
+		'disabled:bg-gray-20 disabled:text-gray-40',
 		'aria-disabled:bg-gray-20 aria-disabled:text-gray-40'
 	),
 
-	secondary: 'bg-white text-gray-90 hover:bg-gray-20 active:bg-gray-30 disabled:bg-white disabled:text-gray-20'
+	secondary: cn(
+		'bg-white text-gray-80',
+		'hover:bg-gray-20',
+		'active:bg-gray-30',
+		'disabled:bg-gray-30 disabled:text-gray-40',
+		'aria-disabled:bg-gray-30 aria-disabled:text-gray-40'
+	)
 }
 
 const variantClassesHollow: Record<Variant, string> = {
@@ -59,15 +65,15 @@ const variantClassesHollow: Record<Variant, string> = {
 		'bg-transparent border-2 border-solid border-primary text-primary',
 		'hover:border-primary-darker hover:text-primary-darker',
 		'active:border-primary-darkest active:text-primary-darkest',
-		'disabled:border-gray-30 disabled:text-gray-30',
+		'disabled:border-gray-20 disabled:text-gray-40',
 		'aria-disabled:border-gray-20 aria-disabled:text-gray-40'
 	),
 	secondary: cn(
-		'bg-transparent border-2 border-solid border-white text-gray-10',
-		'hover:bg-gray-10 hover:text-gray-80',
-		'active:bg-gray-30 active:text-gray-90',
-		'disabled:bg-white disabled:text-gray-20',
-		'aria-disabled:bg-white aria-disabled:text-gray-20',
+		'bg-transparent border-2 border-solid border-white text-white',
+		'hover:border-gray-20 hover:text-gray-20',
+		'active:border-gray-30 active:text-gray-30',
+		'disabled:opacity-40',
+		'aria-disabled:opacity-40'
 	)
 }
 
