@@ -1,22 +1,28 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ResolvedNavigationItem } from '@/lib/locale/navigation';
-import { IconMenuOff, IconMenuOn } from '@/components/icons';
-import { Locale } from "@/lib/locale/locales";
-import { t } from "@/lib/i18n";
+import { IconChevronDown, IconMenuOff, IconMenuOn } from '@/components/icons';
+import { Locale } from '@/lib/locale/locales';
+import { t } from '@/lib/i18n';
 
-interface MobileMenuProps {
+interface MobileNavigationProps {
     locale: Locale;
     items: ResolvedNavigationItem[];
     localeSwitcher?: React.ReactNode;
 }
 
-export default function MobileNavigation({ locale, items, localeSwitcher }: MobileMenuProps) {
-    const dialogRef = useRef<HTMLDialogElement>(null);
-    const triggerRef = useRef<HTMLButtonElement>(null);
+const LG_BREAKPOINT_PX = 1024;
+
+export default function MobileNavigation({ locale, items, localeSwitcher }: MobileNavigationProps) {
     const [isOpen, setIsOpen] = useState(false);
+    const [panelMaxHeight, setPanelMaxHeight] = useState<string>('100dvh');
+    const triggerRef = useRef<HTMLButtonElement>(null);
+    const panelRef = useRef<HTMLDivElement>(null);
+    const pathname = usePathname();
+    const panelId = 'mobile-navigation-panel';
 
     const labels = {
         mainNav: t(locale, 'header.main_navigation'),
@@ -24,82 +30,117 @@ export default function MobileNavigation({ locale, items, localeSwitcher }: Mobi
         close: t(locale, 'header.close_menu'),
     };
 
-    const open = () => {
-        dialogRef.current?.showModal();
-        setIsOpen(true);
-    };
+    const close = useCallback(() => setIsOpen(false), []);
 
-    const close = () => {
-        dialogRef.current?.close();
-    };
-
-    // Dialog kann durch Escape oder form-submit geschlossen werden — State synchron halten
+    // Escape schließt, Fokus zurück auf Trigger
     useEffect(() => {
-        const el = dialogRef.current;
-        if (!el) return;
+        if (!isOpen) return;
 
-        const onClose = () => {
-            setIsOpen(false);
-            triggerRef.current?.focus();
+        const onKey = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') {
+                close();
+                triggerRef.current?.focus();
+            }
         };
+        document.addEventListener('keydown', onKey);
+        return () => document.removeEventListener('keydown', onKey);
+    }, [isOpen, close]);
 
-        el.addEventListener('close', onClose);
-        return () => el.removeEventListener('close', onClose);
+    // Klick außerhalb schließt
+    useEffect(() => {
+        if (!isOpen) return;
+
+        const onPointerDown = (event: PointerEvent) => {
+            const target = event.target as Node;
+            if (panelRef.current?.contains(target) || triggerRef.current?.contains(target)) return;
+            close();
+        };
+        document.addEventListener('pointerdown', onPointerDown);
+        return () => document.removeEventListener('pointerdown', onPointerDown);
+    }, [isOpen, close]);
+
+    // Breakpoint-Wechsel zu lg+ schließt — Desktop-Nav übernimmt
+    useEffect(() => {
+        const mq = window.matchMedia(`(min-width: ${LG_BREAKPOINT_PX}px)`);
+        const onChange = (e: MediaQueryListEvent) => {
+            if (e.matches) setIsOpen(false);
+        };
+        mq.addEventListener('change', onChange);
+        return () => mq.removeEventListener('change', onChange);
     }, []);
 
-    // Backdrop-Click schließt (natives <dialog> schließt nicht automatisch bei Klick außerhalb)
-    const onDialogClick = (event: React.MouseEvent<HTMLDialogElement>) => {
-        if (event.target === dialogRef.current) {
-            close();
-        }
-    };
+    // Route-Wechsel schließt (inkl. Back-Button)
+    useEffect(() => {
+        setIsOpen(false);
+    }, [pathname]);
+
+    // Max-Höhe an Header-Unterkante koppeln — Panel endet am Viewport-Boden
+    useLayoutEffect(() => {
+        if (!isOpen) return;
+
+        const update = () => {
+            const header = triggerRef.current?.closest('header');
+            if (!header) return;
+            const bottom = Math.max(header.getBoundingClientRect().bottom, 0);
+            setPanelMaxHeight(`calc(100dvh - ${bottom}px)`);
+        };
+
+        update();
+        window.addEventListener('resize', update);
+        window.addEventListener('scroll', update, { passive: true });
+        return () => {
+            window.removeEventListener('resize', update);
+            window.removeEventListener('scroll', update);
+        };
+    }, [isOpen]);
 
     return (
         <>
             <button ref={triggerRef}
                     type="button"
-                    onClick={open}
+                    onClick={() => setIsOpen((prev) => !prev)}
                     aria-expanded={isOpen}
-                    aria-label={labels.open}
-                    className="lg:hidden flex items-center p-2 text-gray-90 hover:text-primary focus-visible-facelift hover:cursor-pointer"
+                    aria-controls={panelId}
+                    aria-label={isOpen ? labels.close : labels.open}
+                    className="lg:hidden flex items-center p-2 text-gray-90 transition-colors hover:text-primary focus-visible-inset hover:cursor-pointer rounded-md"
             >
-                <IconMenuOff />
+                {isOpen ? <IconMenuOn /> : <IconMenuOff />}
             </button>
 
-            <dialog ref={dialogRef}
-                    aria-label={labels.mainNav}
-                    onClick={onDialogClick}
-                    className="m-0 ml-auto h-[100dvh] max-h-none w-[min(90vw,22rem)] max-w-none bg-white shadow-2xl backdrop:bg-black/60 p-0 open:translate-x-0 translate-x-full transition-transform duration-200 ease-out"
+            {/* Full-width Panel direkt unter dem Header */}
+            <div ref={panelRef}
+                 id={panelId}
+                 inert={!isOpen}
+                 aria-label={labels.mainNav}
+                 className={`
+                     lg:hidden absolute top-full left-0 right-0
+                     bg-white shadow-2xl shadow-gray-90/10
+                     border-t border-gray-20
+                     grid overflow-hidden
+                     transition-[grid-template-rows,opacity] duration-300 ease-out
+                     ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0 pointer-events-none'}
+                 `}
             >
-                <div className="flex flex-col h-full" onClick={(e) => e.stopPropagation()}>
-                    <div className="flex items-center justify-end p-4 border-b border-gray-20">
-                        <button type="button"
-                                onClick={close}
-                                aria-label={labels.close}
-                                className="flex items-center p-2 text-gray-90 hover:text-primary focus-visible-facelift hover:cursor-pointer"
-                        >
-                            <IconMenuOn />
-                        </button>
+                <div className="min-h-0 overflow-hidden">
+                    <div className="overflow-y-auto overscroll-contain"
+                         style={{ maxHeight: panelMaxHeight }}
+                    >
+                        <nav aria-label={labels.mainNav}>
+                            <ul className="flex flex-col">
+                                {items.map((item) => (
+                                    <MobileMenuItem key={item.uid} item={item} onNavigate={close} />
+                                ))}
+                            </ul>
+                        </nav>
+
+                        {localeSwitcher && (
+                            <div className="px-4 py-4 border-t border-gray-20">
+                                {localeSwitcher}
+                            </div>
+                        )}
                     </div>
-
-                    <nav className="flex-1 overflow-y-auto">
-                        <ul className="flex flex-col">
-                            {items.map((item) => (
-                                <MobileMenuItem key={item.uid}
-                                                item={item}
-                                                onNavigate={close}
-                                />
-                            ))}
-                        </ul>
-                    </nav>
-
-                    {localeSwitcher && (
-                        <div className="p-4 border-t border-gray-20">
-                            {localeSwitcher}
-                        </div>
-                    )}
                 </div>
-            </dialog>
+            </div>
         </>
     );
 }
@@ -110,7 +151,10 @@ function MobileMenuItem({ item, onNavigate }: {
 }) {
     const [isExpanded, setIsExpanded] = useState(false);
     const hasChildren = item.children.length > 0;
+    const hasHref = Boolean(item.href);
+    const submenuId = `mobile-submenu-${item.uid}`;
 
+    // Fall 1: Reiner Link
     if (!hasChildren) {
         if (!item.href) return null;
 
@@ -118,7 +162,7 @@ function MobileMenuItem({ item, onNavigate }: {
             <li {...item.editable}>
                 <Link href={item.href}
                       onClick={onNavigate}
-                      className="block px-6 py-4 text-gray-90 font-medium border-b border-gray-20 hover:text-primary focus-visible-facelift"
+                      className="block px-4 py-4 text-gray-90 font-semibold transition-colors hover:text-primary focus-visible-inset"
                 >
                     {item.label}
                 </Link>
@@ -126,47 +170,79 @@ function MobileMenuItem({ item, onNavigate }: {
         );
     }
 
-    const panelId = `mobile-panel-${item.uid}`;
+    // Fall 2: Link + separater Toggle-Button
+    if (hasHref) {
+        return (
+            <li className="" {...item.editable}>
+                <div className="flex items-stretch">
+                    <Link href={item.href!}
+                          onClick={onNavigate}
+                          className="flex-1 block pl-4 py-4 text-gray-90 font-semibold transition-colors hover:text-primary focus-visible-inset"
+                    >
+                        {item.label}
+                    </Link>
 
+                    <button type="button"
+                            aria-expanded={isExpanded}
+                            aria-controls={submenuId}
+                            aria-label={`Untermenü ${item.label} ${isExpanded ? 'schließen' : 'öffnen'}`}
+                            onClick={() => setIsExpanded((prev) => !prev)}
+                            className="flex items-center pl-12 pr-4 py-4 text-gray-90 transition-colors hover:text-primary hover:cursor-pointer focus-visible-inset"
+                    >
+                        <IconChevronDown className={`w-5 h-5 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
+                    </button>
+                </div>
+
+                <Submenu id={submenuId} isOpen={isExpanded} items={item.children} onNavigate={onNavigate} />
+            </li>
+        );
+    }
+
+    // Fall 3: Kein Link, nur Kinder → kompletter Toggle-Button
     return (
-        <li className="border-b border-gray-20" {...item.editable}>
+        <li className="" {...item.editable}>
             <button type="button"
                     aria-expanded={isExpanded}
-                    aria-controls={panelId}
+                    aria-controls={submenuId}
                     onClick={() => setIsExpanded((prev) => !prev)}
-                    className="w-full flex items-center justify-between px-6 py-4 text-gray-90 font-medium hover:text-primary focus-visible-facelift hover:cursor-pointer"
+                    className="w-full flex items-center justify-between px-4 py-4 text-gray-90 font-semibold transition-colors hover:text-primary hover:cursor-pointer focus-visible-inset"
             >
                 <span>{item.label}</span>
-                <svg width="20" height="20" viewBox="0 0 24 24"
-                     aria-hidden="true"
-                     className={`transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
-                >
-                    <path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+                <IconChevronDown className={`w-5 h-5 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
             </button>
 
-            <ul id={panelId}
-                className={`grid overflow-hidden transition-[grid-template-rows] duration-300 ease-in-out ${isExpanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
-            >
-                <li className="overflow-hidden min-h-0">
-                    <ul className="bg-gray-10">
-                        {item.children.map((child) => {
-                            if (!child.href) return null;
-
-                            return (
-                                <li key={child.uid} {...child.editable}>
-                                    <Link href={child.href}
-                                          onClick={onNavigate}
-                                          className="block px-8 py-3 text-gray-90 hover:text-primary focus-visible-facelift"
-                                    >
-                                        {child.label}
-                                    </Link>
-                                </li>
-                            );
-                        })}
-                    </ul>
-                </li>
-            </ul>
+            <Submenu id={submenuId} isOpen={isExpanded} items={item.children} onNavigate={onNavigate} />
         </li>
+    );
+}
+
+function Submenu({ id, isOpen, items, onNavigate }: {
+    id: string;
+    isOpen: boolean;
+    items: ResolvedNavigationItem['children'];
+    onNavigate: () => void;
+}) {
+    return (
+        <div id={id}
+             inert={!isOpen}
+             className={`grid overflow-hidden transition-[grid-template-rows] duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
+        >
+            <ul className="min-h-0 overflow-hidden bg-gray-10">
+                {items.map((child) => {
+                    if (!child.href) return null;
+
+                    return (
+                        <li key={child.uid} {...child.editable}>
+                            <Link href={child.href}
+                                  onClick={onNavigate}
+                                  className="block pl-8 pr-4 py-3 text-sm text-gray-90 transition-colors hover:text-primary focus-visible-inset"
+                            >
+                                {child.label}
+                            </Link>
+                        </li>
+                    );
+                })}
+            </ul>
+        </div>
     );
 }
