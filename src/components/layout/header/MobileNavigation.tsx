@@ -183,7 +183,11 @@ export default function MobileNavigation({ locale, items, localeSwitcher }: Mobi
                     aria-label={isOpen ? labels.close : labels.open}
                     className="lg:hidden flex items-center p-2 text-gray-90 transition-colors hover:text-primary focus-element hover:cursor-pointer rounded-md"
             >
-                {isOpen ? <IconMenuOn /> : <IconMenuOff />}
+                {/*{isOpen ? <IconMenuOn /> : <IconMenuOff />}*/}
+                <span className="relative flex w-6 h-6">
+                    <IconMenuOff className={`absolute inset-0 transition-all duration-300 ${isOpen ? 'opacity-0' : 'opacity-100'}`} />
+                    <IconMenuOn className={`absolute inset-0 transition-all duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`} />
+                </span>
             </button>
 
             {/* Backdrop unter dem Header — Panel überdeckt ihn wo es ist */}
@@ -205,7 +209,7 @@ export default function MobileNavigation({ locale, items, localeSwitcher }: Mobi
                  aria-label={labels.mainNav}
                  className={`
                      lg:hidden absolute top-full left-0 right-0
-                     bg-white shadow-2xl shadow-gray-90/10
+                     bg-white shadow-2xl shadow-gray-10/20
                      border-t border-gray-20
                      grid overflow-hidden
                      transition-[grid-template-rows,opacity] duration-300 ease-out
