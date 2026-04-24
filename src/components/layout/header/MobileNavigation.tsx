@@ -205,11 +205,12 @@ export default function MobileNavigation({ locale, items, localeSwitcher }: Mobi
                      grid overflow-hidden
                      transition-[grid-template-rows,opacity] duration-300 ease-out
                      ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0 pointer-events-none'}
-                 `}
-                 style={{ maxHeight: `calc(100dvh - ${headerBottom}px)` }}
+                `}
             >
                 <div className="min-h-0 overflow-hidden">
-                    <div className="overflow-y-auto overscroll-contain">
+                    <div className="overflow-y-auto overscroll-contain"
+                         style={{ maxHeight: `calc(100dvh - ${headerBottom}px)` }}
+                    >
                         <nav aria-label={labels.mainNav}>
                             <ul className="flex flex-col">
                                 {items.map((item) => (
