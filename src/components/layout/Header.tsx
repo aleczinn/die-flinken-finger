@@ -42,9 +42,9 @@ export default async function Header({ locale }: HeaderProps) {
 
     return (
         <>
-            <ServiceBar locale={locale}/>
-
             <header className="sticky top-0 bg-white shadow-xl shadow-gray-90/5 z-50 shrink-0">
+                <ServiceBar locale={locale}/>
+
                 <Section as="div"
                          variant="capped"
                          outerClassName="py-4 bg-white"
