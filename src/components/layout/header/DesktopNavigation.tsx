@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ResolvedNavigationItem } from '@/lib/locale/navigation';
 import { IconArrowRight, IconChevronDown, IconChevronRight, IconChevronUp } from '@/components/icons';
@@ -13,33 +13,28 @@ interface HeaderNavigationProps {
 }
 
 export default function DesktopNavigation({ locale, items }: HeaderNavigationProps) {
-    const navLabel = t(locale, 'header.navigation');
+    const label = t(locale, 'header.navigation');
 
     return (
-        <nav id="main-navigation"
-             className="hidden lg:block"
-             aria-label={navLabel}
-        >
+        <nav id="main-navigation" className="hidden lg:block" aria-label={label}>
             <ul className="flex flex-row items-center gap-2">
                 {items.map((item) => (
-                    <HeaderNavigationItem key={item.uid} item={item} />
+                    <HeaderNavigationItem key={item.uid} locale={locale} item={item} />
                 ))}
             </ul>
         </nav>
     );
 }
 
-function HeaderNavigationItem({ item }: { item: ResolvedNavigationItem }) {
+function HeaderNavigationItem({ locale, item }: { locale: Locale, item: ResolvedNavigationItem }) {
     const hasChildren = item.children.length > 0;
+    const hasHref = Boolean(item.href);
 
-    if (!hasChildren) {
-        if (!item.href) {
-            return null;
-        }
-
+    // Fall 1: Nur Link, keine Kinder -> einfacher Link
+    if (hasHref && !hasChildren) {
         return (
             <li {...item.editable}>
-                <Link href={item.href}
+                <Link href={item.href!}
                       className="block font-semibold px-2 py-2 text-gray-90 transition-colors duration-150 hover:text-primary focus-visible-facelift"
                 >
                     {item.label}
@@ -48,14 +43,21 @@ function HeaderNavigationItem({ item }: { item: ResolvedNavigationItem }) {
         );
     }
 
-    return <HeaderNavigationDropdown item={item} />;
+    // Fall 2 & 3: Hat Kinder -> Dropdown (mit oder ohne eigenen Link)
+    if (hasChildren) {
+        return <HeaderNavigationDropdown locale={locale} item={item} />;
+    }
+
+    // Fall 4: Weder Link noch Kinder -> redaktioneller Unfug, nicht rendern
+    return null;
 }
 
-function HeaderNavigationDropdown({ item }: { item: ResolvedNavigationItem }) {
+function HeaderNavigationDropdown({ locale, item }: { locale: Locale, item: ResolvedNavigationItem }) {
     const [isOpen, setIsOpen] = useState(false);
     const containerRef = useRef<HTMLLIElement>(null);
     const buttonRef = useRef<HTMLButtonElement>(null);
     const closeTimer = useRef<number | null>(null);
+    const hasHref = Boolean(item.href);
 
     const open = () => {
         if (closeTimer.current !== null) {
@@ -64,14 +66,6 @@ function HeaderNavigationDropdown({ item }: { item: ResolvedNavigationItem }) {
         }
         setIsOpen(true);
     };
-
-    const clicki = () => {
-        if (!item.href && item.children) {
-            setIsOpen(true);
-            return;
-        }
-        setIsOpen(!isOpen);
-    }
 
     // Leichtes Close-Delay, damit der Dropdown nicht flackert, wenn die Maus
     // kurz zwischen Trigger und Panel durchrutscht
@@ -108,27 +102,55 @@ function HeaderNavigationDropdown({ item }: { item: ResolvedNavigationItem }) {
         };
     }, [isOpen]);
 
-    const panelId = `nav-panel-${item.uid}`;
+    const panelId = useId();
+    const triggerLabel = hasHref ? t(locale, 'header.open_submenu_for', item.label) : item.label;
 
     return (
         <li ref={containerRef}
             onMouseEnter={open}
             onMouseLeave={close}
-            className="static"
+            className="static flex flex-row items-center"
             {...item.editable}
         >
-            <button ref={buttonRef}
-                    type="button"
-                    aria-expanded={isOpen}
-                    aria-controls={panelId}
-                    onClick={() => clicki()}
-                    className={`flex items-center gap-1 px-2 py-2 font-semibold text-gray-90 transition-colors duration-200 hover:text-primary focus-visible-facelift hover:cursor-pointer ${
-                        isOpen ? 'text-primary' : 'text-gray-90 hover:text-primary'
-                    }`}
-            >
-                <span>{item.label}</span>
-                <IconChevronDown className="w-4 h-4" />
-            </button>
+            {hasHref ? (
+                // Fall 2: Label ist Link, separater Toggle-Button daneben
+                <>
+                    <Link href={item.href!}
+                          className={`block font-semibold pl-2 py-2 transition-colors duration-150 focus-visible-facelift ${
+                              isOpen ? 'text-primary' : 'text-gray-90 hover:text-primary'
+                          }`}
+                    >
+                        {item.label}
+                    </Link>
+
+                    <button ref={buttonRef}
+                            type="button"
+                            aria-expanded={isOpen}
+                            aria-controls={panelId}
+                            aria-label={triggerLabel}
+                            onClick={() => setIsOpen((prev) => !prev)}
+                            className={`flex items-center pr-2 py-2 transition-colors duration-150 focus-visible-facelift hover:cursor-pointer ${
+                                isOpen ? 'text-primary' : 'text-gray-90 hover:text-primary'
+                            }`}
+                    >
+                        <IconChevronDown className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+                    </button>
+                </>
+            ) : (
+                // Fall 3: Kein Link, komplett Button
+                <button ref={buttonRef}
+                        type="button"
+                        aria-expanded={isOpen}
+                        aria-controls={panelId}
+                        onClick={() => setIsOpen((prev) => !prev)}
+                        className={`flex items-center gap-1 px-2 py-2 font-semibold transition-colors duration-150 focus-visible-facelift hover:cursor-pointer ${
+                            isOpen ? 'text-primary' : 'text-gray-90 hover:text-primary'
+                        }`}
+                >
+                    <span>{item.label}</span>
+                    <IconChevronDown className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+                </button>
+            )}
 
             {/* Panel - absolut positioniert relativ zum Header (nicht zur <li>) */}
             <div id={panelId}
@@ -139,8 +161,8 @@ function HeaderNavigationDropdown({ item }: { item: ResolvedNavigationItem }) {
                      absolute top-full left-0 right-0 mt-0
                      flex justify-center
                      transition-opacity duration-200 ease-in-out
-                     ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-                 }`}
+                     ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}
+                 `}
             >
                 <div className="flex flex-row bg-white shadow-2xl shadow-gray-90/25 rounded-lg overflow-hidden mx-4">
                     {/* Linke Sidebar */}

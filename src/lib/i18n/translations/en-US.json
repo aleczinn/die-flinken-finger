@@ -17,6 +17,7 @@
         "service_bar": "Service bar",
         "navigation": "Main navigation",
         "change_language_to": "Change language to {0}",
+        "open_submenu_for": "Open sub-menu for {0}",
         "open_menu": "Open menu",
         "close_menu": "Close menu"
     },
