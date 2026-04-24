@@ -93,7 +93,7 @@ export default function MobileNavigation({ locale, items, localeSwitcher }: Mobi
         };
     }, [isOpen]);
 
-// Focus-Trap: Cycle zwischen Trigger (Close) und Panel-Inhalt
+    // Focus-Trap: Cycle zwischen Trigger (Close) und Panel-Inhalt
     useEffect(() => {
         if (!isOpen) return;
 
@@ -186,11 +186,11 @@ export default function MobileNavigation({ locale, items, localeSwitcher }: Mobi
                  onClick={close}
                  style={{ top: `${headerBottom}px` }}
                  className={`
-         lg:hidden fixed left-0 right-0 bottom-0
-         bg-black/40 backdrop-blur-sm
-         transition-opacity duration-300 ease-out
-         ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}
-     `}
+                     lg:hidden fixed left-0 right-0 bottom-0
+                     bg-black/40 backdrop-blur-sm
+                     transition-opacity duration-300 ease-out
+                     ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}
+                `}
             />
 
             {/* Full-width Panel direkt unter dem Header */}
