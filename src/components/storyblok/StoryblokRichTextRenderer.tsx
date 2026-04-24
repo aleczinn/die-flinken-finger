@@ -8,7 +8,7 @@ interface StoryblokRichTextProps {
 export default function StoryblokRichTextRenderer({ content, className }: StoryblokRichTextProps) {
 	return (
 		<div className={`
-			font-display text-gray-90
+			font-display
 			[&_p:not(:last-child)]:mb-2
 
 			[&_ul:not(:last-child)]:mb-2
