@@ -18,7 +18,7 @@ const LG_BREAKPOINT_PX = 1024;
 
 export default function MobileNavigation({ locale, items, localeSwitcher }: MobileNavigationProps) {
     const [isOpen, setIsOpen] = useState(false);
-    const [panelMaxHeight, setPanelMaxHeight] = useState<string>('100dvh');
+    const [headerBottom, setHeaderBottom] = useState(0);
     const triggerRef = useRef<HTMLButtonElement>(null);
     const panelRef = useRef<HTMLDivElement>(null);
     const pathname = usePathname();
@@ -150,7 +150,6 @@ export default function MobileNavigation({ locale, items, localeSwitcher }: Mobi
         return () => document.removeEventListener('keydown', onKeyDown);
     }, [isOpen]);
 
-    // Max-Höhe an Header-Unterkante koppeln — Panel endet am Viewport-Boden
     useLayoutEffect(() => {
         if (!isOpen) return;
 
@@ -158,7 +157,7 @@ export default function MobileNavigation({ locale, items, localeSwitcher }: Mobi
             const header = triggerRef.current?.closest('header');
             if (!header) return;
             const bottom = Math.max(header.getBoundingClientRect().bottom, 0);
-            setPanelMaxHeight(`calc(100dvh - ${bottom}px)`);
+            setHeaderBottom(bottom);
         };
 
         update();
@@ -183,6 +182,18 @@ export default function MobileNavigation({ locale, items, localeSwitcher }: Mobi
                 {isOpen ? <IconMenuOn /> : <IconMenuOff />}
             </button>
 
+            {/* Backdrop unter dem Header — Panel überdeckt ihn wo es ist */}
+            <div aria-hidden="true"
+                 onClick={close}
+                 style={{ top: `${headerBottom}px` }}
+                 className={`
+         lg:hidden fixed left-0 right-0 bottom-0
+         bg-black/40 backdrop-blur-sm
+         transition-opacity duration-300 ease-out
+         ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}
+     `}
+            />
+
             {/* Full-width Panel direkt unter dem Header */}
             <div ref={panelRef}
                  id={panelId}
@@ -196,11 +207,10 @@ export default function MobileNavigation({ locale, items, localeSwitcher }: Mobi
                      transition-[grid-template-rows,opacity] duration-300 ease-out
                      ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0 pointer-events-none'}
                  `}
+                 style={{ maxHeight: `calc(100dvh - ${headerBottom}px)` }}
             >
                 <div className="min-h-0 overflow-hidden">
-                    <div className="overflow-y-auto overscroll-contain"
-                         style={{ maxHeight: panelMaxHeight }}
-                    >
+                    <div className="overflow-y-auto overscroll-contain">
                         <nav aria-label={labels.mainNav}>
                             <ul className="flex flex-col">
                                 {items.map((item) => (
