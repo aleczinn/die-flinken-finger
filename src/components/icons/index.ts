@@ -29,3 +29,4 @@ export { default as IconChevronRight } from "./IconChevronRight";
 export { default as IconChevronLeft } from "./IconChevronLeft";
 export { default as IconChevronDown } from "./IconChevronDown";
 export { default as IconChevronUp } from "./IconChevronUp";
+export { default as IconMenuAnimated } from "./IconMenuAnimated";

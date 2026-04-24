@@ -4,7 +4,7 @@ import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ResolvedNavigationItem } from '@/lib/locale/navigation';
-import { IconChevronDown, IconMenuOff, IconMenuOn } from '@/components/icons';
+import { IconChevronDown, IconMenuAnimated, IconMenuOff, IconMenuOn } from '@/components/icons';
 import { Locale } from '@/lib/locale/locales';
 import { t } from '@/lib/i18n';
 import { breakpointUp } from "@/lib/breakpoints";
@@ -184,10 +184,7 @@ export default function MobileNavigation({ locale, items, localeSwitcher }: Mobi
                     className="lg:hidden flex items-center p-2 text-gray-90 transition-colors hover:text-primary focus-element hover:cursor-pointer rounded-md"
             >
                 {/*{isOpen ? <IconMenuOn /> : <IconMenuOff />}*/}
-                <span className="relative flex w-6 h-6">
-                    <IconMenuOff className={`absolute inset-0 transition-all duration-300 ${isOpen ? 'opacity-0' : 'opacity-100'}`} />
-                    <IconMenuOn className={`absolute inset-0 transition-all duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`} />
-                </span>
+                <IconMenuAnimated isOpen={isOpen} />
             </button>
 
             {/* Backdrop unter dem Header — Panel überdeckt ihn wo es ist */}
