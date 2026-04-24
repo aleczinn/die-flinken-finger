@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ResolvedNavigationItem } from '@/lib/locale/navigation';
 import { IconArrowRight, IconChevronDown, IconChevronRight, IconChevronUp } from '@/components/icons';
@@ -56,8 +56,10 @@ function HeaderNavigationDropdown({ locale, item }: { locale: Locale, item: Reso
     const [isOpen, setIsOpen] = useState(false);
     const containerRef = useRef<HTMLLIElement>(null);
     const buttonRef = useRef<HTMLButtonElement>(null);
+    const panelRef = useRef<HTMLDivElement>(null);
     const closeTimer = useRef<number | null>(null);
     const hasHref = Boolean(item.href);
+    const [panelLeft, setPanelLeft] = useState(0);
 
     const open = () => {
         if (closeTimer.current !== null) {
@@ -76,7 +78,49 @@ function HeaderNavigationDropdown({ locale, item }: { locale: Locale, item: Reso
         closeTimer.current = window.setTimeout(() => setIsOpen(false), 120);
     };
 
-    // Escape schließt, Fokus zurück zum Trigger
+    // Panel-Position berechnen — absolute left-Wert zum Header
+    useLayoutEffect(() => {
+        if (!isOpen) return;
+
+        const adjustPosition = () => {
+            const container = containerRef.current;
+            const panel = panelRef.current;
+            if (!container || !panel) return;
+
+            // Nächsten positionierten Vorfahren finden (das ist der <header>)
+            const offsetParent = panel.offsetParent as HTMLElement | null;
+            if (!offsetParent) return;
+
+            const triggerRect = container.getBoundingClientRect();
+            const parentRect = offsetParent.getBoundingClientRect();
+            const panelWidth = panel.offsetWidth;
+            const viewportWidth = window.innerWidth;
+            const margin = 16;
+
+            // Trigger-Mitte im Viewport
+            const triggerCenterViewport = triggerRect.left + triggerRect.width / 2;
+
+            // Gewünschte Panel-Mitte = Trigger-Mitte
+            // Panel-Mitte clampen, damit Panel nicht aus Viewport ragt
+            const panelHalf = panelWidth / 2;
+            const minCenter = panelHalf + margin;
+            const maxCenter = viewportWidth - panelHalf - margin;
+
+            const clampedCenter = minCenter > maxCenter
+                ? viewportWidth / 2
+                : Math.max(minCenter, Math.min(triggerCenterViewport, maxCenter));
+
+            // left im Viewport -> left relativ zum offsetParent umrechnen
+            const leftViewport = clampedCenter - panelHalf;
+            setPanelLeft(leftViewport - parentRect.left);
+        };
+
+        adjustPosition();
+        window.addEventListener('resize', adjustPosition);
+        return () => window.removeEventListener('resize', adjustPosition);
+    }, [isOpen]);
+
+    // Escape + focusout — unverändert
     useEffect(() => {
         if (!isOpen) return;
 
@@ -154,39 +198,40 @@ function HeaderNavigationDropdown({ locale, item }: { locale: Locale, item: Reso
             )}
 
             {/* Panel - absolut positioniert relativ zum Header (nicht zur <li>) */}
-            <div id={panelId}
+            <div ref={panelRef}
+                 id={panelId}
                  inert={!isOpen}
                  onMouseEnter={open}
                  onMouseLeave={close}
                  aria-label={labelPanel}
+                 style={{ left: `${panelLeft}px` }}
                  className={`
-                     absolute top-full left-0 right-0 mt-0
-                     flex justify-center
-                     transition-opacity duration-200 ease-in-out
+                     absolute top-full
+                     transition-opacity duration-150 ease-in-out
                      ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}
                  `}
             >
-                <div className="flex flex-row bg-white shadow-2xl shadow-gray-90/25 rounded-lg overflow-hidden mx-4">
+                <div className="flex flex-row bg-white shadow-2xl shadow-gray-90/25 rounded-lg overflow-hidden max-w-[calc(100vw-2rem)]">
                     {/* Linke Sidebar */}
-                    <div className="bg-gray-90 text-white p-12 py-6 w-full flex flex-col">
+                    <div className="bg-gray-90 text-white px-12 py-6 w-80 shrink-0 flex flex-col">
                         <span className="text-primary-light font-bold text-fluid-h5">
                             {item.label}
                         </span>
 
                         {item.description && (
-                            <p className="mt-3 text-sm text-gray-20 max-w-[30ch]">
+                            <p className="mt-3 text-sm text-gray-20">
                                 {item.description}
                             </p>
                         )}
                     </div>
 
                     {/* Items - 4 pro Spalte, Flow nach unten dann rechts */}
-                    <ul className="grid grid-rows-[repeat(4,auto)] grid-flow-col auto-cols-max gap-x-6 gap-y-1 p-6">
+                    <ul className="grid grid-rows-[repeat(4,auto)] grid-flow-col gap-x-6 gap-y-1 px-12 py-6 min-w-80">
                         {item.children.map((child) => {
                             if (!child.href) return null;
 
                             return (
-                                <li key={child.uid} {...child.editable} className="border-b-1 border-gray-20 px-4 h-fit">
+                                <li key={child.uid} {...child.editable} className="not-last:border-b-1 w-full border-gray-20 px-4 h-fit">
                                     <Link href={child.href}
                                           onClick={() => setIsOpen(false)}
                                           className="flex flex-row items-center gap-3 py-2 text-gray-90 font-medium transition-all duration-200 hover:text-primary hover:translate-x-2 focus-visible-facelift"
