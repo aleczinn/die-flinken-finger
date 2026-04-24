@@ -7,14 +7,13 @@ import { ResolvedNavigationItem } from '@/lib/locale/navigation';
 import { IconChevronDown, IconMenuOff, IconMenuOn } from '@/components/icons';
 import { Locale } from '@/lib/locale/locales';
 import { t } from '@/lib/i18n';
+import { breakpointUp } from "@/lib/breakpoints";
 
 interface MobileNavigationProps {
     locale: Locale;
     items: ResolvedNavigationItem[];
     localeSwitcher?: React.ReactNode;
 }
-
-const LG_BREAKPOINT_PX = 1024;
 
 export default function MobileNavigation({ locale, items, localeSwitcher }: MobileNavigationProps) {
     const [isOpen, setIsOpen] = useState(false);
@@ -61,7 +60,7 @@ export default function MobileNavigation({ locale, items, localeSwitcher }: Mobi
 
     // Breakpoint-Wechsel zu lg+ schließt — Desktop-Nav übernimmt
     useEffect(() => {
-        const mq = window.matchMedia(`(min-width: ${LG_BREAKPOINT_PX}px)`);
+        const mq = breakpointUp('lg');
         const onChange = (e: MediaQueryListEvent) => {
             if (e.matches) setIsOpen(false);
         };
@@ -321,7 +320,7 @@ function Submenu({ id, isOpen, items, onNavigate }: {
                         <li key={child.uid} {...child.editable}>
                             <Link href={child.href}
                                   onClick={onNavigate}
-                                  className="block pl-8 pr-4 py-3 text-sm text-gray-90 transition-colors hover:text-primary focus-visible-facelift"
+                                  className="block pl-6 pr-4 py-3 text-sm text-gray-90 transition-colors hover:text-primary focus-visible-facelift"
                             >
                                 {child.label}
                             </Link>
