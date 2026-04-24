@@ -94,14 +94,15 @@ export default function MobileNavigation({ locale, items, localeSwitcher }: Mobi
         };
     }, [isOpen]);
 
-    // Focus-Trap: Tab zyklisch im Panel halten
+// Focus-Trap: Cycle zwischen Trigger (Close) und Panel-Inhalt
     useEffect(() => {
         if (!isOpen) return;
 
         const panel = panelRef.current;
-        if (!panel) return;
+        const trigger = triggerRef.current;
+        if (!panel || !trigger) return;
 
-        const getFocusable = () =>
+        const getFocusable = (): HTMLElement[] =>
             Array.from(
                 panel.querySelectorAll<HTMLElement>(
                     'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
@@ -116,18 +117,32 @@ export default function MobileNavigation({ locale, items, localeSwitcher }: Mobi
 
             const first = focusable[0];
             const last = focusable[focusable.length - 1];
-            const active = document.activeElement;
+            const active = document.activeElement as HTMLElement | null;
+            if (!active) return;
 
-            if (event.shiftKey && active === first) {
-                event.preventDefault();
-                last.focus();
-            } else if (!event.shiftKey && active === last) {
+            // Fokus ist weder im Panel noch auf Trigger → zurückholen
+            if (!panel.contains(active) && active !== trigger) {
                 event.preventDefault();
                 first.focus();
-            } else if (!panel.contains(active as Node) && active !== triggerRef.current) {
-                // Fokus hat das Panel verlassen → zurück ins Panel
-                event.preventDefault();
-                first.focus();
+                return;
+            }
+
+            if (event.shiftKey) {
+                if (active === trigger) {
+                    event.preventDefault();
+                    last.focus();
+                } else if (active === first) {
+                    event.preventDefault();
+                    trigger.focus();
+                }
+            } else {
+                if (active === trigger) {
+                    event.preventDefault();
+                    first.focus();
+                } else if (active === last) {
+                    event.preventDefault();
+                    trigger.focus();
+                }
             }
         };
 
