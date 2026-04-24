@@ -41,34 +41,32 @@ export default async function Header({ locale }: HeaderProps) {
     );
 
     return (
-        <>
-            <header className="sticky top-0 bg-white shadow-xl shadow-gray-90/5 z-50 shrink-0">
-                <ServiceBar locale={locale}/>
+        <header className="sticky top-0 bg-white shadow-xl shadow-gray-90/5 z-50 shrink-0">
+            <ServiceBar locale={locale}/>
 
-                <Section as="div"
-                         variant="capped"
-                         outerClassName="py-4 bg-white"
-                         innerClassName="flex flex-row justify-between items-center"
+            <Section as="div"
+                     variant="capped"
+                     outerClassName="py-4 bg-white"
+                     innerClassName="flex flex-row justify-between items-center"
+            >
+                <Link href="/" className="hover:cursor-pointer focus-visible-facelift"
+                      title={t(locale, 'home')}
+                      aria-label={t(locale, 'home')}
                 >
-                    <Link href="/" className="hover:cursor-pointer focus-visible-facelift"
-                          title={t(locale, 'home')}
-                          aria-label={t(locale, 'home')}
-                    >
-                        <IconFullLogo className="w-40 sm:w-48 md:w-56 lg:w-60 h-auto"/>
-                    </Link>
+                    <IconFullLogo className="w-40 sm:w-48 md:w-56 lg:w-60 h-auto"/>
+                </Link>
 
-                    <DesktopNavigation locale={locale} items={navigation} />
+                <DesktopNavigation locale={locale} items={navigation} />
 
-                    <div className="hidden lg:block">
-                        {localeSwitcher}
-                    </div>
+                <div className="hidden lg:block">
+                    {localeSwitcher}
+                </div>
 
-                    <MobileNavigation locale={locale}
-                                      items={navigation}
-                                      localeSwitcher={localeSwitcher}
-                    />
-                </Section>
-            </header>
-        </>
+                <MobileNavigation locale={locale}
+                                  items={navigation}
+                                  localeSwitcher={localeSwitcher}
+                />
+            </Section>
+        </header>
     );
 }
