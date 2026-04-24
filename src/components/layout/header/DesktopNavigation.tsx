@@ -109,7 +109,7 @@ function HeaderNavigationDropdown({ locale, item }: { locale: Locale, item: Reso
         <li ref={containerRef}
             onMouseEnter={open}
             onMouseLeave={close}
-            className="static flex flex-row items-center"
+            className="static flex flex-row items-center group/trigger"
             {...item.editable}
         >
             {hasHref ? (
@@ -117,7 +117,7 @@ function HeaderNavigationDropdown({ locale, item }: { locale: Locale, item: Reso
                 <>
                     <Link href={item.href!}
                           className={`block font-semibold pl-2 py-2 transition-colors duration-150 focus-visible-facelift ${
-                              isOpen ? 'text-primary' : 'text-gray-90 hover:text-primary'
+                              isOpen ? 'text-primary' : 'text-gray-90 group-hover/trigger:text-primary'
                           }`}
                     >
                         {item.label}
@@ -130,7 +130,7 @@ function HeaderNavigationDropdown({ locale, item }: { locale: Locale, item: Reso
                             aria-label={triggerLabel}
                             onClick={() => setIsOpen((prev) => !prev)}
                             className={`flex items-center pl-1 pr-2 py-2 transition-colors duration-150 focus-visible-facelift hover:cursor-pointer ${
-                                isOpen ? 'text-primary' : 'text-gray-90 hover:text-primary'
+                                isOpen ? 'text-primary' : 'text-gray-90 group-hover/trigger:text-primary'
                             }`}
                     >
                         <IconChevronDown className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
@@ -187,7 +187,7 @@ function HeaderNavigationDropdown({ locale, item }: { locale: Locale, item: Reso
                                 <li key={child.uid} {...child.editable} className="border-b-1 border-gray-20 px-4 h-fit">
                                     <Link href={child.href}
                                           onClick={() => setIsOpen(false)}
-                                          className="flex flex-row items-center gap-3 py-2 pr-4 text-gray-90 font-medium transition-all duration-200 hover:text-primary hover:translate-x-2 focus-visible-facelift"
+                                          className="flex flex-row items-center gap-3 py-2 text-gray-90 font-medium transition-all duration-200 hover:text-primary hover:translate-x-2 focus-visible-facelift"
                                     >
                                         <IconArrowRight className="w-4 h-4 rotate-45" />
                                         <span className="whitespace-nowrap">{child.label}</span>
