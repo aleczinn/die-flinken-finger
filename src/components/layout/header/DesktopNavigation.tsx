@@ -129,7 +129,7 @@ function HeaderNavigationDropdown({ locale, item }: { locale: Locale, item: Reso
                             aria-controls={panelId}
                             aria-label={triggerLabel}
                             onClick={() => setIsOpen((prev) => !prev)}
-                            className={`flex items-center pr-2 py-2 transition-colors duration-150 focus-visible-facelift hover:cursor-pointer ${
+                            className={`flex items-center pl-1 pr-2 py-2 transition-colors duration-150 focus-visible-facelift hover:cursor-pointer ${
                                 isOpen ? 'text-primary' : 'text-gray-90 hover:text-primary'
                             }`}
                     >
