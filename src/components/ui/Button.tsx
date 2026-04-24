@@ -9,6 +9,8 @@ type BaseProps = {
 	fullWidth?: boolean;
 	iconLeft?: React.ReactNode;
 	iconRight?: React.ReactNode;
+	hollow?: boolean;
+	disabled?: boolean;
 };
 
 type AsButton = BaseProps &
@@ -31,31 +33,59 @@ type ButtonProps = AsButton | AsLink;
 
 const baseClasses = [
 	'flex flex-row justify-center items-center gap-2',
-	'font-medium w-fit px-6 py-2.5 rounded-lg',
+	'font-medium w-fit px-6 py-3 rounded-lg',
 	'hover:cursor-pointer',
 	'transition-colors duration-200',
+	'disabled:cursor-not-allowed aria-disabled:cursor-not-allowed',
+	'disabled:pointer-events-none aria-disabled:pointer-events-none',
+	'disabled:pointer-events-none aria-disabled:pointer-events-none',
 	'focus-element',
 ].join(' ');
 
 const variantClasses: Record<Variant, string> = {
-	primary: 'bg-primary text-gray-10 hover:bg-primary-darker active:bg-primary-darkest disabled:bg-white disabled:text-gray-20',
-	secondary: 'bg-transparent border-1 border-solid border-gray-30 text-gray-10 hover:bg-gray-10 hover:text-gray-90 active:bg-gray-30 active:text-gray-90 disabled:bg-white disabled:text-gray-20'
+	primary: cn(
+		'bg-primary text-white',
+		'hover:bg-primary-darker',
+		'active:bg-primary-darkest',
+		'disabled:bg-gray-30 disabled:text-gray-30',
+		'aria-disabled:bg-gray-20 aria-disabled:text-gray-40'
+	),
+
+	secondary: 'bg-white text-gray-90 hover:bg-gray-20 active:bg-gray-30 disabled:bg-white disabled:text-gray-20'
+}
+
+const variantClassesHollow: Record<Variant, string> = {
+	primary: cn(
+		'bg-transparent border-2 border-solid border-primary text-primary',
+		'hover:border-primary-darker hover:text-primary-darker',
+		'active:border-primary-darkest active:text-primary-darkest',
+		'disabled:border-gray-30 disabled:text-gray-30',
+		'aria-disabled:border-gray-20 aria-disabled:text-gray-40'
+	),
+	secondary: cn(
+		'bg-transparent border-2 border-solid border-white text-gray-10',
+		'hover:bg-gray-10 hover:text-gray-80',
+		'active:bg-gray-30 active:text-gray-90',
+		'disabled:bg-white disabled:text-gray-20',
+		'aria-disabled:bg-white aria-disabled:text-gray-20',
+	)
 }
 
 export function Button({
 						   variant = 'primary',
 						   fullWidth = false,
+						   hollow = false,
 						   iconLeft,
 						   iconRight,
 						   children,
 						   className,
+						   disabled,
 						   ...props
 					   }: ButtonProps) {
 	const classes = cn(
 		baseClasses,
-		!('href' in props) && 'disabled:cursor-not-allowed',
 		fullWidth && 'w-full',
-		variantClasses[variant],
+		hollow ? variantClassesHollow[variant] : variantClasses[variant],
 		className,
 	);
 
@@ -79,6 +109,8 @@ export function Button({
 			<Link href={href}
 				  target={target ?? (isExternal ? '_blank' : undefined)}
 				  rel={isExternal ? 'noopener noreferrer' : undefined}
+				  aria-disabled={disabled || undefined}
+				  tabIndex={disabled ? -1 : undefined}
 				  style={{ '--focus-radius': '0.9rem' } as React.CSSProperties}
 				  className={classes}
 				  {...(rest as any)}
@@ -93,6 +125,7 @@ export function Button({
 	return (
 		<button type="button"
 				style={{ '--focus-radius': '0.9rem' } as React.CSSProperties}
+				disabled={disabled}
 				className={classes}
 				{...rest}
 		>
