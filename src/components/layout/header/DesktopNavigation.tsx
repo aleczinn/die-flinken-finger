@@ -33,7 +33,9 @@ function HeaderNavigationItem({ item }: { item: ResolvedNavigationItem }) {
     const hasChildren = item.children.length > 0;
 
     if (!hasChildren) {
-        if (!item.href) return null;
+        if (!item.href) {
+            return null;
+        }
 
         return (
             <li {...item.editable}>
@@ -62,6 +64,14 @@ function HeaderNavigationDropdown({ item }: { item: ResolvedNavigationItem }) {
         }
         setIsOpen(true);
     };
+
+    const clicki = () => {
+        if (!item.href && item.children) {
+            setIsOpen(true);
+            return;
+        }
+        setIsOpen(!isOpen);
+    }
 
     // Leichtes Close-Delay, damit der Dropdown nicht flackert, wenn die Maus
     // kurz zwischen Trigger und Panel durchrutscht
@@ -111,7 +121,7 @@ function HeaderNavigationDropdown({ item }: { item: ResolvedNavigationItem }) {
                     type="button"
                     aria-expanded={isOpen}
                     aria-controls={panelId}
-                    onClick={() => (isOpen ? setIsOpen(false) : setIsOpen(true))}
+                    onClick={() => clicki()}
                     className={`flex items-center gap-1 px-2 py-2 font-semibold text-gray-90 transition-colors duration-200 hover:text-primary focus-visible-facelift hover:cursor-pointer ${
                         isOpen ? 'text-primary' : 'text-gray-90 hover:text-primary'
                     }`}
@@ -120,7 +130,7 @@ function HeaderNavigationDropdown({ item }: { item: ResolvedNavigationItem }) {
                 <IconChevronDown className="w-4 h-4" />
             </button>
 
-            {/* Panel — absolut positioniert relativ zum Header (nicht zur <li>) */}
+            {/* Panel - absolut positioniert relativ zum Header (nicht zur <li>) */}
             <div id={panelId}
                  inert={!isOpen}
                  onMouseEnter={open}
@@ -128,12 +138,9 @@ function HeaderNavigationDropdown({ item }: { item: ResolvedNavigationItem }) {
                  className={`
                      absolute top-full left-0 right-0 mt-0
                      flex justify-center
-                     transition-all duration-300 ease-in-out
-                     ${isOpen
-                     ? 'opacity-100 translate-y-0'
-                     : 'opacity-0 -translate-y-4 pointer-events-none'
-                 }
-                 `}
+                     transition-opacity duration-200 ease-in-out
+                     ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                 }`}
             >
                 <div className="flex flex-row bg-white shadow-2xl shadow-gray-90/25 rounded-lg overflow-hidden mx-4">
                     {/* Linke Sidebar */}
