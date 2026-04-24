@@ -7,6 +7,7 @@ import { StoryblokMedia } from '@/components/storyblok/StoryblokMedia';
 import StoryblokRichTextRenderer from '@/components/storyblok/StoryblokRichTextRenderer';
 import { resolveStoryblokLink } from "@/lib/locale/links";
 import { Locale } from "@/lib/locale/locales";
+import { useId } from "react";
 
 type MediaWithTextLayout = 'media_left' | 'media_right';
 
@@ -26,7 +27,7 @@ interface MediaWithTextProps {
 }
 
 export default async function MediaWithText({ blok, priority = false, locale, background }: MediaWithTextProps) {
-	const headingId = `mwt-${blok._uid}`;
+	const headingId = useId();
 	const isMediaLeft = blok.layout === 'media_left';
 	const href = await resolveStoryblokLink(blok.button_link, locale.language);
 

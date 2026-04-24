@@ -4,7 +4,7 @@ import { storyblokEditable } from '@storyblok/react/rsc';
 import { SbBlokData } from '@storyblok/react';
 import Section, { SectionBackground } from '@/components/layout/Section';
 import { Headline, HeadlineDesign } from '@/components/ui/Headline';
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import { IconPlus } from '@/components/icons';
 import StoryblokRichTextRenderer from '@/components/storyblok/StoryblokRichTextRenderer';
 
@@ -27,7 +27,7 @@ interface AccordionProps {
 }
 
 export default function Accordion({ blok, background }: AccordionProps) {
-	const headingId = `a-${blok._uid}`;
+	const headingId = useId();
 
 	const defaultOpen = new Set(
 		blok.items

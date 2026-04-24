@@ -1,6 +1,6 @@
 import { storyblokEditable } from '@storyblok/react/rsc';
 import { SbBlokData } from '@storyblok/react';
-import { ReactNode } from "react";
+import { ReactNode, useId } from "react";
 import Section from "@/components/layout/Section";
 import { Headline } from "@/components/ui/Headline";
 import StoryblokRichTextRenderer from "@/components/storyblok/StoryblokRichTextRenderer";
@@ -15,7 +15,7 @@ interface PageLegalProps {
 }
 
 export default function PageLegal({ blok, breadcrumbs }: PageLegalProps) {
-    const headingId = `h-${blok._uid}`;
+    const headingId = useId();
 
     return (
         <div className="flex-1 flex flex-col" {...storyblokEditable(blok)}>
