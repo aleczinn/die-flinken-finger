@@ -17,7 +17,7 @@
         "service_bar": "Servicenavigation",
         "navigation": "Hauptnavigation",
         "change_language_to": "Sprache wechseln zu {0}",
-        "submenu_for": "Untermenü für {0}",
+        "submenu_for": "Untermenü {0}",
         "open_submenu_for": "Untermenü für {0} öffnen",
         "open_menu": "Menü öffnen",
         "close_menu": "Menü schließen"
