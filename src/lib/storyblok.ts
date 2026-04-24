@@ -6,6 +6,7 @@ import MediaWithText from "@/components/blocks/MediaWithText";
 import PageLegal from "@/components/blocks/PageLegal";
 import Accordion from "@/components/blocks/Accordion";
 import Banner from "@/components/blocks/Banner";
+import ContactForm from "@/components/blocks/ContactForm";
 
 const cachedFetch = (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
 	return fetch(input, {
@@ -29,7 +30,8 @@ export const getStoryblokApi = storyblokInit({
 		hero: Hero,
 		media_with_text: MediaWithText,
 		accordion: Accordion,
-		banner: Banner
+		banner: Banner,
+		contact_form: ContactForm,
 	},
 	apiOptions: {
 		/** Set the correct region for your space. Learn more: https://www.storyblok.com/docs/packages/storyblok-js#example-region-parameter */
