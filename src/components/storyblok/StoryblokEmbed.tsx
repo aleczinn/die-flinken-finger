@@ -55,7 +55,7 @@ export function StoryblokEmbed({ asset, width, height, className, provider }: Pr
 	return (
 		<button type="button"
 						onClick={() => setActivated(true)}
-						className={`focus-visible-facelift group block cursor-pointer ${className ?? ''}`}
+						className={`focus-element group block cursor-pointer ${className ?? ''}`}
 						title={`Video abspielen: ${title}`}
 						aria-label={`Video abspielen: ${title}`}
 						style={{ aspectRatio, width: '100%' }}

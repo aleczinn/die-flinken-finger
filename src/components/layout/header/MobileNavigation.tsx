@@ -181,7 +181,7 @@ export default function MobileNavigation({ locale, items, localeSwitcher }: Mobi
                     aria-expanded={isOpen}
                     aria-controls={panelId}
                     aria-label={isOpen ? labels.close : labels.open}
-                    className="lg:hidden flex items-center p-2 text-gray-90 transition-colors hover:text-primary focus-visible-facelift hover:cursor-pointer rounded-md"
+                    className="lg:hidden flex items-center p-2 text-gray-90 transition-colors hover:text-primary focus-element hover:cursor-pointer rounded-md"
             >
                 {isOpen ? <IconMenuOn /> : <IconMenuOff />}
             </button>
@@ -253,7 +253,7 @@ function MobileMenuItem({ item, onNavigate }: {
             <li {...item.editable}>
                 <Link href={item.href}
                       onClick={onNavigate}
-                      className="block px-4 py-4 text-gray-90 font-semibold transition-colors hover:text-primary focus-visible-facelift"
+                      className="block px-4 py-4 text-gray-90 font-semibold transition-colors hover:text-primary focus-element"
                 >
                     {item.label}
                 </Link>
@@ -268,7 +268,7 @@ function MobileMenuItem({ item, onNavigate }: {
                 <div className="flex items-stretch">
                     <Link href={item.href!}
                           onClick={onNavigate}
-                          className="flex-1 block pl-4 py-4 text-gray-90 font-semibold transition-colors hover:text-primary focus-visible-facelift"
+                          className="flex-1 block pl-4 py-4 text-gray-90 font-semibold transition-colors hover:text-primary focus-element"
                     >
                         {item.label}
                     </Link>
@@ -278,7 +278,7 @@ function MobileMenuItem({ item, onNavigate }: {
                             aria-controls={submenuId}
                             aria-label={`Untermenü ${item.label} ${isExpanded ? 'schließen' : 'öffnen'}`}
                             onClick={() => setIsExpanded((prev) => !prev)}
-                            className="flex items-center pl-12 pr-4 py-4 text-gray-90 transition-colors hover:text-primary hover:cursor-pointer focus-visible-facelift"
+                            className="flex items-center pl-12 pr-4 py-4 text-gray-90 transition-colors hover:text-primary hover:cursor-pointer focus-element"
                     >
                         <IconChevronDown className={`w-5 h-5 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
                     </button>
@@ -296,7 +296,7 @@ function MobileMenuItem({ item, onNavigate }: {
                     aria-expanded={isExpanded}
                     aria-controls={submenuId}
                     onClick={() => setIsExpanded((prev) => !prev)}
-                    className="w-full flex items-center justify-between px-4 py-4 text-gray-90 font-semibold transition-colors hover:text-primary hover:cursor-pointer focus-visible-facelift"
+                    className="w-full flex items-center justify-between px-4 py-4 text-gray-90 font-semibold transition-colors hover:text-primary hover:cursor-pointer focus-element"
             >
                 <span>{item.label}</span>
                 <IconChevronDown className={`w-5 h-5 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
@@ -326,7 +326,7 @@ function Submenu({ id, isOpen, items, onNavigate }: {
                         <li key={child.uid} {...child.editable}>
                             <Link href={child.href}
                                   onClick={onNavigate}
-                                  className="block pl-6 pr-4 py-3 text-sm text-gray-90 transition-colors hover:text-primary focus-visible-facelift"
+                                  className="block pl-6 pr-4 py-3 text-sm text-gray-90 transition-colors hover:text-primary focus-element"
                             >
                                 {child.label}
                             </Link>

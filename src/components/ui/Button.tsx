@@ -34,7 +34,7 @@ const baseClasses = [
 	'font-medium w-fit px-6 py-2.5 rounded-lg',
 	'hover:cursor-pointer',
 	'transition-colors duration-200',
-	'focus-visible-facelift',
+	'focus-element',
 ].join(' ');
 
 const variantClasses: Record<Variant, string> = {

@@ -100,7 +100,7 @@ export default async function Breadcrumbs({ locale, entry, items, includeSchema 
 										{item.name}
 								</span>
                                 ) : (
-                                    <Link href={item.href} className="text-sm text-gray-90 hover:underline">
+                                    <Link href={item.href} className="text-sm text-gray-90 hover:underline focus-element">
                                         {item.name}
                                     </Link>
                                 )}

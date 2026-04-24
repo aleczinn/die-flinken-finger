@@ -35,7 +35,7 @@ function HeaderNavigationItem({ locale, item }: { locale: Locale, item: Resolved
         return (
             <li {...item.editable}>
                 <Link href={item.href!}
-                      className="block font-semibold px-2 py-2 text-gray-90 transition-colors duration-150 hover:text-primary focus-visible-facelift"
+                      className="block font-semibold px-2 py-2 text-gray-90 transition-colors duration-150 hover:text-primary focus-element"
                 >
                     {item.label}
                 </Link>
@@ -161,7 +161,7 @@ function HeaderNavigationDropdown({ locale, item }: { locale: Locale, item: Reso
                 // Fall 2: Label ist Link, separater Toggle-Button daneben
                 <>
                     <Link href={item.href!}
-                          className={`block font-semibold pl-2 py-2 transition-colors duration-150 focus-visible-facelift ${
+                          className={`block font-semibold pl-2 py-2 transition-colors duration-150 focus-element ${
                               isOpen ? 'text-primary' : 'text-gray-90 group-hover/trigger:text-primary'
                           }`}
                     >
@@ -174,7 +174,7 @@ function HeaderNavigationDropdown({ locale, item }: { locale: Locale, item: Reso
                             aria-controls={panelId}
                             aria-label={labelTrigger}
                             onClick={() => setIsOpen((prev) => !prev)}
-                            className={`flex items-center pl-1 pr-2 py-2 transition-colors duration-150 focus-visible-facelift hover:cursor-pointer ${
+                            className={`flex items-center pl-1 pr-2 py-2 transition-colors duration-150 focus-element hover:cursor-pointer ${
                                 isOpen ? 'text-primary' : 'text-gray-90 group-hover/trigger:text-primary'
                             }`}
                     >
@@ -188,7 +188,7 @@ function HeaderNavigationDropdown({ locale, item }: { locale: Locale, item: Reso
                         aria-expanded={isOpen}
                         aria-controls={panelId}
                         onClick={() => setIsOpen((prev) => !prev)}
-                        className={`flex items-center gap-1 px-2 py-2 font-semibold transition-colors duration-150 focus-visible-facelift hover:cursor-pointer ${
+                        className={`flex items-center gap-1 px-2 py-2 font-semibold transition-colors duration-150 focus-element hover:cursor-pointer ${
                             isOpen ? 'text-primary' : 'text-gray-90 hover:text-primary'
                         }`}
                 >
@@ -234,7 +234,7 @@ function HeaderNavigationDropdown({ locale, item }: { locale: Locale, item: Reso
                                 <li key={child.uid} {...child.editable} className="not-last:border-b-1 w-full border-gray-20 px-4 h-fit">
                                     <Link href={child.href}
                                           onClick={() => setIsOpen(false)}
-                                          className="flex flex-row items-center gap-3 py-2 text-gray-90 font-medium transition-all duration-200 hover:text-primary hover:translate-x-2 focus-visible-facelift"
+                                          className="flex flex-row items-center gap-3 py-2 text-gray-90 font-medium transition-all duration-200 hover:text-primary hover:translate-x-2 focus-element"
                                     >
                                         <IconArrowRight className="w-4 h-4 rotate-45" />
                                         <span className="whitespace-nowrap">{child.label}</span>

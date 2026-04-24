@@ -23,8 +23,7 @@
     --color-transparent: transparent;
 
     /* Special colors */
-    --color-focus-line: #F0A030;
-    --color-focus-dotted: #171717;
+    --color-focus: #F0A030;
     --color-youtube: #FF0033;
 
     /* Breakpoints */
@@ -123,10 +122,9 @@ body {
         background-size: 400% 400%;
     }
 
-    .focus-visible-facelift {
+    .focus-element {
         position: relative;
 
-        &::before,
         &::after {
             position: absolute;
             content: '';
@@ -136,17 +134,10 @@ body {
         &:focus-visible {
             outline: none;
 
-            &::before {
-                inset: var(--focus-y-offset, -0.6rem) var(--focus-x-offset, -0.6rem);
-                border: 0.6rem solid var(--color-focus-line);
-                border-radius: var(--focus-radius, 0);
-                z-index: 1;
-            }
-
             &::after {
-                inset: calc(var(--focus-y-offset, -0.6rem) + 0.2rem) calc(var(--focus-x-offset, -0.6rem) + 0.2rem);
-                border: 0.2rem dotted var(--color-focus-dotted);
-                border-radius: calc(var(--focus-radius, 0) - 0.2rem);
+                inset: var(--focus-x-offset) var(--focus-y-offset);
+                border: 0.3rem dotted var(--color-focus);
+                border-radius: var(--focus-radius, 0);
                 z-index: 2;
             }
         }
