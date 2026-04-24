@@ -74,6 +74,67 @@ export default function MobileNavigation({ locale, items, localeSwitcher }: Mobi
         setIsOpen(false);
     }, [pathname]);
 
+    // Scroll-Lock — iOS-sicher über html + touchmove-Prevent außerhalb des Panels
+    useEffect(() => {
+        if (!isOpen) return;
+
+        const html = document.documentElement;
+        const originalOverflow = html.style.overflow;
+        html.style.overflow = 'hidden';
+
+        const preventTouchMove = (event: TouchEvent) => {
+            if (panelRef.current?.contains(event.target as Node)) return;
+            event.preventDefault();
+        };
+        document.addEventListener('touchmove', preventTouchMove, { passive: false });
+
+        return () => {
+            html.style.overflow = originalOverflow;
+            document.removeEventListener('touchmove', preventTouchMove);
+        };
+    }, [isOpen]);
+
+    // Focus-Trap: Tab zyklisch im Panel halten
+    useEffect(() => {
+        if (!isOpen) return;
+
+        const panel = panelRef.current;
+        if (!panel) return;
+
+        const getFocusable = () =>
+            Array.from(
+                panel.querySelectorAll<HTMLElement>(
+                    'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+                ),
+            ).filter((el) => el.offsetParent !== null);
+
+        const onKeyDown = (event: KeyboardEvent) => {
+            if (event.key !== 'Tab') return;
+
+            const focusable = getFocusable();
+            if (focusable.length === 0) return;
+
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            const active = document.activeElement;
+
+            if (event.shiftKey && active === first) {
+                event.preventDefault();
+                last.focus();
+            } else if (!event.shiftKey && active === last) {
+                event.preventDefault();
+                first.focus();
+            } else if (!panel.contains(active as Node) && active !== triggerRef.current) {
+                // Fokus hat das Panel verlassen → zurück ins Panel
+                event.preventDefault();
+                first.focus();
+            }
+        };
+
+        document.addEventListener('keydown', onKeyDown);
+        return () => document.removeEventListener('keydown', onKeyDown);
+    }, [isOpen]);
+
     // Max-Höhe an Header-Unterkante koppeln — Panel endet am Viewport-Boden
     useLayoutEffect(() => {
         if (!isOpen) return;
@@ -102,7 +163,7 @@ export default function MobileNavigation({ locale, items, localeSwitcher }: Mobi
                     aria-expanded={isOpen}
                     aria-controls={panelId}
                     aria-label={isOpen ? labels.close : labels.open}
-                    className="lg:hidden flex items-center p-2 text-gray-90 transition-colors hover:text-primary focus-visible-inset hover:cursor-pointer rounded-md"
+                    className="lg:hidden flex items-center p-2 text-gray-90 transition-colors hover:text-primary focus-visible-facelift hover:cursor-pointer rounded-md"
             >
                 {isOpen ? <IconMenuOn /> : <IconMenuOff />}
             </button>
@@ -162,7 +223,7 @@ function MobileMenuItem({ item, onNavigate }: {
             <li {...item.editable}>
                 <Link href={item.href}
                       onClick={onNavigate}
-                      className="block px-4 py-4 text-gray-90 font-semibold transition-colors hover:text-primary focus-visible-inset"
+                      className="block px-4 py-4 text-gray-90 font-semibold transition-colors hover:text-primary focus-visible-facelift"
                 >
                     {item.label}
                 </Link>
@@ -177,7 +238,7 @@ function MobileMenuItem({ item, onNavigate }: {
                 <div className="flex items-stretch">
                     <Link href={item.href!}
                           onClick={onNavigate}
-                          className="flex-1 block pl-4 py-4 text-gray-90 font-semibold transition-colors hover:text-primary focus-visible-inset"
+                          className="flex-1 block pl-4 py-4 text-gray-90 font-semibold transition-colors hover:text-primary focus-visible-facelift"
                     >
                         {item.label}
                     </Link>
@@ -187,7 +248,7 @@ function MobileMenuItem({ item, onNavigate }: {
                             aria-controls={submenuId}
                             aria-label={`Untermenü ${item.label} ${isExpanded ? 'schließen' : 'öffnen'}`}
                             onClick={() => setIsExpanded((prev) => !prev)}
-                            className="flex items-center pl-12 pr-4 py-4 text-gray-90 transition-colors hover:text-primary hover:cursor-pointer focus-visible-inset"
+                            className="flex items-center pl-12 pr-4 py-4 text-gray-90 transition-colors hover:text-primary hover:cursor-pointer focus-visible-facelift"
                     >
                         <IconChevronDown className={`w-5 h-5 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
                     </button>
@@ -205,7 +266,7 @@ function MobileMenuItem({ item, onNavigate }: {
                     aria-expanded={isExpanded}
                     aria-controls={submenuId}
                     onClick={() => setIsExpanded((prev) => !prev)}
-                    className="w-full flex items-center justify-between px-4 py-4 text-gray-90 font-semibold transition-colors hover:text-primary hover:cursor-pointer focus-visible-inset"
+                    className="w-full flex items-center justify-between px-4 py-4 text-gray-90 font-semibold transition-colors hover:text-primary hover:cursor-pointer focus-visible-facelift"
             >
                 <span>{item.label}</span>
                 <IconChevronDown className={`w-5 h-5 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
@@ -235,7 +296,7 @@ function Submenu({ id, isOpen, items, onNavigate }: {
                         <li key={child.uid} {...child.editable}>
                             <Link href={child.href}
                                   onClick={onNavigate}
-                                  className="block pl-8 pr-4 py-3 text-sm text-gray-90 transition-colors hover:text-primary focus-visible-inset"
+                                  className="block pl-8 pr-4 py-3 text-sm text-gray-90 transition-colors hover:text-primary focus-visible-facelift"
                             >
                                 {child.label}
                             </Link>
