@@ -41,7 +41,7 @@ export default async function Header({ locale }: HeaderProps) {
     );
 
     return (
-        <header className="shadow-xl shadow-gray-90/5 z-50 shrink-0">
+        <header className="sticky top-0 bg-gray-90 shadow-xl shadow-gray-90/5 z-50 shrink-0">
             <ServiceBar locale={locale}/>
 
             <Section as="div"
