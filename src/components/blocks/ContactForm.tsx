@@ -10,6 +10,8 @@ import StoryblokRichTextRenderer from "@/components/storyblok/StoryblokRichTextR
 import { Select } from "@/components/ui/Select";
 import { t } from "@/lib/i18n";
 import { Button } from "@/components/ui/Button";
+import { Textarea } from "@/components/ui/TextArea";
+import { FileUpload } from "@/components/ui/FileUpload";
 
 interface ContactFormProps {
     locale: Locale,
@@ -23,14 +25,20 @@ interface ContactFormProps {
 
 interface ContactFormDropdownItem {
     label: string;
-    emailKey?: string;
+    value?: string;
 }
 
 export default function ContactForm({ locale, blok, background }: ContactFormProps) {
     const headingId = useId();
 
-    const itemsTopics = [];
     const [topic, setTopic] = useState('');
+    const [message, setMessage] = useState('');
+    const [files, setFiles] = useState<File[]>([]);
+
+    const topics = blok.dropdown_items.map((item) => ({
+        label: item.label,
+        value: item.value || item.label,
+    }));
 
     return (
         <Section variant="capped"
@@ -56,23 +64,36 @@ export default function ContactForm({ locale, blok, background }: ContactFormPro
             {/* Contact Form */}
             <div className="flex flex-col justify-center bg-transparent md:bg-white p-0 md:p-12">
                 <Select label={t(locale, 'contact_form.service.label')}
-                        options={[
-                            { value: 'general', label: 'Allgemeine Anfrage' },
-                            { value: 'heizung', label: 'Heizung' },
-                        ]}
+                        options={topics}
                         required
                         value={topic}
                         onChange={setTopic}
                         placeholder={t(locale, 'contact_form.service.placeholder')}
-                        className="mb-4"
+                        className="mb-8"
                 />
 
-                <span>{`${t(locale, 'contact_form.request.label')}*`}</span>
-                <div>textarea</div>
+                <Textarea label={t(locale, 'contact_form.request.label')}
+                          value={message}
+                          onChange={setMessage}
+                          name="message"
+                          maxLength={2000}
+                          rows={6}
+                          required
+                          className="mb-8"
+                />
 
-                <span>{t(locale, 'contact_form.documents.description')}</span>
-                <span>{`${t(locale, 'contact_form.documents.label')}*`}</span>
-                <span>{t(locale, 'contact_form.documents.field_description')}</span>
+                <span className="mb-2">{t(locale, 'contact_form.documents.description')}</span>
+
+                <FileUpload label={t(locale, 'contact_form.documents.label')}
+                            description={t(locale, 'contact_form.documents.field_description')}
+                            files={files}
+                            onChange={setFiles}
+                            accept={['image/*', '.pdf']}
+                            maxSize={10 * 1024 * 1024}
+                            multiple
+                            name="files"
+                            className="mb-8"
+                />
 
                 <Button variant="primary" type="button">
                     {t(locale, 'contact_form.submit')}
