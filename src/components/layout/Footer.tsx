@@ -94,7 +94,7 @@ export default async function Footer({ locale }: FooterProps) {
 					{/* Navigation */}
 					<div className="flex flex-col">
 						<span className="text-primary text-sm font-bold uppercase mb-2">
-							{t(locale, 'footer.header.label')}
+							{t(locale, 'footer.navigation.label')}
 						</span>
 
 						<ul className="flex flex-col gap-2">
