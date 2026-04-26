@@ -1,11 +1,13 @@
+'use client';
+
 import { Locale } from "@/lib/locale/locales";
 import { SbBlokData } from "@storyblok/react";
 import { storyblokEditable } from "@storyblok/react/rsc";
 import Section from "@/components/layout/Section";
-import { useId } from "react";
-import { resolveStoryblokLink } from "@/lib/locale/links";
+import { useId, useState } from "react";
 import { Headline } from "@/components/ui/Headline";
 import StoryblokRichTextRenderer from "@/components/storyblok/StoryblokRichTextRenderer";
+import { Select } from "@/components/ui/Select";
 
 interface ContactFormProps {
     locale: Locale,
@@ -20,8 +22,10 @@ interface ContactFormDropdownItem {
     label: string;
 }
 
-export default async function ContactForm({ locale, blok }: ContactFormProps) {
+export default function ContactForm({ locale, blok }: ContactFormProps) {
     const headingId = useId();
+
+    const [topic, setTopic] = useState('');
 
     return (
         <Section variant="capped"
@@ -45,8 +49,17 @@ export default async function ContactForm({ locale, blok }: ContactFormProps) {
 
             {/* Contact Form */}
             <div className="flex flex-col justify-center bg-white p-12">
-                <span>Service*</span>
-                <div>inputfeld</div>
+                <Select
+                    label="Service*"
+                    options={[
+                        { value: 'general', label: 'Allgemeine Anfrage' },
+                        { value: 'heizung', label: 'Heizung' },
+                    ]}
+                    value={topic}
+                    onChange={setTopic}
+                    placeholder="Land wählen"
+                    className="mb-4"
+                />
 
                 <span>Beschreiben Sie uns kurz Ihr Anliegen *</span>
                 <div>textarea</div>
