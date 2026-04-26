@@ -37,6 +37,21 @@
             "label": "Öffnungszeiten"
         }
     },
+    "contact_form": {
+        "service": {
+            "label": "Service",
+            "placeholder": "Thema auswählen"
+        },
+        "request": {
+            "label": "Beschreiben Sie kurz Ihr Anliegen"
+        },
+        "documents": {
+            "label": "Dokumente",
+            "description": "Gerne können Sie uns ergänzende Dokumente oder Bilder zusenden – so können wir Ihre Anfrage schneller und gezielter bearbeiten.",
+            "field_description": "Klicken oder ziehen Sie eine Datei in diesen Bereich, um sie hochzuladen."
+        },
+        "submit": "Weiter"
+    },
     "404": {
         "title": "Diese Seite existiert nicht",
         "description": "Wir konnten leider nichts finden, nachdem du suchst.",

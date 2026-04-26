@@ -250,7 +250,7 @@ export function Select<T extends string = string>({
         <div className={cn('flex flex-col gap-1 w-full', className)}>
             <span id={labelId}
                   className={cn(
-                      'font-medium text-sm text-gray-90',
+                      'text-sm text-gray-90 mb-2',
                       labelHidden && 'sr-only',
                   )}
             >

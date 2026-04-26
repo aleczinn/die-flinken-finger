@@ -37,6 +37,21 @@
             "label": "Opening hours"
         }
     },
+    "contact_form": {
+        "service": {
+            "label": "Service",
+            "placeholder": "Choose topic"
+        },
+        "request": {
+            "label": "Please briefly describe your request"
+        },
+        "documents": {
+            "label": "Documents",
+            "description": "Please feel free to send us any additional documents or images—this will allow us to process your request more quickly and efficiently.",
+            "field_description": "Click or drag a file into this area to upload it."
+        },
+        "submit": "Submit"
+    },
     "404": {
         "title": "Page not found",
         "backhome": "Back to homepage"
