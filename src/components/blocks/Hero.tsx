@@ -16,6 +16,8 @@ interface HeroProps {
         text?: string;
         button_text?: string;
         button_link?: any;
+        secondary_button_text?: string;
+        secondary_button_link?: any;
     };
     priority?: boolean;
     locale: Locale;
@@ -24,6 +26,7 @@ interface HeroProps {
 export default async function Hero({ blok, priority = false, locale }: HeroProps) {
     const headingId = useId();
     const href = await resolveStoryblokLink(blok.button_link, locale.language);
+    const hrefSecondary = await resolveStoryblokLink(blok.secondary_button_link, locale.language);
 
     // min height sagt aus: hero muss mindestens 22rem hoch sein ansonsten 90svh - header höhe
     return (
@@ -68,10 +71,20 @@ export default async function Hero({ blok, priority = false, locale }: HeroProps
                         </p>
                     )}
 
-                    {blok.button_text && href && (
-                        <Button variant="primary" href={href} className="mt-8 font-bold">
-                            {blok.button_text}
-                        </Button>
+                    {((blok.button_text && href) || (blok.secondary_button_text && hrefSecondary)) && (
+                        <div className="flex flex-row gap-8 mt-8">
+                            {blok.button_text && href && (
+                                <Button variant="primary" href={href} className="font-bold">
+                                    {blok.button_text}
+                                </Button>
+                            )}
+
+                            {blok.secondary_button_text && hrefSecondary && (
+                                <Button variant="secondary" hollow href={hrefSecondary} className="font-bold">
+                                    {blok.secondary_button_text}
+                                </Button>
+                            )}
+                        </div>
                     )}
                 </div>
             </Section>

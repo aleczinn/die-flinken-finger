@@ -118,7 +118,7 @@ export default function Accordion({ blok, background }: AccordionProps) {
                             >
                                 <div className="overflow-hidden">
                                     <div className="pt-6 pb-16">
-                                        <StoryblokRichTextRenderer content={item.text}/>
+                                        <StoryblokRichTextRenderer content={item.text} className="text-gray-80 leading-relaxed" />
                                     </div>
                                 </div>
                             </div>

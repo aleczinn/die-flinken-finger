@@ -8,6 +8,7 @@ import { IconChevronDown, IconMenuAnimated, IconMenuOff, IconMenuOn } from '@/co
 import { Locale } from '@/lib/locale/locales';
 import { t } from '@/lib/i18n';
 import { breakpointUp } from "@/lib/breakpoints";
+import { Button } from "@/components/ui/Button";
 
 interface MobileNavigationProps {
     locale: Locale;
@@ -227,7 +228,7 @@ export default function MobileNavigation({ locale, items, localeSwitcher }: Mobi
                         </nav>
 
                         {localeSwitcher && (
-                            <div className="px-4 py-4 border-t border-gray-20">
+                            <div className="px-4 py-4 border-t border-gray-20 flex flex-row justify-end items-center">
                                 {localeSwitcher}
                             </div>
                         )}

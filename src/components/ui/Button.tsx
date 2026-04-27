@@ -34,7 +34,6 @@ type ButtonProps = AsButton | AsLink;
 const baseClasses = [
 	'flex flex-row justify-center items-center gap-2',
 	'w-fit px-6 py-3 rounded-lg',
-	'shadow-[var(--shadow-cta)]',
 	'hover:cursor-pointer',
 	'transition-colors duration-200',
 	'disabled:cursor-not-allowed aria-disabled:cursor-not-allowed',
@@ -45,7 +44,7 @@ const baseClasses = [
 
 const variantClasses: Record<Variant, string> = {
 	primary: cn(
-		'bg-primary text-white',
+		'bg-primary text-white shadow-[var(--shadow-cta)]',
 		'hover:bg-primary-darker',
 		'active:bg-primary-darkest',
 		'disabled:bg-gray-20 disabled:text-gray-40',
@@ -63,15 +62,15 @@ const variantClasses: Record<Variant, string> = {
 
 const variantClassesHollow: Record<Variant, string> = {
 	primary: cn(
-		'bg-transparent border-2 border-solid border-primary text-primary',
+		'bg-transparent border-1 border-solid border-primary text-primary',
 		'hover:border-primary-darker hover:text-primary-darker',
 		'active:border-primary-darkest active:text-primary-darkest',
 		'disabled:border-gray-20 disabled:text-gray-40',
 		'aria-disabled:border-gray-20 aria-disabled:text-gray-40'
 	),
 	secondary: cn(
-		'bg-transparent border-2 border-solid border-white text-white',
-		'hover:bg-white/15',
+		'bg-transparent border-1 border-solid border-white text-white',
+		'hover:bg-white/10',
 		'active:bg-white/30',
 		'disabled:opacity-40',
 		'aria-disabled:opacity-40'

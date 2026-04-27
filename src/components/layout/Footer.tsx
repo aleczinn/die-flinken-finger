@@ -3,10 +3,8 @@ import Section from "@/components/layout/Section";
 import { getConfig, NavigationLink } from "@/lib/storyblok-queries";
 import { t } from "@/lib/i18n";
 import {
-	IconArrowRight,
 	IconChevronRight,
 	IconFullLogoLight,
-	IconHome,
 	IconMail,
 	IconTelephone
 } from "@/components/icons";
@@ -15,6 +13,7 @@ import { Button } from "@/components/ui/Button";
 import { buildLocalizedHref, resolveStoryblokLink } from "@/lib/locale/links";
 import OpeningHours from "@/components/modules/OpeningHours";
 import { storyblokEditable } from "@storyblok/react/rsc";
+import { Tagline } from "@/components/ui/Tagline";
 
 interface FooterProps {
 	locale: Locale;
@@ -58,12 +57,10 @@ export default async function Footer({ locale }: FooterProps) {
 				<div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 md:gap-4">
 					{/* Kontakt */}
 					<div className="flex flex-col">
-						<span className="text-primary text-sm font-bold uppercase mb-2">
-							{t(locale, 'footer.contact.label')}
-						</span>
+						<Tagline alignment="left" children={t(locale, 'footer.contact.label')} className="font-bold! mb-2" />
 
 						<div className="flex flex-col">
-							<span className="">{config.site_name.toUpperCase()}</span>
+							<span className="font-semibold">{config.company_name.toUpperCase()}</span>
 							<span className="">{config.address_street_house_number}</span>
 							<span className="">{config.address_plz_town}</span>
 						</div>
@@ -93,9 +90,7 @@ export default async function Footer({ locale }: FooterProps) {
 
 					{/* Navigation */}
 					<div className="flex flex-col">
-						<span className="text-primary text-sm font-bold uppercase mb-2">
-							{t(locale, 'footer.navigation.label')}
-						</span>
+						<Tagline alignment="left" children={t(locale, 'footer.navigation.label')} className="font-bold! mb-2" />
 
 						<ul className="flex flex-col gap-2">
 							{navigation.map((item) => {
@@ -120,9 +115,7 @@ export default async function Footer({ locale }: FooterProps) {
 
 					{/* Öffnungszeiten */}
 					<div className="flex flex-col">
-						<span className="text-primary text-sm font-bold uppercase mb-2">
-							{t(locale, 'footer.hours_of_operation.label')}
-						</span>
+						<Tagline alignment="left" children={t(locale, 'footer.hours_of_operation.label')} className="font-bold! mb-2" />
 
 						<OpeningHours locale={locale} items={config.opening_hours ?? []} />
 					</div>
@@ -150,7 +143,7 @@ export default async function Footer({ locale }: FooterProps) {
 					 outerClassName="bg-gray-90 pb-[env(safe-area-inset-bottom)]"
 					 innerClassName="flex flex-col md:flex-row justify-center sm:justify-between gap-2 py-12 items-center"
 			>
-				<span className="text-sm text-center order-2 md:order-1 md:text-left">{t(locale, "footer.copyright", currentYear, config.site_name)}</span>
+				<span className="text-sm text-center order-2 md:order-1 md:text-left">{t(locale, "footer.copyright", currentYear, config.company_name)}</span>
 
 				{/* Social links (Facebook, Instagram etc.) */}
 				<ul className="flex flex-row gap-2 order-1 md:order-2">

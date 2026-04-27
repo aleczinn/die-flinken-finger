@@ -68,6 +68,10 @@ export async function resolveStoryblokLink(
 		return `mailto:${link.email}`;
 	}
 
+	if (link.url?.startsWith('tel:')) {
+		return `tel:${link.url.replace("tel:", "")}`;
+	}
+
 	if (link.linktype === 'url') {
 		const anchor = link.anchor ? `#${link.anchor}` : '';
 		return `${link.url}${anchor}`;
