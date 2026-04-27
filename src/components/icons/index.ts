@@ -29,7 +29,7 @@ export { default as IconChevronLeft } from "./IconChevronLeft";
 export { default as IconChevronDown } from "./IconChevronDown";
 export { default as IconChevronUp } from "./IconChevronUp";
 export { default as IconUpload } from "./IconUpload";
-
+export { default as IconWaterDrop } from "./IconWaterDrop";
 
 // ANIMIERT
 export { default as IconMenuAnimated } from "./animation/IconMenuAnimated";
