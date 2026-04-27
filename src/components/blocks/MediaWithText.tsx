@@ -8,6 +8,7 @@ import StoryblokRichTextRenderer from '@/components/storyblok/StoryblokRichTextR
 import { resolveStoryblokLink } from "@/lib/locale/links";
 import { Locale } from "@/lib/locale/locales";
 import { useId } from "react";
+import { Tagline } from "@/components/ui/Tagline";
 
 type MediaWithTextLayout = 'media_left' | 'media_right';
 
@@ -50,17 +51,17 @@ export default async function MediaWithText({ blok, priority = false, locale, ba
 
 			<div className={`flex flex-col justify-center ${isMediaLeft ? 'order-2' : 'order-1'}`}>
 				{blok.tagline && (
-					<span className="font-display text-gray-80 mb-1">{blok.tagline}</span>
+					<Tagline alignment="left" children={blok.tagline} />
 				)}
 
 				{blok.headline && (
-					<Headline id={headingId} as="h2" variant="h3" design="line-left" className="mb-8">
+					<Headline id={headingId} as="h2" variant="h3" alignment="left" design="line" className="mb-8">
 						{blok.headline}
 					</Headline>
 				)}
 
 				{blok.text && (
-					<StoryblokRichTextRenderer content={blok.text} className="text-gray-90" />
+					<StoryblokRichTextRenderer content={blok.text} className="text-gray-80" />
 				)}
 
 				{(blok.button_text && href) && (

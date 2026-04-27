@@ -36,7 +36,7 @@ export default async function Banner({ locale, blok }: BannerProps) {
         >
             <div className="flex flex-col justify-center gap-8">
                 {blok.headline && (
-                    <Headline id={headingId} as="h2" variant="h3" design="line-left-white" className="text-gray-10">
+                    <Headline id={headingId} as="h2" variant="h3" alignment='left' design="w-line" className="text-gray-10">
                         {blok.headline}
                     </Headline>
                 )}

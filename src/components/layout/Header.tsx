@@ -1,4 +1,4 @@
-import ServiceBar from "@/components/layout/ServiceBar";
+import ServiceBar from "@/components/layout/header/ServiceBar";
 import { availableLanguages, Locale } from '@/lib/locale/locales';
 import Section from "@/components/layout/Section";
 import Link from "next/link";
@@ -10,6 +10,7 @@ import { getConfig } from "@/lib/storyblok-queries";
 import { resolveNavigationItem } from "@/lib/locale/navigation";
 import DesktopNavigation from "@/components/layout/header/DesktopNavigation";
 import MobileNavigation from "@/components/layout/header/MobileNavigation";
+import { Button } from "@/components/ui/Button";
 
 interface HeaderProps {
     locale: Locale;
@@ -58,7 +59,11 @@ export default async function Header({ locale }: HeaderProps) {
 
                 <DesktopNavigation locale={locale} items={navigation} />
 
-                <div className="hidden lg:block">
+                <div className="hidden lg:flex flex-row gap-4 items-center">
+                    <Button variant="primary" href="#kontakt">
+                        Kontakt
+                    </Button>
+
                     {localeSwitcher}
                 </div>
 

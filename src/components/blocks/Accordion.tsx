@@ -3,10 +3,11 @@
 import { storyblokEditable } from '@storyblok/react/rsc';
 import { SbBlokData } from '@storyblok/react';
 import Section, { SectionBackground } from '@/components/layout/Section';
-import { Headline, HeadlineDesign } from '@/components/ui/Headline';
+import { Headline } from '@/components/ui/Headline';
 import { useId, useState } from 'react';
 import { IconPlus } from '@/components/icons';
 import StoryblokRichTextRenderer from '@/components/storyblok/StoryblokRichTextRenderer';
+import { Tagline } from "@/components/ui/Tagline";
 
 type AccordionLayout = 'left' | 'center' | 'right';
 
@@ -19,6 +20,7 @@ interface AccordionItemData extends SbBlokData {
 interface AccordionProps {
     blok: SbBlokData & {
         layout: AccordionLayout;
+        tagline?: string;
         headline?: string;
         items: AccordionItemData[];
         allow_multiple_open: boolean;
@@ -54,19 +56,6 @@ export default function Accordion({ blok, background }: AccordionProps) {
         });
     }
 
-    let headlineDesign: HeadlineDesign = 'default';
-    switch (blok.layout) {
-        case 'left':
-            headlineDesign = 'line-left';
-            break;
-        case 'center':
-            headlineDesign = 'line-center';
-            break;
-        case 'right':
-            headlineDesign = 'line-right';
-            break;
-    }
-
     return (
         <Section variant="capped"
                  background={background}
@@ -74,8 +63,12 @@ export default function Accordion({ blok, background }: AccordionProps) {
                  aria-labelledby={blok.headline ? headingId : undefined}
                  {...storyblokEditable(blok)}
         >
+            {blok.tagline && (
+                <Tagline alignment={blok.layout} children={blok.tagline} />
+            )}
+
             {blok.headline && (
-                <Headline id={headingId} as="h2" variant="h3" design={headlineDesign} className="mb-8">
+                <Headline id={headingId} as="h2" variant="h3" alignment={blok.layout} design="line" className="mb-8">
                     {blok.headline}
                 </Headline>
             )}
