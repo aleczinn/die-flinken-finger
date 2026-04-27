@@ -14,6 +14,7 @@ import { buildLocalizedHref, resolveStoryblokLink } from "@/lib/locale/links";
 import OpeningHours from "@/components/modules/OpeningHours";
 import { storyblokEditable } from "@storyblok/react/rsc";
 import { Tagline } from "@/components/ui/Tagline";
+import { MyLink } from "@/components/ui/MyLink";
 
 interface FooterProps {
 	locale: Locale;
@@ -68,23 +69,19 @@ export default async function Footer({ locale }: FooterProps) {
 						<div className="flex-1 min-h-8"></div>
 
 						<div className="flex flex-col gap-2">
-							<a href={`tel:${config.telephone}`}
-							   className="flex flex-row items-center gap-2 text-gray-10 transition-colors duration-100 hover:text-primary-light hover:cursor-pointer focus-element"
-							   title={t(locale, 'generic.telephone', config.telephone)}
-							   aria-label={t(locale, 'generic.telephone', config.telephone)}
+							<MyLink href={`tel:${config.telephone}`}
+									icon={<IconTelephone className="w-4 h-auto" />}
+									aria-label={t(locale, 'generic.telephone', config.telephone)}
 							>
-								<IconTelephone className="w-4 h-auto"/>
-								<span className="text-sm">{config.telephone}</span>
-							</a>
+								{config.telephone}
+							</MyLink>
 
-							<a href={`mailto:${config.email}`}
-							   className="flex flex-row items-center gap-2 text-gray-10 transition-colors duration-100 hover:text-primary-light hover:cursor-pointer focus-element"
-							   title={t(locale, 'generic.email', config.email)}
-							   aria-label={t(locale, 'generic.email', config.email)}
+							<MyLink href={`mailto:${config.email}`}
+									icon={<IconMail className="w-4 h-auto" />}
+									aria-label={t(locale, 'generic.email', config.email)}
 							>
-								<IconMail className="w-4 h-auto"/>
-								<span className="text-sm">{config.email}</span>
-							</a>
+								{config.email}
+							</MyLink>
 						</div>
 					</div>
 

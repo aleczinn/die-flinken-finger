@@ -12,6 +12,7 @@ import { Tagline } from "@/components/ui/Tagline";
 import Link from "next/link";
 import { IconChevronRight, IconMail, IconWaterDrop } from "@/components/icons";
 import { Text } from "@/components/ui/Text";
+import { MyLink } from "@/components/ui/MyLink";
 
 interface HeroProps {
     locale: Locale;
@@ -81,9 +82,9 @@ function Card({ title, description, link }: CardProps) {
                 {description}
             </span>
 
-            <span className="text-primary text-sm">
+            <MyLink href="/" design="secondary">
                 Mehr erfahren
-            </span>
+            </MyLink>
         </div>
     )
 }
