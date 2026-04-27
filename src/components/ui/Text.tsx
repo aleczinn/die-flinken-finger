@@ -1,4 +1,4 @@
-import React, { ElementType } from 'react';
+import React from 'react';
 import { cn } from "@/lib/utils";
 
 type TextTag = 'div' | 'p' | 'span';
