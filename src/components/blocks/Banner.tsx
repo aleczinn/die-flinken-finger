@@ -13,8 +13,6 @@ interface BannerProps {
     blok: SbBlokData & {
         headline: string;
         text: any;
-        asset?: any;
-        button_style: 'filled' | 'hollow';
         button_text?: string;
         button_link?: any;
     };
@@ -22,21 +20,19 @@ interface BannerProps {
 
 export default async function Banner({ locale, blok }: BannerProps) {
     const headingId = useId();
-    const hasAsset = blok.asset.id !== null;
-    const sectionClassName = hasAsset ? 'grid grid-cols-1 lg:grid-cols-2 gap-8' : 'flex flex-col'
     const href = await resolveStoryblokLink(blok.button_link, locale.language);
 
     return (
         <Section variant="capped"
                  background={'primary'}
                  outerClassName="py-section"
-                 innerClassName={sectionClassName}
+                 innerClassName="grid grid-cols-1 lg:grid-cols-2 gap-8"
                  aria-labelledby={blok.headline}
                  {...storyblokEditable(blok)}
         >
-            <div className="flex flex-col justify-center gap-8">
+            <div className="flex flex-col">
                 {blok.headline && (
-                    <Headline id={headingId} as="h2" variant="h3" alignment='left' design="w-line" className="text-gray-10">
+                    <Headline id={headingId} as="h2" variant="h3" alignment='left' design="w-line" className="text-gray-10 mb-4">
                         {blok.headline}
                     </Headline>
                 )}
@@ -44,9 +40,11 @@ export default async function Banner({ locale, blok }: BannerProps) {
                 {blok.text && (
                     <StoryblokRichTextRenderer content={blok.text} className="text-gray-10" />
                 )}
+            </div>
 
+            <div className="flex flex-row justify-center items-center gap-4">
                 {blok.button_text && href && (
-                    <Button variant="secondary" hollow={blok.button_style === 'hollow'} href={href} className="">
+                    <Button variant="secondary" hollow href={href} className="">
                         {blok.button_text}
                     </Button>
                 )}
