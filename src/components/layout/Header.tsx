@@ -11,6 +11,7 @@ import { resolveNavigationItem } from "@/lib/locale/navigation";
 import DesktopNavigation from "@/components/layout/header/DesktopNavigation";
 import MobileNavigation from "@/components/layout/header/MobileNavigation";
 import { Button } from "@/components/ui/Button";
+import { buildLocalizedHref } from "@/lib/locale/links";
 
 interface HeaderProps {
     locale: Locale;
@@ -32,6 +33,8 @@ export default async function Header({ locale }: HeaderProps) {
             pathsByReal[entry.realSlug][lang] = translatePath(map.byReal, entry.realSlug, lang);
         }
     }
+
+    const contactHref = await buildLocalizedHref('kontakt', language);
 
     const navigation = await Promise.all(
         (config.header_navigation ?? []).map((item) => resolveNavigationItem(item, language)),
@@ -60,7 +63,7 @@ export default async function Header({ locale }: HeaderProps) {
                 <DesktopNavigation locale={locale} items={navigation} />
 
                 <div className="hidden lg:flex flex-row gap-4 items-center">
-                    <Button variant="primary" href="#kontakt">
+                    <Button variant="primary" href={contactHref}>
                         Kontakt
                     </Button>
 
