@@ -42,7 +42,7 @@ export default async function Banner({ locale, blok }: BannerProps) {
                 )}
             </div>
 
-            <div className="flex flex-row justify-center items-center gap-4">
+            <div className="flex flex-row justify-start md:justify-center items-center gap-4">
                 {blok.button_text && href && (
                     <Button variant="secondary" hollow href={href} className="">
                         {blok.button_text}
