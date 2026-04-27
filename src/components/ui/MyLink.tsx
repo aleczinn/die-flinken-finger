@@ -19,9 +19,6 @@ type LinkProps = {
 /** Protokolle die immer ein natives <a> brauchen, aber nie als "extern" gelten */
 const SPECIAL_PROTOCOLS = /^(mailto:|tel:)/;
 
-/** Protokolle die ein natives <a> brauchen */
-const NATIVE_ANCHOR_PATTERN = /^(https?:|mailto:|tel:)/;
-
 function detectExternal(href: string, external: LinkExternal): boolean {
     if (external === 'yes') return true;
     if (external === 'no') return false;
@@ -52,7 +49,7 @@ export function MyLink({
     const hasIcon = Boolean(icon);
     const isExternal = detectExternal(href, external);
     const isSpecial = SPECIAL_PROTOCOLS.test(href);
-    const useNativeAnchor = NATIVE_ANCHOR_PATTERN.test(href) || isExternal;
+    const useNativeAnchor = /^(https?:|mailto:|tel:)/.test(href);
 
     // External-Icon nur wenn: kein eigenes Icon gesetzt, extern, kein mailto/tel
     const showExternalIcon = !hasIcon && isExternal && !isSpecial;
