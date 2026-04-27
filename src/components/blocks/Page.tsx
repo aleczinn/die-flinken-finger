@@ -31,7 +31,7 @@ export default function Page({ locale, blok, breadcrumbs, pageHeadline, isHomepa
 					<h1 className="sr-only">{pageHeadline}</h1>
 				) : (
 					<Section variant="capped" outerClassName="">
-						<Headline as="h1" variant="h2" design="line-left" className="mb-8">
+						<Headline as="h1" variant="h2" alignment="left" design="line" className="mb-8">
 							{pageHeadline}
 						</Headline>
 					</Section>

@@ -51,7 +51,7 @@ export default function ContactForm({ locale, blok, background }: ContactFormPro
             {/* Headline + Text */}
             <div className="flex flex-col justify-center gap-8">
                 {blok.headline && (
-                    <Headline id={headingId} as="h2" variant="h3" design="line-left">
+                    <Headline id={headingId} as="h2" variant="h3" alignment="left" design="line">
                         {blok.headline}
                     </Headline>
                 )}
