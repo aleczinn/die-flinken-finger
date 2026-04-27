@@ -18,6 +18,10 @@ export default function StoryblokRichTextRenderer({ content, className }: Storyb
 			[&_ol:not(:last-child)]:mb-2
 			[&_ol]:list-decimal
 			[&_ol]:pl-4
+			
+			[&_li]:mb-1
+			
+			marker:text-primary
 
 			[&_a]:underline
 			[&_a]:text-blue-700
