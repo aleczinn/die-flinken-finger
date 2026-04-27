@@ -8,6 +8,7 @@ import Accordion from "@/components/blocks/Accordion";
 import Banner from "@/components/blocks/Banner";
 import ContactForm from "@/components/blocks/ContactForm";
 import Grid from "@/components/blocks/Grid";
+import BeforeAfterWithText from "@/components/blocks/BeforeAfterWithText";
 
 const cachedFetch = (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
 	return fetch(input, {
@@ -33,7 +34,8 @@ export const getStoryblokApi = storyblokInit({
 		accordion: Accordion,
 		banner: Banner,
 		contact_form: ContactForm,
-		grid: Grid
+		grid: Grid,
+		before_after_with_text: BeforeAfterWithText
 	},
 	apiOptions: {
 		/** Set the correct region for your space. Learn more: https://www.storyblok.com/docs/packages/storyblok-js#example-region-parameter */
