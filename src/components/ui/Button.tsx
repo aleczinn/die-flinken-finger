@@ -71,8 +71,8 @@ const variantClassesHollow: Record<Variant, string> = {
 	),
 	secondary: cn(
 		'bg-transparent border-2 border-solid border-white text-white',
-		'hover:border-gray-20 hover:text-gray-20',
-		'active:border-gray-30 active:text-gray-30',
+		'hover:bg-white/15',
+		'active:bg-white/30',
 		'disabled:opacity-40',
 		'aria-disabled:opacity-40'
 	)
