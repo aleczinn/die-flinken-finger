@@ -25,7 +25,7 @@ export default async function LangLayout({ children, params,}: LangLayoutProps) 
 	const orgSchema = {
 		'@context': 'https://schema.org',
 		'@type': 'Organization',
-		name: config.site_name,
+		name: config.company_name,
 		url: BASE_URL,
 		logo: `${BASE_URL}/logo.png`,
 	};
@@ -33,7 +33,7 @@ export default async function LangLayout({ children, params,}: LangLayoutProps) 
 	const siteSchema = {
 		'@context': 'https://schema.org',
 		'@type': 'WebSite',
-		name: config.site_name,
+		name: config.company_name,
 		url: BASE_URL,
 		inLanguage: `${locale.language}-${locale.country}`,
 	};

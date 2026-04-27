@@ -30,7 +30,7 @@ export type StoryblokLink = | {
 };
 
 export interface Config {
-    site_name: string;
+    company_name: string;
     site_description: string;
     owner: string;
     telephone: string;
@@ -138,7 +138,7 @@ export const getConfig = cache(async (locale: Locale): Promise<Config> => {
 
     return {
         ...content,
-        site_name: content.site_name || process.env.NEXT_PUBLIC_SITE_NAME || 'Website',
+        company_name: content.company_name || process.env.NEXT_PUBLIC_SITE_NAME || '',
         site_description: content.site_description || process.env.NEXT_PUBLIC_SITE_DESCRIPTION || '',
         opening_hours: content.opening_hours ?? []
     };

@@ -19,9 +19,9 @@ export async function GET() {
 	}
 
 	const homeEntry = map.byReal.get('home');
-	const homeTitle = homeEntry ? getTitle(homeEntry, DEFAULT_LOCALE.language) : config.site_name;
+	const homeTitle = homeEntry ? getTitle(homeEntry, DEFAULT_LOCALE.language) : config.company_name;
 
-	const content = `# ${config.site_name}
+	const content = `# ${config.company_name}
 
 > ${config.site_description ?? ''}
 

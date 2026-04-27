@@ -78,7 +78,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 	};
 
 	const resolvedTitle = content.seo_title || content.title || story.name;
-	const title = isHomepage ? config.site_name : `${resolvedTitle} – ${config.site_name}`;
+	const title = isHomepage ? config.company_name : `${resolvedTitle} – ${config.company_name}`;
 	const description = content.seo_description || config.site_description;
 	const ogImage = content.seo_og_image?.filename || `${BASE_URL}/og-default.jpg`;
 
@@ -100,7 +100,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 			locale: getOgLocale(locale),
 			alternateLocale: getAlternateOgLocales(locale),
 			title: resolvedTitle,
-			siteName: config.site_name,
+			siteName: config.company_name,
 			description: description,
 			url: canonical,
 			type: content.seo_og_type || 'website',
@@ -148,6 +148,7 @@ export default async function Page({ params }: PageProps) {
 
 	const isHomepage = entry.realSlug === 'home';
 	const config = await getConfig(locale);
+
 	const story = result.data.story;
 	const content = story.content;
 
@@ -157,7 +158,7 @@ export default async function Page({ params }: PageProps) {
 	// H1-Inhalt bestimmen, wenn kein Hero vorhanden ist
 	let pageHeadline: string | null = null;
 	if (!firstBlockIsHero) {
-		pageHeadline = isHomepage ? config.site_description || config.site_name : content.title || story.name;
+		pageHeadline = isHomepage ? config.site_description || config.company_name : content.title || story.name;
 	}
 
 	// Homepage: keine Breadcrumbs. Sonst vorrendern (inkl. Schema) und durchreichen.
