@@ -64,7 +64,7 @@ export default async function Header({ locale }: HeaderProps) {
 
                 <div className="hidden lg:flex flex-row gap-4 items-center">
                     <Button variant="primary" href={contactHref}>
-                        Kontakt
+                        {t(locale, 'footer.contact.label')}
                     </Button>
 
                     {localeSwitcher}
