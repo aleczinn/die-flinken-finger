@@ -130,7 +130,7 @@ export default async function Footer({ locale }: FooterProps) {
 			>
 				<IconFullLogoLight className="w-48 h-auto mb-4" />
 
-				<span className="font-bold text-lg text-wrap text-center mb-8 lg:mb-0">Hier könnte ein Werbetext stehen</span>
+				{/*<span className="font-bold text-lg text-wrap text-center mb-8 lg:mb-0">Hier könnte ein Werbetext stehen</span>*/}
 
 				<Button variant="primary" href={contactHref}>
 					{contactTitle}
