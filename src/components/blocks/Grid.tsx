@@ -41,7 +41,7 @@ export default async function Grid({ locale, blok }: HeroProps) {
         >
             <div className="flex flex-col">
                 {blok.tagline && (
-                    <Tagline alignment="left" children={blok.tagline} />
+                    <Tagline alignment="left" children={blok.tagline} className="mb-2" />
                 )}
 
                 {blok.headline && (

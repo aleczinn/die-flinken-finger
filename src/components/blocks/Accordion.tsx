@@ -64,7 +64,7 @@ export default function Accordion({ blok, background }: AccordionProps) {
                  {...storyblokEditable(blok)}
         >
             {blok.tagline && (
-                <Tagline alignment={blok.layout} children={blok.tagline} />
+                <Tagline alignment={blok.layout} children={blok.tagline} className="mb-2" />
             )}
 
             {blok.headline && (

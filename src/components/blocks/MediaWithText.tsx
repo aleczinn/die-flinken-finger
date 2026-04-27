@@ -51,7 +51,7 @@ export default async function MediaWithText({ blok, priority = false, locale, ba
 
 			<div className={`flex flex-col justify-center ${isMediaLeft ? 'order-2' : 'order-1'}`}>
 				{blok.tagline && (
-					<Tagline alignment="left" children={blok.tagline} />
+					<Tagline alignment="left" children={blok.tagline} className="mb-2" />
 				)}
 
 				{blok.headline && (
