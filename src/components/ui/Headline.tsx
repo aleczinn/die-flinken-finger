@@ -2,11 +2,13 @@ import { ComponentPropsWithoutRef, ElementType } from 'react';
 import { cn } from '@/lib/utils';
 
 type HeadlineTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span';
-export type HeadlineDesign = 'default' | 'line-left' | 'line-center' | 'line-right' | 'line-left-white';
+type HeadlineAlignment = "left" | "center" | "right";
+type HeadlineDesign = 'default' | 'line' | 'w-line';
 
 type HeadlineProps<T extends HeadlineTag = 'h2'> = {
     as?: T;
     variant?: HeadlineTag;
+    alignment?: HeadlineAlignment;
     design?: HeadlineDesign;
 } & ComponentPropsWithoutRef<T>;
 
@@ -21,17 +23,35 @@ const variantClasses: Record<HeadlineTag, string> = {
     span: 'font-display text-sm',
 };
 
-const designClasses: Record<HeadlineDesign, string> = {
-    default: '',
-    "line-left": 'relative after:content-[\'\'] after:block after:h-1.5 after:w-24 after:bg-linear-to-r after:from-primary after:to-transparent after:mt-4 after:rounded-2xl',
-    "line-center": 'text-center relative after:content-[\'\'] after:block after:h-1.5 after:w-48 after:bg-linear-to-r after:from-transparent after:via-primary after:to-transparent after:mt-4 after:rounded-2xl after:mx-auto',
-    "line-right": 'text-right relative after:content-[\'\'] after:block after:h-1.5 after:w-24 after:bg-linear-to-r after:from-transparent after:to-primary after:mt-4 after:rounded-2xl after:ml-auto',
-    "line-left-white": 'relative after:content-[\'\'] after:block after:h-1.5 after:w-24 after:bg-linear-to-r after:from-gray-10 after:to-transparent after:mt-4 after:rounded-2xl',
-};
+function computeDesign(alignment: HeadlineAlignment, design: HeadlineDesign): string {
+    if (design === 'line') {
+        switch (alignment) {
+            case 'left':
+                return `relative after:content-[''] after:block after:h-1.5 after:w-24 after:bg-linear-to-r after:from-primary after:to-transparent after:mt-4 after:rounded-2xl`;
+            case 'center':
+                return `relative after:content-[''] after:block after:h-1.5 after:w-48 after:bg-linear-to-r after:from-transparent after:via-primary after:to-transparent after:mt-4 after:rounded-2xl after:mx-auto`;
+            case 'right':
+                return `relative after:content-[''] after:block after:h-1.5 after:w-24 after:bg-linear-to-r after:from-transparent after:to-primary after:mt-4 after:rounded-2xl after:ml-auto`;
+        }
+    }
+
+    if (design === 'w-line') {
+        switch (alignment) {
+            case 'left':
+                return `relative after:content-[''] after:block after:h-1.5 after:w-24 after:bg-linear-to-r after:from-white after:to-transparent after:mt-4 after:rounded-2xl`;
+            case 'center':
+                return `relative after:content-[''] after:block after:h-1.5 after:w-48 after:bg-linear-to-r after:from-transparent after:via-white after:to-transparent after:mt-4 after:rounded-2xl after:mx-auto`;
+            case 'right':
+                return `relative after:content-[''] after:block after:h-1.5 after:w-24 after:bg-linear-to-r after:from-transparent after:to-white after:mt-4 after:rounded-2xl after:ml-auto`;
+        }
+    }
+    return '';
+}
 
 export function Headline<T extends HeadlineTag = 'h2'>({
                                                            as,
                                                            variant,
+                                                           alignment = 'left',
                                                            design = 'default',
                                                            className,
                                                            children,
@@ -41,9 +61,9 @@ export function Headline<T extends HeadlineTag = 'h2'>({
 
     return (
         <Tag className={cn(
-            'w-full',
+            `w-full text-${alignment}`,
             variantClasses[variant ?? as ?? 'h2'],
-            designClasses[design],
+            computeDesign(alignment, design),
             className
         )}
              {...props}
