@@ -13,14 +13,17 @@ interface BannerProps {
     blok: SbBlokData & {
         headline: string;
         text: any;
-        button_text?: string;
-        button_link?: any;
+        primary_button_text?: string;
+        primary_button_link?: any;
+        secondary_button_text?: string;
+        secondary_button_link?: any;
     };
 }
 
 export default async function Banner({ locale, blok }: BannerProps) {
     const headingId = useId();
-    const href = await resolveStoryblokLink(blok.button_link, locale.language);
+    const href = await resolveStoryblokLink(blok.primary_button_link, locale.language);
+    const hrefSecondary = await resolveStoryblokLink(blok.secondary_button_link, locale.language);
 
     return (
         <Section variant="capped"
@@ -42,13 +45,21 @@ export default async function Banner({ locale, blok }: BannerProps) {
                 )}
             </div>
 
-            <div className="flex flex-row justify-start md:justify-center items-center gap-4">
-                {blok.button_text && href && (
-                    <Button variant="secondary" hollow href={href} className="">
-                        {blok.button_text}
-                    </Button>
-                )}
-            </div>
+            {((blok.primary_button_text && href) || (blok.secondary_button_text && hrefSecondary)) && (
+                <div className="flex flex-row justify-start md:justify-center items-center gap-4">
+                    {blok.primary_button_text && href && (
+                        <Button variant="secondary" href={href}>
+                            {blok.primary_button_text}
+                        </Button>
+                    )}
+
+                    {blok.secondary_button_text && hrefSecondary && (
+                        <Button variant="secondary" hollow href={hrefSecondary}>
+                            {blok.secondary_button_text}
+                        </Button>
+                    )}
+                </div>
+            )}
         </Section>
     );
 }

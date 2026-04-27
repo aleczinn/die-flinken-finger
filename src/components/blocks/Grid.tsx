@@ -78,7 +78,7 @@ function Card({ title, description, link }: CardProps) {
                 {title}
             </div>
 
-            <span className="text-gray-80 text-sm mb-8">
+            <span className="text-gray-70 text-sm mb-8">
                 {description}
             </span>
 

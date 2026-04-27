@@ -1,5 +1,5 @@
 import { storyblokEditable } from '@storyblok/react/rsc';
-import { renderRichText, SbBlokData } from '@storyblok/react';
+import { SbBlokData } from '@storyblok/react';
 import Section, { SectionBackground } from '@/components/layout/Section';
 import { Button } from '@/components/ui/Button';
 import { Headline } from '@/components/ui/Headline';

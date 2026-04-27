@@ -74,13 +74,13 @@ export default async function Hero({ blok, priority = false, locale }: HeroProps
                     {((blok.button_text && href) || (blok.secondary_button_text && hrefSecondary)) && (
                         <div className="flex flex-row gap-8 mt-8">
                             {blok.button_text && href && (
-                                <Button variant="primary" href={href} className="font-bold">
+                                <Button variant="primary" href={href}>
                                     {blok.button_text}
                                 </Button>
                             )}
 
                             {blok.secondary_button_text && hrefSecondary && (
-                                <Button variant="secondary" hollow href={hrefSecondary} className="font-bold">
+                                <Button variant="secondary" hollow href={hrefSecondary}>
                                     {blok.secondary_button_text}
                                 </Button>
                             )}
