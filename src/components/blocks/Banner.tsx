@@ -38,7 +38,7 @@ export default async function Banner({ locale, blok }: BannerProps) {
                 )}
 
                 {blok.text && (
-                    <StoryblokRichTextRenderer content={blok.text} className="text-gray-10" />
+                    <StoryblokRichTextRenderer content={blok.text} className="text-gray-10 leading-relaxed" />
                 )}
             </div>
 

@@ -61,7 +61,7 @@ export default async function MediaWithText({ blok, priority = false, locale, ba
 				)}
 
 				{blok.text && (
-					<StoryblokRichTextRenderer content={blok.text} className="text-gray-80" />
+					<StoryblokRichTextRenderer content={blok.text} className="text-gray-70 leading-relaxed" />
 				)}
 
 				{(blok.button_text && href) && (
