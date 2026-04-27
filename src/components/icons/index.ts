@@ -1,5 +1,4 @@
-import IconMail from "@/components/icons/IconMail";
-
+// STATIC
 export { default as IconLogo } from "./IconLogo";
 export { default as IconEasy } from "./IconEasy";
 export { default as IconGlobe } from "./IconGlobe";
@@ -31,4 +30,6 @@ export { default as IconChevronDown } from "./IconChevronDown";
 export { default as IconChevronUp } from "./IconChevronUp";
 export { default as IconUpload } from "./IconUpload";
 
-export { default as IconMenuAnimated } from "./IconMenuAnimated";
+
+// ANIMIERT
+export { default as IconMenuAnimated } from "./animation/IconMenuAnimated";
