@@ -3,7 +3,6 @@ import { SbBlokData } from '@storyblok/react';
 import Section, { SectionBackground } from '@/components/layout/Section';
 import { Button } from '@/components/ui/Button';
 import { Headline } from '@/components/ui/Headline';
-import { StoryblokMedia } from '@/components/storyblok/StoryblokMedia';
 import StoryblokRichTextRenderer from '@/components/storyblok/StoryblokRichTextRenderer';
 import { resolveStoryblokLink } from "@/lib/locale/links";
 import { Locale } from "@/lib/locale/locales";
@@ -11,6 +10,7 @@ import { useId } from "react";
 import { Tagline } from "@/components/ui/Tagline";
 import { BeforeAfterImage } from "@/components/ui/BeforeAfterImage";
 import { StoryblokAsset } from "@/components/storyblok/types";
+import { breakpointUp } from "@/lib/breakpoints";
 
 type BeforeAfterLayout = 'left' | 'right';
 
@@ -40,6 +40,65 @@ export default async function BeforeAfterWithText({ blok, priority = false, loca
 
     const hasSlider = blok.before?.filename && blok.after?.filename;
 
+    // const isBreakpointSmartphone = breakpointUp("lg");
+
+    const image = (
+        <div className={`flex flex-col justify-center`}>
+            {hasSlider ? (
+                <BeforeAfterImage before={blok.before}
+                                  after={blok.after}
+                                  beforeLabel={'Vorher'}
+                                  afterLabel={'Nachher'}
+                                  width={720}
+                                  sizes="(min-width: 1024px) calc(50vw - 4rem), calc(100vw - 2rem)"
+                                  priority={priority}
+                />
+            ) : (
+                /* Fallback: Platzhalter, wenn noch keine Assets gesetzt sind */
+                <div
+                    className="w-full aspect-video rounded-2xl bg-gray-20 flex items-center justify-center text-gray-50 text-sm"
+                    aria-hidden="true"
+                >
+                    Vorher / Nachher Bilder fehlen
+                </div>
+            )}
+        </div>
+    );
+
+    const content = (
+        <div className={`flex flex-col justify-center`}>
+            {blok.tagline && (
+                <Tagline alignment="left" children={blok.tagline} className="mb-2" />
+            )}
+
+            {blok.headline && (
+                <Headline id={headingId} as="h2" variant="h3" alignment="left" design="line" className="mb-8">
+                    {blok.headline}
+                </Headline>
+            )}
+
+            {blok.text && (
+                <StoryblokRichTextRenderer content={blok.text} className="text-gray-70 leading-relaxed" />
+            )}
+
+            {((blok.primary_button_text && href) || (blok.secondary_button_text && hrefSecondary)) && (
+                <div className="flex flex-row gap-8 mt-8">
+                    {blok.primary_button_text && href && (
+                        <Button variant="primary" href={href} className="font-bold">
+                            {blok.primary_button_text}
+                        </Button>
+                    )}
+
+                    {blok.secondary_button_text && hrefSecondary && (
+                        <Button variant="primary" hollow href={hrefSecondary} className="">
+                            {blok.secondary_button_text}
+                        </Button>
+                    )}
+                </div>
+            )}
+        </div>
+    )
+
     return (
         <Section variant="capped"
                  background={background}
@@ -48,59 +107,17 @@ export default async function BeforeAfterWithText({ blok, priority = false, loca
                  aria-labelledby={blok.headline ? headingId : undefined}
                  {...storyblokEditable(blok)}
         >
-            <div className={`flex flex-col justify-center ${isMediaLeft ? 'order-1' : 'order-2'}`}>
-                {hasSlider ? (
-                    <BeforeAfterImage before={blok.before}
-                                      after={blok.after}
-                                      beforeLabel={'Vorher'}
-                                      afterLabel={'Nachher'}
-                                      width={720}
-                                      sizes="(min-width: 1024px) calc(50vw - 4rem), calc(100vw - 2rem)"
-                                      priority={priority}
-                    />
-                ) : (
-                    /* Fallback: Platzhalter, wenn noch keine Assets gesetzt sind */
-                    <div
-                        className="w-full aspect-video rounded-2xl bg-gray-20 flex items-center justify-center text-gray-50 text-sm"
-                        aria-hidden="true"
-                    >
-                        Vorher / Nachher Bilder fehlen
-                    </div>
-                )}
-
-            </div>
-
-            <div className={`flex flex-col justify-center ${isMediaLeft ? 'order-2' : 'order-1'}`}>
-                {blok.tagline && (
-                    <Tagline alignment="left" children={blok.tagline} className="mb-2" />
-                )}
-
-                {blok.headline && (
-                    <Headline id={headingId} as="h2" variant="h3" alignment="left" design="line" className="mb-8">
-                        {blok.headline}
-                    </Headline>
-                )}
-
-                {blok.text && (
-                    <StoryblokRichTextRenderer content={blok.text} className="text-gray-70 leading-relaxed" />
-                )}
-
-                {((blok.primary_button_text && href) || (blok.secondary_button_text && hrefSecondary)) && (
-                    <div className="flex flex-row gap-8 mt-8">
-                        {blok.primary_button_text && href && (
-                            <Button variant="primary" href={href} className="font-bold">
-                                {blok.primary_button_text}
-                            </Button>
-                        )}
-
-                        {blok.secondary_button_text && hrefSecondary && (
-                            <Button variant="primary" hollow href={hrefSecondary} className="">
-                                {blok.secondary_button_text}
-                            </Button>
-                        )}
-                    </div>
-                )}
-            </div>
+            {isMediaLeft ? (
+                <>
+                    {image}
+                    {content}
+                </>
+            ) : (
+                <>
+                    {content}
+                    {image}
+                </>
+            )}
         </Section>
     );
 };
