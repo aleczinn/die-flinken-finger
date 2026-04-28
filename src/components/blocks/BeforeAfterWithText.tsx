@@ -49,12 +49,6 @@ export default async function BeforeAfterWithText({ blok, priority = false, loca
                  {...storyblokEditable(blok)}
         >
             <div className={`flex flex-col justify-center ${isMediaLeft ? 'order-1' : 'order-2'}`}>
-                {/*<StoryblokMedia asset={blok.media}*/}
-                {/*                width={720}*/}
-                {/*                priority={priority}*/}
-                {/*                sizes="(min-width: 768px) 712px, calc(100vw - 32px)"*/}
-                {/*                className="rounded-2xl"*/}
-                {/*/>*/}
                 {hasSlider ? (
                     <BeforeAfterImage before={blok.before}
                                       after={blok.after}
