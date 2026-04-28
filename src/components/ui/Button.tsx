@@ -103,6 +103,10 @@ export function Button({
 		</>
 	);
 
+	const style = {
+		'--focus-radius': '0.9rem',
+	} as React.CSSProperties;
+
 	if ('href' in props) {
 		if (!props.href) {
 			return null;
@@ -117,7 +121,7 @@ export function Button({
 				  rel={isExternal ? 'noopener noreferrer' : undefined}
 				  aria-disabled={disabled || undefined}
 				  tabIndex={disabled ? -1 : undefined}
-				  style={{ '--focus-radius': '0.9rem' } as React.CSSProperties}
+				  style={style}
 				  className={classes}
 				  {...(rest as any)}
 			>
@@ -130,7 +134,7 @@ export function Button({
 
 	return (
 		<button type="button"
-				style={{ '--focus-radius': '0.9rem' } as React.CSSProperties}
+				style={style}
 				disabled={disabled}
 				className={classes}
 				{...rest}
