@@ -9,6 +9,8 @@ import { resolveStoryblokLink } from "@/lib/locale/links";
 import { Locale } from "@/lib/locale/locales";
 import { useId } from "react";
 import { Tagline } from "@/components/ui/Tagline";
+import { BeforeAfterImage } from "@/components/ui/BeforeAfterImage";
+import { StoryblokAsset } from "@/components/storyblok/types";
 
 type BeforeAfterLayout = 'left' | 'right';
 
@@ -19,8 +21,8 @@ interface BeforeAfterWithTextProps {
         tagline?: string;
         headline: string;
         text: any;
-        before: any;
-        after: any;
+        before: StoryblokAsset;
+        after: StoryblokAsset;
         primary_button_text?: string;
         primary_button_link?: any;
         secondary_button_text?: string;
@@ -35,6 +37,8 @@ export default async function BeforeAfterWithText({ blok, priority = false, loca
     const isMediaLeft = blok.layout === 'left';
     const href = await resolveStoryblokLink(blok.primary_button_link, locale.language);
     const hrefSecondary = await resolveStoryblokLink(blok.secondary_button_link, locale.language);
+
+    const hasSlider = blok.before?.filename && blok.after?.filename;
 
     return (
         <Section variant="capped"
@@ -51,6 +55,25 @@ export default async function BeforeAfterWithText({ blok, priority = false, loca
                 {/*                sizes="(min-width: 768px) 712px, calc(100vw - 32px)"*/}
                 {/*                className="rounded-2xl"*/}
                 {/*/>*/}
+                {hasSlider ? (
+                    <BeforeAfterImage before={blok.before}
+                                      after={blok.after}
+                                      beforeLabel={'Vorher'}
+                                      afterLabel={'Nachher'}
+                                      width={720}
+                                      sizes="(min-width: 1024px) calc(50vw - 4rem), calc(100vw - 2rem)"
+                                      priority={priority}
+                    />
+                ) : (
+                    /* Fallback: Platzhalter, wenn noch keine Assets gesetzt sind */
+                    <div
+                        className="w-full aspect-video rounded-2xl bg-gray-20 flex items-center justify-center text-gray-50 text-sm"
+                        aria-hidden="true"
+                    >
+                        Vorher / Nachher Bilder fehlen
+                    </div>
+                )}
+
             </div>
 
             <div className={`flex flex-col justify-center ${isMediaLeft ? 'order-2' : 'order-1'}`}>
