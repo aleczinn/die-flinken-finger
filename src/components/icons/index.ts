@@ -31,6 +31,7 @@ export { default as IconChevronUp } from "./IconChevronUp";
 export { default as IconUpload } from "./IconUpload";
 export { default as IconExternalLink } from "./IconExternalLink";
 export { default as IconWaterDrop } from "./IconWaterDrop";
+export { default as IconArrows } from "./IconArrows";
 
 // ANIMIERT
 export { default as IconMenuAnimated } from "./animation/IconMenuAnimated";

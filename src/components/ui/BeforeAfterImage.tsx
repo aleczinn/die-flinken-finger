@@ -6,6 +6,7 @@ import { StoryblokImage } from '@/components/storyblok/StoryblokImage';
 import { cn } from "@/lib/utils";
 import { Locale } from "@/lib/locale/locales";
 import { t } from "@/lib/i18n";
+import { IconArrows } from "@/components/icons";
 
 interface BeforeAfterImageProps {
     locale: Locale;
@@ -65,12 +66,7 @@ function renderDivider(isDragging: boolean, position: number) {
                     : 'w-12 h-12 shadow-xl',
             )}
             >
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" focusable="false">
-                    <path d="M6.5 4L2 9l4.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
-                          strokeLinejoin="round"/>
-                    <path d="M11.5 4L16 9l-4.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
-                          strokeLinejoin="round"/>
-                </svg>
+                <IconArrows />
             </div>
         </div>
     )
