@@ -49,7 +49,7 @@ export default async function Header({ locale }: HeaderProps) {
                      outerClassName="py-4 bg-white"
                      innerClassName="flex flex-row justify-between items-center"
             >
-                <Link href="/" className="hover:cursor-pointer focus-element"
+                <Link href={`/${locale.language}`} className="hover:cursor-pointer focus-element"
                       title={t(locale, 'home')}
                       aria-label={t(locale, 'home')}
                 >
