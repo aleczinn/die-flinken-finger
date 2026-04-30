@@ -76,20 +76,6 @@ body {
     text-rendering: optimizeLegibility;
 }
 
-@media (max-width: 1024px) {
-    html {
-        height: 100dvh;
-        overflow: hidden;
-    }
-
-    body {
-        height: 100dvh;
-        overscroll-behavior: contain;
-        overflow: scroll;
-        padding-bottom: env(safe-area-inset-bottom);
-    }
-}
-
 @layer base {
     :root {
         --focus-radius: 0;

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { t } from "@/lib/i18n";
 import { css } from "@/lib/utils";
 import { IconChevronUp } from "@/components/icons";
+import { useBottomInset } from "@/lib/hooks/useBottomInset";
 
 interface BackToTopProps {
     locale: Locale;
@@ -14,6 +15,7 @@ interface BackToTopProps {
 
 export default function BackToTop({ locale, threshold = 600 }: BackToTopProps) {
     const [isVisible, setIsVisible] = useState(false);
+    useBottomInset();
 
     useEffect(() => {
         // rAF-Throttling: Scroll feuert ~60–120x/sec, State-Update aber nur,
