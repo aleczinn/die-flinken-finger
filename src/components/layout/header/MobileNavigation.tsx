@@ -243,7 +243,7 @@ function MobileMenuItem({ item, onNavigate }: {
     // Fall 2: Link + separater Toggle-Button
     if (hasHref) {
         return (
-            <li className="" {...item.editable}>
+            <li {...item.editable}>
                 <div className="flex items-stretch">
                     <Link href={item.href!}
                           onClick={onNavigate}
@@ -270,7 +270,7 @@ function MobileMenuItem({ item, onNavigate }: {
 
     // Fall 3: Kein Link, nur Kinder → kompletter Toggle-Button
     return (
-        <li className="" {...item.editable}>
+        <li {...item.editable}>
             <button type="button"
                     aria-expanded={isExpanded}
                     aria-controls={submenuId}
