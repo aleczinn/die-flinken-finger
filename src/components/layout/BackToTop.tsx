@@ -72,7 +72,7 @@ export default function BackToTop({ locale, threshold = 600 }: BackToTopProps) {
                     'bottom-10',
                     'flex items-center justify-center',
                     'w-12 h-12 rounded-full',
-                    'bg-primary text-white shadow-cta',
+                    'bg-primary text-gray-10 shadow-cta',
                     'motion-safe:transition-all motion-safe:duration-300',
                     'hover:bg-primary-darker hover:cursor-pointer',
                     'active:bg-primary-darkest',
@@ -82,8 +82,7 @@ export default function BackToTop({ locale, threshold = 600 }: BackToTopProps) {
                         : 'opacity-0 translate-y-4 pointer-events-none',
                 )}
         >
-            <IconChevronUp className="w-5 h-5" />
+            <IconChevronUp className="w-6 h-6 mb-0.5" />
         </button>
-
     )
 }
