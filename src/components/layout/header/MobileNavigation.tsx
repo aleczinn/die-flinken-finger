@@ -160,7 +160,6 @@ export default function MobileNavigation({ locale, items }: MobileNavigationProp
     return (
         <>
             <button ref={triggerRef}
-                    id="navigation"
                     type="button"
                     onClick={handleToggle}
                     aria-expanded={isOpen}

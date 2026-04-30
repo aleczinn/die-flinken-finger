@@ -56,6 +56,12 @@ export default async function Header({ locale }: HeaderProps) {
                     <IconFullLogo className="w-40 sm:w-48 md:w-56 lg:w-60 h-auto"/>
                 </Link>
 
+                {/* Skip-Target. tabIndex=-1 erlaubt programmatischen Fokus
+                    durch Skiplink, ohne die Tab-Reihenfolge zu beeinflussen */}
+                <a id="navigation" tabIndex={-1} className="sr-only">
+                    {t(locale, 'header.navigation')}
+                </a>
+
                 <DesktopNavigation locale={locale} items={navigation} />
 
                 <div className="flex flex-row gap-4 items-center">
