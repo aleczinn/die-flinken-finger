@@ -6,7 +6,7 @@ import MediaWithText from "@/components/blocks/MediaWithText";
 import PageLegal from "@/components/blocks/PageLegal";
 import Accordion from "@/components/blocks/Accordion";
 import Banner from "@/components/blocks/Banner";
-import ContactForm from "@/components/blocks/ContactForm";
+import ContactSection from "@/components/blocks/ContactSection";
 import Grid from "@/components/blocks/Grid";
 import BeforeAfterWithText from "@/components/blocks/BeforeAfterWithText";
 
@@ -33,7 +33,7 @@ export const getStoryblokApi = storyblokInit({
 		media_with_text: MediaWithText,
 		accordion: Accordion,
 		banner: Banner,
-		contact_form: ContactForm,
+		contact_section: ContactSection,
 		grid: Grid,
 		before_after_with_text: BeforeAfterWithText
 	},

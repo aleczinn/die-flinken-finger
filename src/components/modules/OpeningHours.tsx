@@ -1,19 +1,24 @@
 import { OpeningHoursItem } from '@/lib/storyblok-queries';
 import { Locale } from "@/lib/locale/locales";
 import { t } from "@/lib/i18n";
+import { css } from "@/lib/utils";
 
 interface OpeningHoursProps {
     locale: Locale
     items: OpeningHoursItem[];
+    className?: string;
 }
 
-export default function OpeningHours({ locale, items }: OpeningHoursProps) {
+export default function OpeningHours({ locale, items, className }: OpeningHoursProps) {
     if (!items?.length) {
         return null;
     }
 
     return (
-        <dl className="grid grid-cols-[auto_1fr] gap-x-8 gap-y-2">
+        <dl className={css(
+            'grid grid-cols-[auto_1fr] gap-x-8 gap-y-2',
+            className
+        )}>
             {items.map((item) => (
                 <div key={item._uid} className="contents">
                     {/* Tage */}
