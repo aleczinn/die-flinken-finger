@@ -3,7 +3,7 @@
 import { memo, useEffect, useId, useRef, useState } from 'react';
 import type { StoryblokAsset } from '@/components/storyblok/types';
 import { StoryblokImage } from '@/components/storyblok/StoryblokImage';
-import { cn } from "@/lib/utils";
+import { css } from "@/lib/utils";
 import { Locale } from "@/lib/locale/locales";
 import { t } from "@/lib/i18n";
 import { IconArrows } from "@/components/icons";
@@ -48,7 +48,7 @@ function renderBadges(beforeLabel: string, afterLabel: string) {
 /** Divider-Linie + Handle */
 function renderDivider(isDragging: boolean, position: number) {
     return (
-        <div className={cn(
+        <div className={css(
             'absolute inset-y-0 w-0.5 bg-white shadow-lg pointer-events-none text-gray-70',
             !isDragging && 'motion-safe:transition-[left] motion-safe:duration-100',
         )}
@@ -56,7 +56,7 @@ function renderDivider(isDragging: boolean, position: number) {
              aria-hidden="true"
         >
             {/* Handle – während Drag größer + stärkerer Schatten = taktiles Feedback */}
-            <div className={cn(
+            <div className={css(
                 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
                 'rounded-full bg-white flex items-center justify-center',
                 'ring-2 ring-white/30',
@@ -177,7 +177,7 @@ export function BeforeAfterImage({
     };
 
     return (
-        <div className={cn('relative select-none touch-pan-y', className)}>
+        <div className={css('relative select-none touch-pan-y', className)}>
             <div className="relative rounded-2xl overflow-hidden">
                 {/* Before-Image — memoisiert, re-rendert nicht bei Drag */}
                 <MemoizedBeforeImage asset={before}
@@ -191,7 +191,7 @@ export function BeforeAfterImage({
                     After-Bild ist auf der rechten Seite des Sliders sichtbar.
                     Transition, nur wenn nicht gezogen wird (sonst läuft der
                     Slider dem Mauszeiger hinterher) und reduce-motion respektieren. */}
-                <div className={cn(
+                <div className={css(
                     'absolute inset-0',
                     !isDragging && 'motion-safe:transition-[clip-path] motion-safe:duration-100',
                 )}

@@ -1,5 +1,5 @@
 import { ComponentPropsWithoutRef, ElementType } from 'react';
-import { cn } from '@/lib/utils';
+import { css } from '@/lib/utils';
 
 type HeadlineTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span';
 type HeadlineAlignment = "left" | "center" | "right";
@@ -66,7 +66,7 @@ export function Headline<T extends HeadlineTag = 'h2'>({
     const Tag = (as ?? 'h2') as ElementType;
 
     return (
-        <Tag className={cn(
+        <Tag className={css(
             `w-full`,
             alignmentClasses[alignment],
             variantClasses[variant ?? as ?? 'h2'],

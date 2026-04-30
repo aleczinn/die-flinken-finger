@@ -1,5 +1,5 @@
 import React from 'react';
-import { cn } from "@/lib/utils";
+import { css } from "@/lib/utils";
 
 type TextTag = 'div' | 'p' | 'span';
 
@@ -13,7 +13,7 @@ export function Text({ as = 'p', children, className }: TextProps) {
     const Tag = as;
 
     return (
-        <Tag className={cn(
+        <Tag className={css(
             'text-gray-70 leading-relaxed',
             className
         )}>

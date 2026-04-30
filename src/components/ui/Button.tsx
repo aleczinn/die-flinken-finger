@@ -1,5 +1,5 @@
 import React from 'react';
-import { cn } from '@/lib/utils';
+import { css } from '@/lib/utils';
 import Link from "next/link";
 
 type Variant = 'primary' | 'secondary';
@@ -43,7 +43,7 @@ const baseClasses = [
 ].join(' ');
 
 const variantClasses: Record<Variant, string> = {
-	primary: cn(
+	primary: css(
 		'bg-primary text-white shadow-[var(--shadow-cta)]',
 		'hover:bg-primary-darker',
 		'active:bg-primary-darkest',
@@ -51,7 +51,7 @@ const variantClasses: Record<Variant, string> = {
 		'aria-disabled:bg-gray-20 aria-disabled:text-gray-40'
 	),
 
-	secondary: cn(
+	secondary: css(
 		'bg-white text-gray-80',
 		'hover:bg-gray-20',
 		'active:bg-gray-30',
@@ -61,14 +61,14 @@ const variantClasses: Record<Variant, string> = {
 }
 
 const variantClassesHollow: Record<Variant, string> = {
-	primary: cn(
+	primary: css(
 		'bg-transparent border-1 border-solid border-primary text-primary',
 		'hover:border-primary-darker hover:text-primary-darker',
 		'active:border-primary-darkest active:text-primary-darkest',
 		'disabled:border-gray-20 disabled:text-gray-40',
 		'aria-disabled:border-gray-20 aria-disabled:text-gray-40'
 	),
-	secondary: cn(
+	secondary: css(
 		'bg-transparent border-1 border-solid border-white text-white',
 		'hover:bg-white/10',
 		'active:bg-white/30',
@@ -88,7 +88,7 @@ export function Button({
 						   disabled,
 						   ...props
 					   }: ButtonProps) {
-	const classes = cn(
+	const classes = css(
 		baseClasses,
 		fullWidth && 'w-full',
 		hollow ? variantClassesHollow[variant] : variantClasses[variant],

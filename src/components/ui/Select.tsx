@@ -2,7 +2,7 @@
 
 import { ReactNode, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { IconChevronDown } from '@/components/icons';
-import { cn } from '@/lib/utils';
+import { css } from '@/lib/utils';
 
 export interface SelectOption<T extends string = string> {
     value: T;
@@ -247,9 +247,9 @@ export function Select<T extends string = string>({
     );
 
     return (
-        <div className={cn('flex flex-col gap-1 w-full', className)}>
+        <div className={css('flex flex-col gap-1 w-full', className)}>
             <span id={labelId}
-                  className={cn(
+                  className={css(
                       'text-sm text-gray-90 mb-2',
                       labelHidden && 'sr-only',
                   )}
@@ -284,7 +284,7 @@ export function Select<T extends string = string>({
                         disabled={disabled}
                         onClick={() => (isOpen ? close(false) : open())}
                         onKeyDown={onKeyDown}
-                        className={cn(
+                        className={css(
                             'w-full flex items-center justify-between gap-2 px-3 py-2 rounded-md border-1 bg-white text-left',
                             'transition-colors focus-visible-facelift hover:cursor-pointer',
                             error
@@ -294,7 +294,7 @@ export function Select<T extends string = string>({
                         )}
                 >
                     <span className="truncate">{triggerContent}</span>
-                    <IconChevronDown className={cn(
+                    <IconChevronDown className={css(
                         'w-4 h-4 shrink-0 transition-transform duration-200',
                         isOpen && 'rotate-180',
                     )} />
@@ -321,7 +321,7 @@ export function Select<T extends string = string>({
                                     aria-disabled={option.disabled || undefined}
                                     onClick={() => !option.disabled && selectIndex(index)}
                                     onMouseEnter={() => !option.disabled && setActiveIndex(index)}
-                                    className={cn(
+                                    className={css(
                                         'px-3 py-2 text-sm select-none',
                                         option.disabled
                                             ? 'text-gray-30 cursor-not-allowed'

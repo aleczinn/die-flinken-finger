@@ -2,7 +2,7 @@
 'use client';
 
 import { useId } from 'react';
-import { cn } from '@/lib/utils';
+import { css } from '@/lib/utils';
 
 interface TextareaProps {
     label: string;
@@ -45,8 +45,8 @@ export function Textarea({
     const nearLimit = charsLeft !== null && charsLeft <= 20;
 
     return (
-        <div className={cn('flex flex-col gap-1 w-full', className)}>
-            <label htmlFor={fieldId} className={cn(
+        <div className={css('flex flex-col gap-1 w-full', className)}>
+            <label htmlFor={fieldId} className={css(
                 'text-sm text-gray-90 mb-2',
                 labelHidden && 'sr-only',
             )}>
@@ -75,7 +75,7 @@ export function Textarea({
                           error && errorId,
                           maxLength && counterId,
                       ].filter(Boolean).join(' ') || undefined}
-                      className={cn(
+                      className={css(
                           'w-full px-3 py-2 rounded-md border-1 bg-white resize-none',
                           'transition-colors focus-element',
                           'disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-10',
@@ -93,7 +93,7 @@ export function Textarea({
                 {maxLength && (
                     <span id={counterId}
                           aria-live="polite"
-                          className={cn(
+                          className={css(
                               'text-xs tabular-nums shrink-0',
                               nearLimit ? 'text-primary' : 'text-gray-80',
                           )}

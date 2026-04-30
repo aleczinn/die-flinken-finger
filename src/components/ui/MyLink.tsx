@@ -1,5 +1,5 @@
 import React from 'react';
-import { cn } from "@/lib/utils";
+import { css } from "@/lib/utils";
 import { IconExternalLink } from "@/components/icons";
 import Link from "next/link";
 
@@ -27,11 +27,11 @@ function detectExternal(href: string, external: LinkExternal): boolean {
 }
 
 const variantClasses: Record<LinkDesign, string> = {
-    primary: cn(
+    primary: css(
         'text-sm text-white hover:text-primary'
     ),
 
-    secondary: cn(
+    secondary: css(
         'text-sm text-primary hover:text-primary-darker'
     )
 }
@@ -54,7 +54,7 @@ export function MyLink({
     // External-Icon nur wenn: kein eigenes Icon gesetzt, extern, kein mailto/tel
     const showExternalIcon = !hasIcon && isExternal && !isSpecial;
 
-    const classes = cn(
+    const classes = css(
         'font-inter inline-flex flex-row items-center gap-2',
         'transition-colors duration-200',
         'hover:cursor-pointer focus-element',

@@ -2,7 +2,7 @@
 'use client';
 
 import { useId, useRef, useState, DragEvent, ChangeEvent } from 'react';
-import { cn } from '@/lib/utils';
+import { css } from '@/lib/utils';
 import { IconPlus, IconUpload } from '@/components/icons';
 
 interface FileUploadProps {
@@ -107,8 +107,8 @@ export function FileUpload({
     };
 
     return (
-        <div className={cn('flex flex-col gap-1 w-full', className)}>
-            <span id={`${baseId}-label`} className={cn(
+        <div className={css('flex flex-col gap-1 w-full', className)}>
+            <span id={`${baseId}-label`} className={css(
                 'text-sm text-gray-90 mb-2',
                 labelHidden && 'sr-only',
             )}>
@@ -131,7 +131,7 @@ export function FileUpload({
                  aria-describedby={[description && descriptionId, error && errorId].filter(Boolean).join(' ') || undefined}
                  aria-invalid={error ? true : undefined}
                  aria-disabled={disabled || undefined}
-                 className={cn(
+                 className={css(
                      'flex flex-col items-center justify-center gap-3 px-6 py-12',
                      'border-2 border-dashed rounded-md',
                      'transition-colors focus-element',
