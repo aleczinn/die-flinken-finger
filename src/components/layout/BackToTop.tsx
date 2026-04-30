@@ -69,8 +69,8 @@ export default function BackToTop({ locale, threshold = 600 }: BackToTopProps) {
                     'fixed right-4 lg:right-8 z-popup',
                     // Safe-Area-Inset = Home-Indicator + (in iOS 15+) die Safari-Toolbar,
                     // wenn sie unten angedockt ist. Wir addieren noch unseren Wunsch-Offset.
-                    'bottom-[calc(1rem+env(safe-area-inset-bottom))]',
-                    'lg:bottom-[calc(2rem+env(safe-area-inset-bottom))]',
+                    'bottom-[calc(1rem+max(env(safe-area-inset-bottom),var(--bottom-inset,0px)))]',
+                    'lg:bottom-[calc(2rem+max(env(safe-area-inset-bottom),var(--bottom-inset,0px)))]',
                     'flex items-center justify-center',
                     'w-12 h-12 rounded-full',
                     'bg-primary text-gray-10 shadow-cta',
