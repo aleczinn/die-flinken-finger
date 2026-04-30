@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useRef, useState } from 'react';
+import { memo, useEffect, useId, useRef, useState } from 'react';
 import type { StoryblokAsset } from '@/components/storyblok/types';
 import { StoryblokImage } from '@/components/storyblok/StoryblokImage';
 import { cn } from "@/lib/utils";
@@ -76,6 +76,29 @@ function renderDivider(isDragging: boolean, position: number) {
     )
 }
 
+/**
+ * Memoisiertes Before-Bild — re-rendert nur, wenn sich die Asset-Props ändern.
+ * Während des Drags ändert sich nur `position`, also bleibt dieses Bild stabil.
+ * Spart bei 60 FPS Drag spürbar Render-Zeit.
+ */
+const MemoizedBeforeImage = memo(function MemoizedBeforeImage({ asset, width, sizes, priority }: {
+    asset: StoryblokAsset;
+    width: number;
+    sizes: string;
+    priority?: boolean;
+}) {
+    return <StoryblokImage asset={asset} width={width} sizes={sizes} priority={priority}/>;
+});
+
+const MemoizedAfterImage = memo(function MemoizedAfterImage({ asset, width, sizes, priority }: {
+    asset: StoryblokAsset;
+    width: number;
+    sizes: string;
+    priority?: boolean;
+}) {
+    return <StoryblokImage asset={asset} width={width} sizes={sizes} priority={priority} background/>;
+});
+
 export function BeforeAfterImage({
                                      locale,
                                      before,
@@ -102,7 +125,35 @@ export function BeforeAfterImage({
      */
     const isPointerFocus = useRef(false);
 
-    if (!before?.filename || !after?.filename) {
+    const hasMedia = Boolean(before?.filename && after?.filename);
+
+    /**
+     * Range-Inputs schlucken intern PointerUp-Events während des Drags.
+     * Globaler Listener auf window ist die zuverlässigste Variante,
+     * den Drag-State korrekt zurückzusetzen.
+     */
+    useEffect(() => {
+        if (!isDragging) return;
+
+        const stopDragging = () => setIsDragging(false);
+        window.addEventListener('pointerup', stopDragging);
+        window.addEventListener('pointercancel', stopDragging);
+
+        return () => {
+            window.removeEventListener('pointerup', stopDragging);
+            window.removeEventListener('pointercancel', stopDragging);
+        };
+    }, [isDragging]);
+
+    /**
+     * Sync mit externer initialPosition — z.B. wenn Storyblok Live-Editing
+     * den Wert ändert. useState ignoriert spätere Änderungen am Initial-Wert.
+     */
+    useEffect(() => {
+        setPosition(Math.min(100, Math.max(0, initialPosition)));
+    }, [initialPosition]);
+
+    if (!hasMedia) {
         return null;
     }
 
@@ -129,33 +180,16 @@ export function BeforeAfterImage({
         setIsFocused(true);
     };
 
-    /**
-     * Range-Inputs schlucken intern PointerUp-Events während des Drags.
-     * Globaler Listener auf window ist die zuverlässigste Variante,
-     * den Drag-State korrekt zurückzusetzen.
-     */
-    useEffect(() => {
-        if (!isDragging) return;
-
-        const stopDragging = () => setIsDragging(false);
-        window.addEventListener('pointerup', stopDragging);
-        window.addEventListener('pointercancel', stopDragging);
-
-        return () => {
-            window.removeEventListener('pointerup', stopDragging);
-            window.removeEventListener('pointercancel', stopDragging);
-        };
-    }, [isDragging]);
-
     return (
-        <div className={cn('relative select-none touch-none', className)}>
+        <div className={cn('relative select-none touch-pan-y', className)}>
             <div className="relative rounded-2xl overflow-hidden">
-                {/* Before-Image */}
-                <StoryblokImage asset={before}
-                                width={width}
-                                sizes={sizes}
-                                priority={priority}
+                {/* Before-Image — memoisiert, re-rendert nicht bei Drag */}
+                <MemoizedBeforeImage asset={before}
+                                     width={width}
+                                     sizes={sizes}
+                                     priority={priority}
                 />
+
 
                 {/* After-Image: absolut positioniert; von links geclipped
                     After-Bild ist auf der rechten Seite des Sliders sichtbar.
@@ -168,12 +202,12 @@ export function BeforeAfterImage({
                      style={{ clipPath: `inset(0 0 0 ${position}%)` }}
                      aria-hidden="true"
                 >
-                    <StoryblokImage asset={after}
-                                    width={width}
-                                    sizes={sizes}
-                                    priority={priority}
-                                    background
+                    <MemoizedAfterImage asset={after}
+                                        width={width}
+                                        sizes={sizes}
+                                        priority={priority}
                     />
+
                 </div>
 
                 {renderBadges(labelBefore, labelAfter)}
