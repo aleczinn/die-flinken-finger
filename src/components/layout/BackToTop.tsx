@@ -65,11 +65,10 @@ export default function BackToTop({ locale, threshold = 600 }: BackToTopProps) {
                 aria-hidden={!isVisible}
                 className={css(
                     'fixed right-4 lg:right-8 z-popup',
-                    // Safe-Area auf iOS berücksichtigen, sonst klebt der Button
-                    // unter dem Home-Indicator. max() sichert ein Mindest-Offset.
-                    'bottom-[max(1rem,calc(1rem+env(safe-area-inset-bottom)))]',
-                    'lg:bottom-[max(2rem,calc(2rem+env(safe-area-inset-bottom)))]',
-                    'bottom-10',
+                    // Safe-Area-Inset = Home-Indicator + (in iOS 15+) die Safari-Toolbar,
+                    // wenn sie unten angedockt ist. Wir addieren noch unseren Wunsch-Offset.
+                    'bottom-[calc(1rem+env(safe-area-inset-bottom))]',
+                    'lg:bottom-[calc(2rem+env(safe-area-inset-bottom))]',
                     'flex items-center justify-center',
                     'w-12 h-12 rounded-full',
                     'bg-primary text-gray-10 shadow-cta',
