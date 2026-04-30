@@ -137,7 +137,7 @@ export default async function Footer({ locale }: FooterProps) {
 			{/* Copyright */}
 			<Section as="div"
 					 variant="capped"
-					 outerClassName="bg-gray-90 pb-[env(safe-area-inset-bottom)]"
+					 outerClassName="bg-gray-90 pb-[calc(3rem+env(safe-area-inset-bottom))] lg:pb-[env(safe-area-inset-bottom)]"
 					 innerClassName="flex flex-col md:flex-row justify-center sm:justify-between gap-2 py-12 items-center"
 			>
 				<span className="text-sm text-center order-2 md:order-1 md:text-left">{t(locale, "footer.copyright", currentYear, config.company_name)}</span>

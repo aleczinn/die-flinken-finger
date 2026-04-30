@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { t } from "@/lib/i18n";
 import { css } from "@/lib/utils";
 import { IconChevronUp } from "@/components/icons";
-import { useBottomInset } from "@/lib/hooks/useBottomInset";
 
 interface BackToTopProps {
     locale: Locale;
@@ -15,7 +14,6 @@ interface BackToTopProps {
 
 export default function BackToTop({ locale, threshold = 600 }: BackToTopProps) {
     const [isVisible, setIsVisible] = useState(false);
-    useBottomInset();
 
     useEffect(() => {
         // rAF-Throttling: Scroll feuert ~60–120x/sec, State-Update aber nur,
@@ -69,8 +67,8 @@ export default function BackToTop({ locale, threshold = 600 }: BackToTopProps) {
                     'fixed right-4 lg:right-8 z-popup',
                     // Safe-Area-Inset = Home-Indicator + (in iOS 15+) die Safari-Toolbar,
                     // wenn sie unten angedockt ist. Wir addieren noch unseren Wunsch-Offset.
-                    'bottom-[calc(1rem+max(env(safe-area-inset-bottom),var(--bottom-inset,0px)))]',
-                    'lg:bottom-[calc(2rem+max(env(safe-area-inset-bottom),var(--bottom-inset,0px)))]',
+                    'bottom-[calc(5rem+env(safe-area-inset-bottom))]',
+                    'lg:bottom-[calc(2rem+env(safe-area-inset-bottom))]',
                     'flex items-center justify-center',
                     'w-12 h-12 rounded-full',
                     'bg-primary text-gray-10 shadow-cta',
