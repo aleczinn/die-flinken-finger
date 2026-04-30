@@ -8,7 +8,7 @@ import { resolveStoryblokLink } from "@/lib/locale/links";
 import { Locale } from "@/lib/locale/locales";
 import { useId } from "react";
 import { Tagline } from "@/components/ui/Tagline";
-import { BeforeAfterImage } from "@/components/ui/BeforeAfterImage";
+import { BeforeAfterImage } from "@/components/modules/BeforeAfterImage";
 import { StoryblokAsset } from "@/components/storyblok/types";
 import { breakpointUp } from "@/lib/breakpoints";
 
