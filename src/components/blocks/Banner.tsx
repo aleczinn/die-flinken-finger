@@ -30,7 +30,7 @@ export default async function Banner({ locale, blok }: BannerProps) {
                  background={'primary'}
                  outerClassName="py-section"
                  innerClassName="grid grid-cols-1 lg:grid-cols-2 gap-8"
-                 aria-labelledby={blok.headline}
+                 aria-labelledby={headingId ? headingId : undefined}
                  {...storyblokEditable(blok)}
         >
             <div className="flex flex-col">

@@ -45,7 +45,7 @@ export default function ContactForm({ locale, blok, background }: ContactFormPro
                  background={background}
                  outerClassName="py-section"
                  innerClassName="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8"
-                 aria-labelledby={blok.headline}
+                 aria-labelledby={headingId ? headingId : undefined}
                  {...storyblokEditable(blok)}
         >
             {/* Headline + Text */}
