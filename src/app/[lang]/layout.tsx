@@ -4,7 +4,7 @@ import { getConfig } from '@/lib/storyblok-queries';
 import { BASE_URL } from '@/lib/site';
 import { inter, jakartaSans } from '@/app/fonts';
 import SkipLinks from '@/components/layout/SkipLinks';
-import Header from '@/components/layout/Header';
+import Header from '@/components/layout/header/Header';
 import Footer from '@/components/layout/Footer';
 import ScrollToTop from "@/components/layout/ScrollToTop";
 

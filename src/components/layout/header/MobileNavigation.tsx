@@ -8,6 +8,7 @@ import { IconChevronDown, IconMenuAnimated } from '@/components/icons';
 import { Locale } from '@/lib/locale/locales';
 import { t } from '@/lib/i18n';
 import { breakpointUp } from "@/lib/breakpoints";
+import { useScrollLock } from "@/lib/hooks/useScrollLock";
 
 interface MobileNavigationProps {
     locale: Locale;
@@ -17,11 +18,11 @@ interface MobileNavigationProps {
 export default function MobileNavigation({ locale, items }: MobileNavigationProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [headerBottom, setHeaderBottom] = useState(0);
+    const [resetKey, setResetKey] = useState(0);
     const triggerRef = useRef<HTMLButtonElement>(null);
     const panelRef = useRef<HTMLDivElement>(null);
     const pathname = usePathname();
     const panelId = useId();
-    const [resetKey, setResetKey] = useState(0);
 
     const labels = {
         mainNav: t(locale, 'header.main_navigation'),
@@ -31,73 +32,18 @@ export default function MobileNavigation({ locale, items }: MobileNavigationProp
 
     const close = useCallback(() => setIsOpen(false), []);
 
-    useEffect(() => {
-        if (isOpen) setResetKey((k) => k + 1);
-    }, [isOpen]);
+    const handleToggle = () => {
+        // Beim Öffnen: ausgeklappte Untermenüs der Kinder zurücksetzen
+        if (!isOpen) {
+            setResetKey((k) => k + 1);
+        }
+        setIsOpen((prev) => !prev);
+    };
 
-    // Escape schließt, Fokus zurück auf Trigger
-    useEffect(() => {
-        if (!isOpen) return;
+    // Page-Scroll sperren, Panel-Inhalt darf trotzdem scrollen
+    useScrollLock(isOpen, { allowScrollWithin: panelRef });
 
-        const onKey = (event: KeyboardEvent) => {
-            if (event.key === 'Escape') {
-                close();
-                triggerRef.current?.focus();
-            }
-        };
-        document.addEventListener('keydown', onKey);
-        return () => document.removeEventListener('keydown', onKey);
-    }, [isOpen, close]);
-
-    // Klick außerhalb schließt
-    useEffect(() => {
-        if (!isOpen) return;
-
-        const onPointerDown = (event: PointerEvent) => {
-            const target = event.target as Node;
-            if (panelRef.current?.contains(target) || triggerRef.current?.contains(target)) return;
-            close();
-        };
-        document.addEventListener('pointerdown', onPointerDown);
-        return () => document.removeEventListener('pointerdown', onPointerDown);
-    }, [isOpen, close]);
-
-    // Breakpoint-Wechsel zu lg+ schließt — Desktop-Nav übernimmt
-    useEffect(() => {
-        const mq = breakpointUp('lg');
-        const onChange = (e: MediaQueryListEvent) => {
-            if (e.matches) setIsOpen(false);
-        };
-        mq.addEventListener('change', onChange);
-        return () => mq.removeEventListener('change', onChange);
-    }, []);
-
-    // Route-Wechsel schließt (inkl. Back-Button)
-    useEffect(() => {
-        setIsOpen(false);
-    }, [pathname]);
-
-    // Scroll-Lock — iOS-sicher über html + touchmove-Prevent außerhalb des Panels
-    useEffect(() => {
-        if (!isOpen) return;
-
-        const html = document.documentElement;
-        const originalOverflow = html.style.overflow;
-        html.style.overflow = 'hidden';
-
-        const preventTouchMove = (event: TouchEvent) => {
-            if (panelRef.current?.contains(event.target as Node)) return;
-            event.preventDefault();
-        };
-        document.addEventListener('touchmove', preventTouchMove, { passive: false });
-
-        return () => {
-            html.style.overflow = originalOverflow;
-            document.removeEventListener('touchmove', preventTouchMove);
-        };
-    }, [isOpen]);
-
-    // Focus-Trap: Cycle zwischen Trigger (Close) und Panel-Inhalt
+    // Escape schließt + Focus-Trap (Tab cycelt zwischen Trigger und Panel)
     useEffect(() => {
         if (!isOpen) return;
 
@@ -113,7 +59,15 @@ export default function MobileNavigation({ locale, items }: MobileNavigationProp
             ).filter((el) => el.offsetParent !== null);
 
         const onKeyDown = (event: KeyboardEvent) => {
-            if (event.key !== 'Tab') return;
+            if (event.key === 'Escape') {
+                close();
+                trigger.focus();
+                return;
+            }
+
+            if (event.key !== 'Tab') {
+                return;
+            }
 
             const focusable = getFocusable();
             if (focusable.length === 0) return;
@@ -123,7 +77,7 @@ export default function MobileNavigation({ locale, items }: MobileNavigationProp
             const active = document.activeElement as HTMLElement | null;
             if (!active) return;
 
-            // Fokus ist weder im Panel noch auf Trigger → zurückholen
+            // Fokus ist weder im Panel noch auf Trigger - zurückholen
             if (!panel.contains(active) && active !== trigger) {
                 event.preventDefault();
                 first.focus();
@@ -151,8 +105,39 @@ export default function MobileNavigation({ locale, items }: MobileNavigationProp
 
         document.addEventListener('keydown', onKeyDown);
         return () => document.removeEventListener('keydown', onKeyDown);
-    }, [isOpen]);
+    }, [isOpen, close]);
 
+    // Klick außerhalb von Trigger und Panel schließt das Menü.
+    // Notwendig, weil der Backdrop nicht den Header überdeckt — Klicks aufs
+    // Logo oder die Service-Bar müssen das Menü trotzdem schließen.
+    useEffect(() => {
+        if (!isOpen) return;
+
+        const onPointerDown = (event: PointerEvent) => {
+            const target = event.target as Node;
+            if (panelRef.current?.contains(target) || triggerRef.current?.contains(target)) return;
+            close();
+        };
+        document.addEventListener('pointerdown', onPointerDown);
+        return () => document.removeEventListener('pointerdown', onPointerDown);
+    }, [isOpen, close]);
+
+    // Breakpoint-Wechsel zu lg+ schließt - Desktop-Nav übernimmt
+    useEffect(() => {
+        const mq = breakpointUp('lg');
+        const onChange = (e: MediaQueryListEvent) => {
+            if (e.matches) setIsOpen(false);
+        };
+        mq.addEventListener('change', onChange);
+        return () => mq.removeEventListener('change', onChange);
+    }, []);
+
+    // Route-Wechsel schließt (inkl. Back-Button)
+    useEffect(() => {
+        setIsOpen(false);
+    }, [pathname]);
+
+    // Header-Position für Backdrop-Position und Panel-MaxHeight messen
     useLayoutEffect(() => {
         if (!isOpen) return;
 
@@ -177,13 +162,12 @@ export default function MobileNavigation({ locale, items }: MobileNavigationProp
             <button ref={triggerRef}
                     id="navigation"
                     type="button"
-                    onClick={() => setIsOpen((prev) => !prev)}
+                    onClick={handleToggle}
                     aria-expanded={isOpen}
                     aria-controls={panelId}
                     aria-label={isOpen ? labels.close : labels.open}
                     className="lg:hidden flex items-center p-2 text-gray-90 transition-colors hover:text-primary focus-element hover:cursor-pointer rounded-md"
             >
-                {/*{isOpen ? <IconMenuOn /> : <IconMenuOff />}*/}
                 <IconMenuAnimated isOpen={isOpen} />
             </button>
 
