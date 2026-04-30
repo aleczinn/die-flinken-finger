@@ -58,6 +58,7 @@
         "compare": "Compare {0} and {1}",
         "value": "{0} % {1} visible"
     },
+    "back_to_top": "Back to top",
     "404": {
         "title": "Page not found",
         "backhome": "Back to homepage"

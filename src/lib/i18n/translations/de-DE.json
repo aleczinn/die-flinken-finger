@@ -58,6 +58,7 @@
         "compare": "{0} und {1} vergleichen",
         "value": "{0} % {1} sichtbar"
     },
+    "back_to_top": "Zurück nach oben",
     "404": {
         "title": "Diese Seite existiert nicht",
         "description": "Wir konnten leider nichts finden, nachdem du suchst.",

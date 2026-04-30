@@ -6,7 +6,8 @@ import { inter, jakartaSans } from '@/app/fonts';
 import SkipLinks from '@/components/layout/SkipLinks';
 import Header from '@/components/layout/header/Header';
 import Footer from '@/components/layout/Footer';
-import ScrollToTop from "@/components/layout/ScrollToTop";
+import ScrollToTop from "@/components/storyblok/ScrollToTop";
+import BackToTop from "@/components/layout/BackToTop";
 
 interface LangLayoutProps {
 	children: ReactNode;
@@ -53,6 +54,7 @@ export default async function LangLayout({ children, params,}: LangLayoutProps) 
 
 				<SkipLinks locale={locale} />
 				<ScrollToTop />
+				<BackToTop locale={locale} />
 				<Header locale={locale} />
 				{children}
 				<Footer locale={locale} />
