@@ -23,6 +23,12 @@ const variantClasses: Record<HeadlineTag, string> = {
     span: 'font-display text-sm',
 };
 
+const alignmentClasses: Record<HeadlineAlignment, string> = {
+    left: 'text-left',
+    center: 'text-center',
+    right: 'text-right',
+};
+
 function computeDesign(alignment: HeadlineAlignment, design: HeadlineDesign): string {
     if (design === 'line') {
         switch (alignment) {
@@ -61,7 +67,8 @@ export function Headline<T extends HeadlineTag = 'h2'>({
 
     return (
         <Tag className={cn(
-            `w-full text-${alignment}`,
+            `w-full`,
+            alignmentClasses[alignment],
             variantClasses[variant ?? as ?? 'h2'],
             computeDesign(alignment, design),
             className
