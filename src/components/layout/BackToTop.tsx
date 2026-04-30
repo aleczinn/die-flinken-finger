@@ -67,8 +67,8 @@ export default function BackToTop({ locale, threshold = 600 }: BackToTopProps) {
                     'fixed right-4 lg:right-8 z-popup',
                     // Safe-Area auf iOS berücksichtigen, sonst klebt der Button
                     // unter dem Home-Indicator. max() sichert ein Mindest-Offset.
-                    // 'bottom-[max(1rem,calc(1rem+env(safe-area-inset-bottom)))]',
-                    // 'lg:bottom-[max(2rem,calc(2rem+env(safe-area-inset-bottom)))]',
+                    'bottom-[max(1rem,calc(1rem+env(safe-area-inset-bottom)))]',
+                    'lg:bottom-[max(2rem,calc(2rem+env(safe-area-inset-bottom)))]',
                     'bottom-10',
                     'flex items-center justify-center',
                     'w-12 h-12 rounded-full',
@@ -76,7 +76,7 @@ export default function BackToTop({ locale, threshold = 600 }: BackToTopProps) {
                     'motion-safe:transition-all motion-safe:duration-300',
                     'hover:bg-primary-darker hover:cursor-pointer',
                     'active:bg-primary-darkest',
-                    '',
+                    'focus-element',
                     isVisible
                         ? 'opacity-100 translate-y-0 pointer-events-auto'
                         : 'opacity-0 translate-y-4 pointer-events-none',

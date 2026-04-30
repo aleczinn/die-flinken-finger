@@ -96,6 +96,11 @@ body {
 }
 
 @layer utilities {
+    /* Spezifität (0,0,0) - jede Tailwind-Position-Klasse (0,1,0) gewinnt */
+    :where(.focus-element) {
+        position: relative;
+    }
+
     /* Font Sizes - Small */
     .text-2xs {
         font-size: 0.625rem;  /* 10px */
@@ -129,8 +134,6 @@ body {
     }
 
     .focus-element {
-        position: relative;
-
         &::after {
             position: absolute;
             content: '';
