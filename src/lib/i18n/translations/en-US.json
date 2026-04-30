@@ -52,6 +52,12 @@
         },
         "submit": "Submit"
     },
+    "before_after": {
+        "before": "Before",
+        "after": "After",
+        "compare": "Compare {0} and {1}",
+        "value": "{0} % {1} visible"
+    },
     "404": {
         "title": "Page not found",
         "backhome": "Back to homepage"

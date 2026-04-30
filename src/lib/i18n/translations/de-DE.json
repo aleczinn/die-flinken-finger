@@ -52,6 +52,12 @@
         },
         "submit": "Weiter"
     },
+    "before_after": {
+        "before": "Vorher",
+        "after": "Nachher",
+        "compare": "{0} und {1} vergleichen",
+        "value": "{0} % {1} sichtbar"
+    },
     "404": {
         "title": "Diese Seite existiert nicht",
         "description": "Wir konnten leider nichts finden, nachdem du suchst.",

@@ -45,10 +45,10 @@ export default async function BeforeAfterWithText({ blok, priority = false, loca
     const image = (
         <div className={`flex flex-col justify-center`}>
             {hasSlider ? (
-                <BeforeAfterImage before={blok.before}
+                <BeforeAfterImage locale={locale}
+                                  before={blok.before}
                                   after={blok.after}
-                                  beforeLabel={'Vorher'}
-                                  afterLabel={'Nachher'}
+                                  initialPosition={50}
                                   width={720}
                                   sizes="(min-width: 1024px) calc(50vw - 4rem), calc(100vw - 2rem)"
                                   priority={priority}

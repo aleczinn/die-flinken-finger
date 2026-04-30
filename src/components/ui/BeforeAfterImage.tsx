@@ -1,60 +1,170 @@
 'use client';
 
-import { useId, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import type { StoryblokAsset } from '@/components/storyblok/types';
 import { StoryblokImage } from '@/components/storyblok/StoryblokImage';
+import { cn } from "@/lib/utils";
+import { Locale } from "@/lib/locale/locales";
+import { t } from "@/lib/i18n";
 
 interface BeforeAfterImageProps {
+    locale: Locale;
     before: StoryblokAsset;
     after: StoryblokAsset;
     beforeLabel?: string;
     afterLabel?: string;
+    /** Initial-Position 0 – 100 (Default: 50) */
+    initialPosition?: number;
+    /** Callback bei Positionswechsel — z.B. für Analytics */
+    onChange?: (position: number) => void;
+
     width?: number;
     sizes?: string;
     priority?: boolean;
     className?: string;
 }
 
+/** Vorher/Nachher Badges */
+function renderBadges(beforeLabel: string, afterLabel: string) {
+    return (
+        <>
+            <span
+                className="absolute top-3 left-3 bg-black/60 backdrop-blur-sm text-white text-xs font-semibold px-2.5 py-1 rounded-full pointer-events-none"
+                aria-hidden="true"
+            >
+                    {beforeLabel}
+                </span>
+            <span
+                className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm text-white text-xs font-semibold px-2.5 py-1 rounded-full pointer-events-none"
+                aria-hidden="true"
+            >
+                    {afterLabel}
+                </span>
+        </>
+    )
+}
+
+/** Divider-Linie + Handle */
+function renderDivider(isDragging: boolean, position: number) {
+    return (
+        <div className={cn(
+            'absolute inset-y-0 w-0.5 bg-white shadow-lg pointer-events-none text-gray-70',
+            !isDragging && 'motion-safe:transition-[left] motion-safe:duration-100',
+        )}
+             style={{ left: `${position}%`, transform: 'translateX(-50%)' }}
+             aria-hidden="true"
+        >
+            {/* Handle – während Drag größer + stärkerer Schatten = taktiles Feedback */}
+            <div className={cn(
+                'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
+                'rounded-full bg-white flex items-center justify-center',
+                'ring-2 ring-white/30',
+                'motion-safe:transition-[transform,box-shadow,width,height] motion-safe:duration-150',
+                isDragging
+                    ? 'w-14 h-14 shadow-2xl'
+                    : 'w-12 h-12 shadow-xl',
+            )}
+            >
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" focusable="false">
+                    <path d="M6.5 4L2 9l4.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                          strokeLinejoin="round"/>
+                    <path d="M11.5 4L16 9l-4.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                          strokeLinejoin="round"/>
+                </svg>
+            </div>
+        </div>
+    )
+}
+
 export function BeforeAfterImage({
+                                     locale,
                                      before,
                                      after,
-                                     beforeLabel = 'Vorher',
-                                     afterLabel = 'Nachher',
+                                     beforeLabel,
+                                     afterLabel,
+                                     initialPosition = 50,
+                                     onChange,
                                      width = 720,
                                      sizes = '(min-width: 1024px) 712px, calc(100vw - 2rem)',
                                      priority,
                                      className,
                                  }: BeforeAfterImageProps) {
-    const [position, setPosition] = useState(50);
-    const [isFocused, setIsFocused] = useState(false);
     const inputId = useId();
-    const pct = Math.round(position);
+    const clampedInitial = Math.min(100, Math.max(0, initialPosition));
+    const [position, setPosition] = useState(clampedInitial);
+
+    const [isFocused, setIsFocused] = useState(false);
+    const [isDragging, setIsDragging] = useState(false);
+
+    /**
+     * Focus-visible Pattern: Tastatur-Fokus zeigt den Ring, Pointer-Fokus nicht.
+     * onPointerDown setzt das Flag → onFocus prüft & resettet.
+     */
     const isPointerFocus = useRef(false);
 
+    if (!before?.filename || !after?.filename) {
+        return null;
+    }
+
+    const labelBefore = beforeLabel || t(locale, 'before_after.before');
+    const labelAfter = afterLabel || t(locale, 'before_after.after');
+    const labelCompare = t(locale, 'before_after.compare', labelBefore, labelAfter);
+    const labelValue = t(locale, 'before_after.value', position, labelAfter);
+
+    const handleChange = (value: number) => {
+        setPosition(value);
+        onChange?.(value);
+    };
+
+    const handlePointerDown = () => {
+        isPointerFocus.current = true;
+        setIsDragging(true);
+    };
+
+    const handleFocus = () => {
+        if (isPointerFocus.current) {
+            isPointerFocus.current = false;
+            return;
+        }
+        setIsFocused(true);
+    };
+
+    /**
+     * Range-Inputs schlucken intern PointerUp-Events während des Drags.
+     * Globaler Listener auf window ist die zuverlässigste Variante,
+     * den Drag-State korrekt zurückzusetzen.
+     */
+    useEffect(() => {
+        if (!isDragging) return;
+
+        const stopDragging = () => setIsDragging(false);
+        window.addEventListener('pointerup', stopDragging);
+        window.addEventListener('pointercancel', stopDragging);
+
+        return () => {
+            window.removeEventListener('pointerup', stopDragging);
+            window.removeEventListener('pointercancel', stopDragging);
+        };
+    }, [isDragging]);
+
     return (
-        /*
-         * Kein overflow-hidden hier!
-         * Der Handle darf an den Rändern visuell überstehen –
-         * das ist der Kern des Mobile-Fixes: der Nutzer sieht und
-         * erreicht den Handle auch bei Position 0 % / 100 %.
-         */
-        <div className={`relative select-none touch-none ${className ?? ''}`}>
-
-            {/* ── Bild-Wrapper: overflow-hidden + Rounding nur hier ─────────── */}
+        <div className={cn('relative select-none touch-none', className)}>
             <div className="relative rounded-2xl overflow-hidden">
-
-                {/* Before-Image – Normal Flow → gibt Container-Höhe vor */}
+                {/* Before-Image */}
                 <StoryblokImage asset={before}
                                 width={width}
                                 sizes={sizes}
                                 priority={priority}
                 />
 
-                {/* After-Image – absolut, von links geclipt
-                    inset(top right bottom left):
-                    left = position% → alles links davon abschneiden
-                    → After-Bild ist auf der rechten Seite des Sliders sichtbar */}
-                <div className="absolute inset-0"
+                {/* After-Image: absolut positioniert; von links geclipped
+                    After-Bild ist auf der rechten Seite des Sliders sichtbar.
+                    Transition, nur wenn nicht gezogen wird (sonst läuft der
+                    Slider dem Mauszeiger hinterher) und reduce-motion respektieren. */}
+                <div className={cn(
+                    'absolute inset-0',
+                    !isDragging && 'motion-safe:transition-[clip-path] motion-safe:duration-100',
+                )}
                      style={{ clipPath: `inset(0 0 0 ${position}%)` }}
                      aria-hidden="true"
                 >
@@ -66,96 +176,41 @@ export function BeforeAfterImage({
                     />
                 </div>
 
-                {/* Badges */}
-                <span className="absolute top-3 left-3 bg-black/60 backdrop-blur-sm text-white text-xs font-semibold px-2.5 py-1 rounded-full pointer-events-none"
-                      aria-hidden="true"
-                >
-                    {beforeLabel}
-                </span>
-                <span className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm text-white text-xs font-semibold px-2.5 py-1 rounded-full pointer-events-none"
-                      aria-hidden="true"
-                >
-                    {afterLabel}
-                </span>
+                {renderBadges(labelBefore, labelAfter)}
             </div>
 
-            {/* ── Divider-Linie + Handle ────────────────────────────────────────
-                Sibling des Bild-Wrappers → kein overflow-hidden → übersteht an Rändern.
-                inset-y-0 bezieht sich auf den äußeren Container,
-                der dieselbe Höhe hat wie der Bild-Wrapper. */}
-            <div
-                className="absolute inset-y-0 w-0.5 bg-white shadow-lg pointer-events-none"
-                style={{ left: `${position}%`, transform: 'translateX(-50%)' }}
-                aria-hidden="true"
-            >
-                {/* Handle-Kreis – w-12/h-12 für bessere Greifbarkeit auf Mobile */}
-                <div className="
-                    absolute top-1/2 left-1/2
-                    -translate-x-1/2 -translate-y-1/2
-                    w-12 h-12 rounded-full
-                    bg-white shadow-xl
-                    flex items-center justify-center
-                    ring-2 ring-white/30
-                ">
-                    <svg
-                        width="18"
-                        height="18"
-                        viewBox="0 0 18 18"
-                        fill="none"
-                        aria-hidden="true"
-                        focusable="false"
-                    >
-                        <path d="M6.5 4L2 9l4.5 5" stroke="#606369" strokeWidth="2" strokeLinecap="round"
-                              strokeLinejoin="round"/>
-                        <path d="M11.5 4L16 9l-4.5 5" stroke="#606369" strokeWidth="2" strokeLinecap="round"
-                              strokeLinejoin="round"/>
-                    </svg>
-                </div>
-            </div>
+            {renderDivider(isDragging, position)}
 
-            {/* ── Focus-Ring ────────────────────────────────────────────────────
-                Eigener Overlay statt :focus-visible auf dem opacity-0 Input –
-                Browser zeigen den nativen Fokus-Ring unsichtbarer Elemente nicht.
-                Wir tracken den State via onFocus/onBlur und zeichnen den Ring
-                manuell, konsistent mit dem bestehenden focus-element-Stil
-                (gepunktet, --color-focus, Offset über CSS-Variablen). */}
+            {/* Focus-Ring (nur bei Tastatur-Navigation) */}
             {isFocused && (
-                <div
-                    className="absolute rounded-2xl pointer-events-none z-10"
-                    style={{
-                        inset: 'var(--focus-y-offset, -0.5rem)',
-                        border: '0.3rem dotted var(--color-focus)',
-                    }}
-                    aria-hidden="true"
+                <div className="absolute rounded-2xl pointer-events-none z-10"
+                     style={{
+                         inset: 'var(--focus-y-offset, -0.5rem)',
+                         border: '0.3rem dotted var(--color-focus)',
+                     }}
+                     aria-hidden="true"
                 />
             )}
 
-            {/* ── Barrierefreies Range-Input ────────────────────────────────────
-                Deckt den gesamten Bild-Bereich ab. Keyboard (Pfeiltasten,
-                Home, End), Touch und Maus funktionieren nativ über den Browser.
-                onFocus/onBlur schalten den Focus-Ring oben ein und aus. */}
+            {/* Barrierefreies Range-Input:
+                Nativ: Pfeiltasten (1%-Schritte), Page Up/Down (10%), Home/End,
+                Touch und Maus. aria-valuetext gibt SR den semantischen Kontext. */}
             <label htmlFor={inputId} className="sr-only">
-                {`${beforeLabel} und ${afterLabel} vergleichen`}
+                {labelCompare}
             </label>
-            <input
-                id={inputId}
-                type="range"
-                min={0}
-                max={100}
-                step={1}
-                value={pct}
-                onChange={(e) => setPosition(Number(e.target.value))}
-                onPointerDown={() => { isPointerFocus.current = true; }}
-                onFocus={() => {
-                    if (isPointerFocus.current) {
-                        isPointerFocus.current = false;
-                        return;
-                    }
-                    setIsFocused(true);
-                }}
-                onBlur={() => setIsFocused(false)}
-                aria-valuetext={`${pct} % ${afterLabel} sichtbar`}
-                className="absolute inset-0 w-full h-full opacity-0 cursor-col-resize"
+
+            <input id={inputId}
+                   type="range"
+                   min={0}
+                   max={100}
+                   step={1}
+                   value={position}
+                   onChange={(e) => handleChange(Number(e.target.value))}
+                   onPointerDown={handlePointerDown}
+                   onFocus={handleFocus}
+                   onBlur={() => setIsFocused(false)}
+                   aria-valuetext={labelValue}
+                   className="absolute inset-0 w-full h-full opacity-0 cursor-col-resize"
             />
         </div>
     );
