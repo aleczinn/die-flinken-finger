@@ -123,7 +123,7 @@ export default async function Footer({ locale }: FooterProps) {
 			<Section as="div"
 					 variant="capped"
 					 outerClassName="bg-gray-80"
-					 innerClassName="flex flex-col lg:flex-row justify-center sm:justify-between items-center py-6 gap-0 lg:gap-8"
+					 innerClassName="flex flex-row flex-wrap justify-between items-center py-6 gap-0 lg:gap-8"
 			>
 				<IconFullLogoLight className="w-48 h-auto mb-4" />
 
