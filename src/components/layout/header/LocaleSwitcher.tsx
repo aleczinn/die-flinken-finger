@@ -49,7 +49,7 @@ export default function LocaleSwitcher({ locale, alternates, className }: Locale
 			 title={title}
 			 aria-label={title}
 			 hrefLang={nextLocale.language}
-			 className={`h-full flex flex-row items-center gap-1 text-gray-90 transition-colors duration-200 hover:text-primary hover:cursor-pointer focus-element ${className}`}
+			 className={`h-full flex flex-row items-center p-2 gap-1 text-gray-90 transition-colors duration-200 hover:text-primary hover:cursor-pointer focus-element ${className}`}
 		>
 			<IconGlobe />
 			<span className="text-sm">{locale.language.toUpperCase()}</span>

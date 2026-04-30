@@ -40,10 +40,6 @@ export default async function Header({ locale }: HeaderProps) {
         (config.header_navigation ?? []).map((item) => resolveNavigationItem(item, language)),
     );
 
-    const localeSwitcher = (
-        <LocaleSwitcher locale={locale} alternates={{ byTranslated, pathsByReal }} />
-    );
-
     return (
         <header className="sticky top-0 bg-gray-90 shadow-xl shadow-gray-90/5 z-50 shrink-0">
             <ServiceBar locale={locale}/>
@@ -62,18 +58,15 @@ export default async function Header({ locale }: HeaderProps) {
 
                 <DesktopNavigation locale={locale} items={navigation} />
 
-                <div className="hidden lg:flex flex-row gap-4 items-center">
-                    <Button variant="primary" href={contactHref}>
+                <div className="flex flex-row gap-4 items-center">
+                    <Button variant="primary" href={contactHref} className="hidden lg:flex">
                         {t(locale, 'footer.contact.label')}
                     </Button>
 
-                    {localeSwitcher}
-                </div>
+                    <LocaleSwitcher locale={locale} alternates={{ byTranslated, pathsByReal }} />
 
-                <MobileNavigation locale={locale}
-                                  items={navigation}
-                                  localeSwitcher={localeSwitcher}
-                />
+                    <MobileNavigation locale={locale} items={navigation} />
+                </div>
             </Section>
         </header>
     );

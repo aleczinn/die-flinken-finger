@@ -4,19 +4,17 @@ import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ResolvedNavigationItem } from '@/lib/locale/navigation';
-import { IconChevronDown, IconMenuAnimated, IconMenuOff, IconMenuOn } from '@/components/icons';
+import { IconChevronDown, IconMenuAnimated } from '@/components/icons';
 import { Locale } from '@/lib/locale/locales';
 import { t } from '@/lib/i18n';
 import { breakpointUp } from "@/lib/breakpoints";
-import { Button } from "@/components/ui/Button";
 
 interface MobileNavigationProps {
     locale: Locale;
     items: ResolvedNavigationItem[];
-    localeSwitcher?: React.ReactNode;
 }
 
-export default function MobileNavigation({ locale, items, localeSwitcher }: MobileNavigationProps) {
+export default function MobileNavigation({ locale, items }: MobileNavigationProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [headerBottom, setHeaderBottom] = useState(0);
     const triggerRef = useRef<HTMLButtonElement>(null);
@@ -219,19 +217,13 @@ export default function MobileNavigation({ locale, items, localeSwitcher }: Mobi
                     <div className="overflow-y-auto overscroll-contain"
                          style={{ maxHeight: `calc(100dvh - ${headerBottom}px)` }}
                     >
-                        <nav aria-label={labels.mainNav}>
-                            <ul key={resetKey} className="flex flex-col">
+                        <nav aria-label={labels.mainNav} className="pb-14">
+                            <ul key={resetKey} className="flex flex-col border-b-2 border-gray-20">
                                 {items.map((item) => (
                                     <MobileMenuItem key={item.uid} item={item} onNavigate={close} />
                                 ))}
                             </ul>
                         </nav>
-
-                        {localeSwitcher && (
-                            <div className="px-4 py-4 border-t border-gray-20 flex flex-row justify-end items-center">
-                                {localeSwitcher}
-                            </div>
-                        )}
                     </div>
                 </div>
             </div>
