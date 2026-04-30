@@ -3,56 +3,61 @@
 import { useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 import { IconGlobe } from '@/components/icons';
-import { availableLanguages, locales, Locale } from '@/lib/locale/locales';
+import { availableLanguages, locales, Locale, COOKIE_LOCALE, toLocaleTag } from '@/lib/locale/locales';
 import { t } from "@/lib/i18n";
 
 interface AlternateMap {
-	/** translatedPath (ohne führenden Slash, "" für Home) -> realSlug */
-	byTranslated: Record<string, Record<string, string>>;
-	/** realSlug -> { lang -> translatedPath } */
-	pathsByReal: Record<string, Record<string, string>>;
+    /** translatedPath (ohne führenden Slash, "" für Home) -> realSlug */
+    byTranslated: Record<string, Record<string, string>>;
+    /** realSlug -> { lang -> translatedPath } */
+    pathsByReal: Record<string, Record<string, string>>;
 }
 
 interface LocaleSwitcherProps {
-	locale: Locale;
-	alternates: AlternateMap;
-	className?: string;
+    locale: Locale;
+    alternates: AlternateMap;
+    className?: string;
 }
 
 const uniqueLanguages = availableLanguages.map(
-	(lang) => locales.find((l) => l.language === lang)!,
+    (lang) => locales.find((l) => l.language === lang)!,
 );
 
 export default function LocaleSwitcher({ locale, alternates, className }: LocaleSwitcherProps) {
-	const pathname = usePathname();
+    const pathname = usePathname();
 
-	const currentIndex = uniqueLanguages.findIndex((l) => l.language === locale.language);
-	const nextLocale = uniqueLanguages[(currentIndex + 1) % uniqueLanguages.length];
+    const currentIndex = uniqueLanguages.findIndex((l) => l.language === locale.language);
+    const nextLocale = uniqueLanguages[(currentIndex + 1) % uniqueLanguages.length];
 
-	const targetHref = useMemo(() => {
-		// pathname: "/de/abgeordnete/wahlkreissuche"
-		const translatedPath = pathname.split('/').filter(Boolean).slice(1).join('/');
-		const key = translatedPath || 'home';
-		const realSlug = alternates.byTranslated[locale.language]?.[key];
+    const targetHref = useMemo(() => {
+        // pathname: "/de/abgeordnete/wahlkreissuche"
+        const translatedPath = pathname.split('/').filter(Boolean).slice(1).join('/');
+        const key = translatedPath || 'home';
+        const realSlug = alternates.byTranslated[locale.language]?.[key];
 
-		if (!realSlug) return `/${nextLocale.language}`;
+        if (!realSlug) return `/${nextLocale.language}`;
 
-		const translated = alternates.pathsByReal[realSlug]?.[nextLocale.language] ?? '';
-		const isHome = realSlug === 'home';
-		return isHome ? `/${nextLocale.language}` : `/${nextLocale.language}/${translated}`;
-	}, [pathname, locale.language, nextLocale.language, alternates]);
+        const translated = alternates.pathsByReal[realSlug]?.[nextLocale.language] ?? '';
+        const isHome = realSlug === 'home';
+        return isHome ? `/${nextLocale.language}` : `/${nextLocale.language}/${translated}`;
+    }, [pathname, locale.language, nextLocale.language, alternates]);
 
-	const title = t(locale, 'header.change_language_to', nextLocale.label);
+    const setCookieAndNavigate = () => {
+        document.cookie = `${COOKIE_LOCALE}=${toLocaleTag(nextLocale)}; path=/; max-age=31536000; SameSite=Lax`;
+    };
 
-	return (
-		<a href={targetHref}
-			 title={title}
-			 aria-label={title}
-			 hrefLang={nextLocale.language}
-			 className={`h-full flex flex-row items-center p-2 gap-1 text-gray-90 transition-colors duration-200 hover:text-primary hover:cursor-pointer focus-element ${className}`}
-		>
-			<IconGlobe />
-			<span className="text-sm">{locale.language.toUpperCase()}</span>
-		</a>
-	);
+    const title = t(locale, 'header.change_language_to', nextLocale.label);
+
+    return (
+        <a href={targetHref}
+           onClick={setCookieAndNavigate}
+           title={title}
+           aria-label={title}
+           hrefLang={nextLocale.language}
+           className={`h-full flex flex-row items-center p-2 gap-1 text-gray-90 transition-colors duration-200 hover:text-primary hover:cursor-pointer focus-element ${className}`}
+        >
+            <IconGlobe/>
+            <span className="text-sm">{locale.language.toUpperCase()}</span>
+        </a>
+    );
 }
