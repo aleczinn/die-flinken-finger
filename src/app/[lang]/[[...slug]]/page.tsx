@@ -78,7 +78,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 	};
 
 	const resolvedTitle = content.seo_title || content.title || story.name;
-	const title = isHomepage ? config.company_name : `${resolvedTitle} – ${config.company_name}`;
+	const companyName = config.company_name.replace("GmbH", "");
+	const title = `${resolvedTitle} | ${companyName}`;
 	const description = content.seo_description || config.site_description;
 	const ogImage = content.seo_og_image?.filename || `${BASE_URL}/og-default.jpg`;
 
