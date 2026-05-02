@@ -17,11 +17,11 @@ export default function IconFullLogo({ className }: { className?: string }) {
             </g>
             <g id="Gruppe_3" data-name="Gruppe 3" transform="translate(-193.39 -202.828)">
                 <text id="FLINKE_HÄNDE" data-name="FLINKE HÄNDE" transform="translate(391.61 321.5)" fill="#171717"
-                      font-size="84" font-family="Inter-SemiBold, Inter" font-weight="600">
+                      fontSize="84" fontFamily="Inter-SemiBold, Inter" fontWeight="600">
                     <tspan x="0" y="0">FLINKE HÄNDE</tspan>
                 </text>
-                <text id="GMBH" transform="translate(536.61 388.5)" fill="#606369" font-size="48"
-                      font-family="Inter-Regular, Inter">
+                <text id="GMBH" transform="translate(536.61 388.5)" fill="#606369" fontSize="48"
+                      fontFamily="Inter-Regular, Inter">
                     <tspan x="-145.091" y="0">GMBH</tspan>
                 </text>
             </g>
