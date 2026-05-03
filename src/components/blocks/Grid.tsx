@@ -8,6 +8,7 @@ import { Tagline } from "@/components/ui/Tagline";
 import { IconMail, IconSunOutline } from "@/components/icons";
 import { Text } from "@/components/ui/Text";
 import { MyLink } from "@/components/ui/MyLink";
+import { css } from "@/lib/utils";
 
 interface HeroProps {
     locale: Locale;
@@ -64,7 +65,15 @@ export default async function Grid({ locale, blok }: HeroProps) {
 
 function Card({ title, description, link }: CardProps) {
     return (
-        <div className="group flex flex-col bg-white border-1 border-solid border-gray-20 rounded-xl p-6 flex-1 hover:cursor-pointer transition-transform duration-200 hover:border-primary hover:-translate-y-2 hover:shadow-xl shadow-black/5">
+        <a href="/"
+           className={css(
+               'group flex flex-col bg-white border-1 border-solid border-gray-20 rounded-xl p-6 flex-1',
+               'transition-transform duration-200',
+               'hover:cursor-pointer hover:border-primary hover:-translate-y-2 hover:shadow-xl shadow-black/5',
+               'focus:border-primary focus:-translate-y-2 focus:shadow-xl',
+               'focus-element'
+           )}
+        >
             <div className="w-16 h-16 bg-primary-lightest transition-colors duration-200 group-hover:bg-primary mb-8 rounded-xl p-4">
                 <IconSunOutline className="text-primary transition-colors duration-200  group-hover:text-white w-full h-full" />
             </div>
@@ -77,9 +86,7 @@ function Card({ title, description, link }: CardProps) {
                 {description}
             </span>
 
-            <MyLink href="/" design="secondary">
-                Mehr erfahren
-            </MyLink>
-        </div>
+            <span className="text-primary text-sm">Mehr erfahren</span>
+        </a>
     )
 }
