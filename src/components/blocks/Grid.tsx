@@ -1,16 +1,11 @@
 import { storyblokEditable } from '@storyblok/react/rsc';
 import { SbBlokData } from '@storyblok/react';
 import Section from '@/components/layout/Section';
-import { StoryblokMedia } from "@/components/storyblok/StoryblokMedia";
 import { Headline } from "@/components/ui/Headline";
-import { Button } from "@/components/ui/Button";
-import { parseHighlights } from "@/lib/text";
 import { Locale } from "@/lib/locale/locales";
-import { resolveStoryblokLink } from "@/lib/locale/links";
 import { useId } from "react";
 import { Tagline } from "@/components/ui/Tagline";
-import Link from "next/link";
-import { IconChevronRight, IconMail, IconWaterDrop } from "@/components/icons";
+import { IconMail, IconSunOutline } from "@/components/icons";
 import { Text } from "@/components/ui/Text";
 import { MyLink } from "@/components/ui/MyLink";
 
@@ -71,7 +66,7 @@ function Card({ title, description, link }: CardProps) {
     return (
         <div className="group flex flex-col bg-white border-1 border-solid border-gray-20 rounded-xl p-6 flex-1 hover:cursor-pointer transition-transform duration-200 hover:border-primary hover:-translate-y-2 hover:shadow-xl shadow-black/5">
             <div className="w-16 h-16 bg-primary-lightest transition-colors duration-200 group-hover:bg-primary mb-8 rounded-xl p-4">
-                <IconMail className="text-primary transition-colors duration-200  group-hover:text-white w-full h-full" />
+                <IconSunOutline className="text-primary transition-colors duration-200  group-hover:text-white w-full h-full" />
             </div>
 
             <div className="font-semibold text-xl leading-none tracking-tight mb-4">

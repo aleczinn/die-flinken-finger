@@ -63,15 +63,17 @@ export default function ContactForm({ locale, topics, className }: ContactFormPr
                         className="mb-8"
             />
 
-            <Button variant="primary" type="button">
-                {t(locale, 'contact_form.next')}
-            </Button>
+            <div className="flex flex-row justify-end">
+                <Button variant="primary" type="button">
+                    {t(locale, 'contact_form.next')}
+                </Button>
+            </div>
 
-            <Button variant="primary" type="button" iconLeft={
-                <IconSendOutline className="w-4 h-auto" />
-            }>
-                {t(locale, 'contact_form.submit')}
-            </Button>
+            {/*<Button variant="primary" type="button" iconLeft={*/}
+            {/*    <IconSendOutline className="w-4 h-auto" />*/}
+            {/*}>*/}
+            {/*    {t(locale, 'contact_form.submit')}*/}
+            {/*</Button>*/}
         </div>
     );
 }
