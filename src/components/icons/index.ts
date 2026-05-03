@@ -39,6 +39,7 @@ export { default as IconMailOutline } from "./outline/IconMailOutline";
 export { default as IconTelephoneOutline } from "./outline/IconTelephoneOutline";
 export { default as IconLocationOutline } from "./outline/IconLocationOutline";
 export { default as IconSendOutline } from "./outline/IconSendOutline";
+export { default as IconSunOutline } from "./outline/IconSunOutline";
 
 // ANIMIERT
 export { default as IconMenuAnimated } from "./animation/IconMenuAnimated";
