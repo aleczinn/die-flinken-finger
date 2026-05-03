@@ -22,14 +22,14 @@ export default async function ServiceBar({ locale }: ServiceBarProps) {
             <div className="flex flex-row gap-4">
                 <MyLink href={`tel:${config.telephone}`}
                         icon={<IconTelephone className="w-4 h-auto" />}
-                        aria-label={t(locale, 'generic.telephone', config.telephone)}
+                        aria-label={t(locale, 'generic.telephone.long', config.telephone)}
                 >
                     {config.telephone}
                 </MyLink>
 
                 <MyLink href={`mailto:${config.email}`}
                         icon={<IconMail className="w-4 h-auto" />}
-                        aria-label={t(locale, 'generic.email', config.email)}
+                        aria-label={t(locale, 'generic.email.long', config.email)}
                 >
                     {config.email}
                 </MyLink>

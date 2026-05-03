@@ -71,14 +71,14 @@ export default async function Footer({ locale }: FooterProps) {
 						<div className="flex flex-col gap-2">
 							<MyLink href={`tel:${config.telephone}`}
 									icon={<IconTelephone className="w-4 h-auto" />}
-									aria-label={t(locale, 'generic.telephone', config.telephone)}
+									aria-label={t(locale, 'generic.telephone.long', config.telephone)}
 							>
 								{config.telephone}
 							</MyLink>
 
 							<MyLink href={`mailto:${config.email}`}
 									icon={<IconMail className="w-4 h-auto" />}
-									aria-label={t(locale, 'generic.email', config.email)}
+									aria-label={t(locale, 'generic.email.long', config.email)}
 							>
 								{config.email}
 							</MyLink>

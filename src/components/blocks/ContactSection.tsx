@@ -14,6 +14,7 @@ import {
 import { getConfig } from "@/lib/storyblok-queries";
 import OpeningHours from "@/components/modules/OpeningHours";
 import ContactForm from "@/components/modules/ContactForm";
+import { t } from "@/lib/i18n";
 
 interface ContactSectionProps {
     locale: Locale;
@@ -70,20 +71,28 @@ export default async function ContactSection({ locale, blok, background }: Conta
                         </div>
                     </li>
 
-                    <li className="flex flex-row gap-4">
-                        <IconTelephoneOutline className="p-3 bg-primary-lightest w-12 h-12 rounded-full text-primary" />
-                        <div className="flex flex-col">
-                            <span className="font-semibold mb-1">Telefon</span>
-                            <span className="text-gray-70 text-sm">0123 4567890</span>
-                        </div>
+                    <li className="">
+                        <a className="flex flex-row gap-4" href={`tel:${config.telephone}`}>
+                            <IconTelephoneOutline className="p-3 bg-primary-lightest w-12 h-12 rounded-full text-primary" />
+                            <div className="flex flex-col">
+                                <span className="font-semibold mb-1">
+                                    {t(locale, 'generic.telephone.short')}
+                                </span>
+                                <span className="text-gray-70 text-sm">0123 4567890</span>
+                            </div>
+                        </a>
                     </li>
 
-                    <li className="flex flex-row gap-4">
-                        <IconMailOutline className="p-3 bg-primary-lightest w-12 h-12 rounded-full text-primary" />
-                        <div className="flex flex-col">
-                            <span className="font-semibold mb-1">E-Mail</span>
-                            <span className="text-gray-70 text-sm">info@flinke-finger.de</span>
-                        </div>
+                    <li>
+                        <a className="flex flex-row gap-4" href={`mailto:${config.email}`}>
+                            <IconMailOutline className="p-3 bg-primary-lightest w-12 h-12 rounded-full text-primary" />
+                            <div className="flex flex-col">
+                            <span className="font-semibold mb-1">
+                                {t(locale, 'generic.email.short')}
+                            </span>
+                                <span className="text-gray-70 text-sm">info@flinke-finger.de</span>
+                            </div>
+                        </a>
                     </li>
 
                     <li className="flex flex-row gap-4">

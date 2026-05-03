@@ -3,8 +3,14 @@
     "generic": {
         "search": "Suche",
         "menu": "Menü",
-        "telephone": "Jetzt anrufen: {0}",
-        "email": "E-Mail schreiben: {0}",
+        "telephone": {
+            "short": "Telefon",
+            "long": "Jetzt anrufen: {0}"
+        },
+        "email": {
+            "short": "E-Mail",
+            "long": "E-Mail schreiben: {0}"
+        },
         "closed": "Geschlossen"
     },
     "skiplinks": {
