@@ -33,5 +33,12 @@ export { default as IconExternalLink } from "./IconExternalLink";
 export { default as IconWaterDrop } from "./IconWaterDrop";
 export { default as IconArrows } from "./IconArrows";
 
+// OUTLINE
+export { default as IconClockOutline } from "./outline/IconClockOutline";
+export { default as IconMailOutline } from "./outline/IconMailOutline";
+export { default as IconTelephoneOutline } from "./outline/IconTelephoneOutline";
+export { default as IconLocationOutline } from "./outline/IconLocationOutline";
+export { default as IconSendOutline } from "./outline/IconSendOutline";
+
 // ANIMIERT
 export { default as IconMenuAnimated } from "./animation/IconMenuAnimated";

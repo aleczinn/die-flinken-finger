@@ -8,6 +8,7 @@ import { t } from "@/lib/i18n";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { css } from "@/lib/utils";
+import { IconSendOutline } from "@/components/icons";
 
 interface ContactFormProps {
     locale: Locale
@@ -63,6 +64,12 @@ export default function ContactForm({ locale, topics, className }: ContactFormPr
             />
 
             <Button variant="primary" type="button">
+                {t(locale, 'contact_form.next')}
+            </Button>
+
+            <Button variant="primary" type="button" iconLeft={
+                <IconSendOutline className="w-4 h-auto" />
+            }>
                 {t(locale, 'contact_form.submit')}
             </Button>
         </div>

@@ -50,7 +50,8 @@
             "description": "Gerne können Sie uns ergänzende Dokumente oder Bilder zusenden – so können wir Ihre Anfrage schneller und gezielter bearbeiten.",
             "field_description": "Klicken oder ziehen Sie eine Datei in diesen Bereich, um sie hochzuladen."
         },
-        "submit": "Weiter"
+        "next": "Weiter",
+        "submit": "Anfrage senden"
     },
     "before_after": {
         "before": "Vorher",
