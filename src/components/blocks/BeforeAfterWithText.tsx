@@ -84,7 +84,7 @@ export default async function BeforeAfterWithText({
                 )}
 
                 {blok.headline && (
-                    <Headline id={headingId} as="h2" variant="h3" alignment="left" design="line" className="mb-8">
+                    <Headline id={headingId} as="h2" variant="h3" alignment="left" design="line" className="mb-4">
                         {blok.headline}
                     </Headline>
                 )}
