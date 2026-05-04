@@ -3,9 +3,18 @@
     "generic": {
         "search": "Search",
         "menu": "Menu",
-        "telephone": "Call us: {0}",
-        "email": "Send email: {0}",
-        "closed": "Closed"
+        "telephone": {
+            "short": "Telefone",
+            "long": "Call us: {0}"
+        },
+        "email": {
+            "short": "Email",
+            "long": "Send email: {0}"
+        },
+        "closed": "Closed",
+        "first_name": "First name",
+        "last_name": "Last name",
+        "address": "Address"
     },
     "skiplinks": {
         "label": "Skiplinks",

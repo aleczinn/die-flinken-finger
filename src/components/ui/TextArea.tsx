@@ -18,6 +18,7 @@ interface TextareaProps {
     rows?: number;
     maxLength?: number;
     className?: string;
+    onBlur?: () => void;
 }
 
 export function Textarea({
@@ -34,6 +35,7 @@ export function Textarea({
                              rows = 6,
                              maxLength,
                              className,
+                             onBlur
                          }: TextareaProps) {
     const baseId = useId();
     const fieldId = `${baseId}-field`;
@@ -64,6 +66,7 @@ export function Textarea({
                       name={name}
                       value={value}
                       onChange={(e) => onChange(e.target.value)}
+                      onBlur={onBlur}
                       placeholder={placeholder}
                       disabled={disabled}
                       required={required}

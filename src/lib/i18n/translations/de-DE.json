@@ -11,7 +11,10 @@
             "short": "E-Mail",
             "long": "E-Mail schreiben: {0}"
         },
-        "closed": "Geschlossen"
+        "closed": "Geschlossen",
+        "first_name": "Vorname",
+        "last_name": "Nachname",
+        "address": "Adresse"
     },
     "skiplinks": {
         "label": "Sprunglinks",

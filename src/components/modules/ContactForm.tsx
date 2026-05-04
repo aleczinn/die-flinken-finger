@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/Button";
 import { css } from "@/lib/utils";
 import { IconSendOutline } from "@/components/icons";
 import { Input } from "@/components/ui/Input";
+import { required, validate, email } from "@/lib/validation";
 
 interface ContactFormProps {
     locale: Locale
@@ -22,6 +23,14 @@ interface ContactFormTopic {
     value: string;
 }
 
+interface FormErrors {
+    topic?: string;
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    message?: string;
+}
+
 export default function ContactForm({ locale, topics, className }: ContactFormProps) {
     const defaultTopic = topics.length > 0 && topics[0];
     const defaultValue = defaultTopic ? (defaultTopic.value || defaultTopic.label) : '';
@@ -31,11 +40,54 @@ export default function ContactForm({ locale, topics, className }: ContactFormPr
     const [files, setFiles] = useState<File[]>([]);
 
     const [firstName, setFirstName] = useState('');
-    const [sureName, setSureName] = useState('');
-    const [email, setEmail] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [emailValue, setEmailValue] = useState('');
     const firstNameRef = useRef<HTMLInputElement>(null);
     const sureNameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
+
+    const [errors, setErrors] = useState<FormErrors>({});
+
+
+    // Pro Feld eine Validate-Funktion. Wird bei Blur und bei Submit aufgerufen.
+    const validators = {
+        topic: () => validate(topic, required('Bitte ein Thema wählen')),
+        firstName: () => validate(firstName, required('Vorname ist ein Pflichtfeld')),
+        lastName: () => validate(lastName, required('Nachname ist ein Pflichtfeld')),
+        email: () => validate(emailValue, required('E-Mail ist ein Pflichtfeld'), email()),
+        message: () => validate(message, required('Bitte beschreiben Sie Ihr Anliegen')),
+    } satisfies Record<keyof FormErrors, () => string | null>;
+
+    const validateField = (field: keyof FormErrors) => {
+        const error = validators[field]();
+        setErrors((prev) => ({ ...prev, [field]: error ?? undefined }));
+    };
+
+    // Wenn der User korrigiert, sofort den Fehler entfernen — sonst bleibt
+    // "ungültig" stehen, obwohl der Wert inzwischen korrekt ist
+    const clearError = (field: keyof FormErrors) => {
+        if (errors[field]) {
+            setErrors((prev) => ({ ...prev, [field]: undefined }));
+        }
+    };
+
+    const handleSubmit = () => {
+        const newErrors: FormErrors = {};
+        (Object.keys(validators) as (keyof FormErrors)[]).forEach((field) => {
+            const error = validators[field]();
+            if (error) newErrors[field] = error;
+        });
+
+        setErrors(newErrors);
+
+        if (Object.keys(newErrors).length > 0) {
+            // Optional: Fokus aufs erste fehlerhafte Feld setzen
+            return;
+        }
+
+        // ... Daten absenden
+        console.log({ topic, firstName, lastName, email: emailValue, message, files });
+    };
 
     return (
         <div className={css(
@@ -46,6 +98,7 @@ export default function ContactForm({ locale, topics, className }: ContactFormPr
                     options={topics}
                     value={topic}
                     required
+                    error={errors.topic}
                     onChange={setTopic}
                     placeholder={t(locale, 'contact_form.service.placeholder')}
                     className="mb-8"
@@ -53,26 +106,32 @@ export default function ContactForm({ locale, topics, className }: ContactFormPr
 
             <div className="flex flex-row gap-4">
                 <Input ref={firstNameRef}
-                       label="Vorname"
+                       label={t(locale, 'generic.first_name')}
                        value={firstName}
                        onChange={setFirstName}
+                       onBlur={() => validateField('firstName')}
+                       error={errors.firstName}
                        required
                        autoComplete="name"
                 />
 
                 <Input ref={sureNameRef}
-                       label="Nachname"
-                       value={sureName}
-                       onChange={setSureName}
+                       label={t(locale, 'generic.last_name')}
+                       value={lastName}
+                       onChange={setLastName}
+                       onBlur={() => validateField('lastName')}
+                       error={errors.lastName}
                        required
                        autoComplete="name"
                 />
             </div>
 
             <Input ref={emailRef}
-                   label="E-Mail"
-                   value={email}
-                   onChange={setEmail}
+                   label={t(locale, 'generic.email.short')}
+                   value={emailValue}
+                   onChange={setEmailValue}
+                   onBlur={() => validateField('email')}
+                   error={errors.email}
                    required
                    autoComplete="email"
             />
@@ -80,6 +139,8 @@ export default function ContactForm({ locale, topics, className }: ContactFormPr
             <Textarea label={t(locale, 'contact_form.request.label')}
                       value={message}
                       onChange={setMessage}
+                      onBlur={() => validateField('message')}
+                      error={errors.message}
                       name="message"
                       maxLength={2000}
                       rows={6}
@@ -102,9 +163,11 @@ export default function ContactForm({ locale, topics, className }: ContactFormPr
 
             <span className="text-gray-70 text-sm mb-8">Wir verwenden Ihre Angaben zur Beantwortung Ihrer Anfrage. Weitere Informationen finden Sie in unseren Datenschutzhinweisen.</span>
 
-            <Button variant="primary" type="button" iconLeft={
-                <IconSendOutline className="w-4 h-auto" />
-            }>
+            <Button variant="primary"
+                    type="button"
+                    onClick={handleSubmit}
+                    iconLeft={<IconSendOutline className="w-4 h-auto" />}
+            >
                 {t(locale, 'contact_form.submit')}
             </Button>
         </div>

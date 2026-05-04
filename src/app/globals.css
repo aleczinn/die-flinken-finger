@@ -24,6 +24,11 @@
     --color-black: #000000;
     --color-transparent: transparent;
 
+    /* Error / Danger */
+    --color-error-light: #FEE2E2;
+    --color-error: #DC2626;
+    --color-error-dark: #991B1B;
+
     /* Special colors */
     --color-focus: #3B82F6;
     --color-youtube: #FF0033;

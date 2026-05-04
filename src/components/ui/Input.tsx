@@ -110,7 +110,7 @@ export function Input({
 
             <div className="flex items-start justify-between gap-2 min-h-4">
                 {error ? (
-                    <span id={errorId} role="alert" className="text-xs text-primary">
+                    <span id={errorId} role="alert" className="text-xs text-error">
                         {error}
                     </span>
                 ) : <span />}
