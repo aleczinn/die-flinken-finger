@@ -72,7 +72,7 @@ export default async function ContactSection({ locale, blok, background }: Conta
                     </li>
 
                     <li className="">
-                        <a className="flex flex-row gap-4" href={`tel:${config.telephone}`}>
+                        <a className="flex flex-row gap-4 focus-element" href={`tel:${config.telephone}`}>
                             <IconTelephoneOutline className="p-3 bg-primary-lightest w-12 h-12 rounded-full text-primary" />
                             <div className="flex flex-col">
                                 <span className="font-semibold mb-1">
@@ -84,7 +84,7 @@ export default async function ContactSection({ locale, blok, background }: Conta
                     </li>
 
                     <li>
-                        <a className="flex flex-row gap-4" href={`mailto:${config.email}`}>
+                        <a className="flex flex-row gap-4 focus-element" href={`mailto:${config.email}`}>
                             <IconMailOutline className="p-3 bg-primary-lightest w-12 h-12 rounded-full text-primary" />
                             <div className="flex flex-col">
                             <span className="font-semibold mb-1">

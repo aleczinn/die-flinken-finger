@@ -5,10 +5,11 @@ import { Select } from "@/components/ui/Select";
 import { Textarea } from "@/components/ui/TextArea";
 import { FileUpload } from "@/components/ui/FileUpload";
 import { t } from "@/lib/i18n";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { css } from "@/lib/utils";
 import { IconSendOutline } from "@/components/icons";
+import { Input } from "@/components/ui/Input";
 
 interface ContactFormProps {
     locale: Locale
@@ -29,6 +30,13 @@ export default function ContactForm({ locale, topics, className }: ContactFormPr
     const [message, setMessage] = useState('');
     const [files, setFiles] = useState<File[]>([]);
 
+    const [firstName, setFirstName] = useState('');
+    const [sureName, setSureName] = useState('');
+    const [email, setEmail] = useState('');
+    const firstNameRef = useRef<HTMLInputElement>(null);
+    const sureNameRef = useRef<HTMLInputElement>(null);
+    const emailRef = useRef<HTMLInputElement>(null);
+
     return (
         <div className={css(
             'flex flex-col justify-center bg-white p-8 lg:p-12 rounded-2xl',
@@ -38,10 +46,35 @@ export default function ContactForm({ locale, topics, className }: ContactFormPr
                     options={topics}
                     value={topic}
                     required
-                    value={topic}
                     onChange={setTopic}
                     placeholder={t(locale, 'contact_form.service.placeholder')}
                     className="mb-8"
+            />
+
+            <div className="flex flex-row gap-4">
+                <Input ref={firstNameRef}
+                       label="Vorname"
+                       value={firstName}
+                       onChange={setFirstName}
+                       required
+                       autoComplete="name"
+                />
+
+                <Input ref={sureNameRef}
+                       label="Nachname"
+                       value={sureName}
+                       onChange={setSureName}
+                       required
+                       autoComplete="name"
+                />
+            </div>
+
+            <Input ref={emailRef}
+                   label="E-Mail"
+                   value={email}
+                   onChange={setEmail}
+                   required
+                   autoComplete="email"
             />
 
             <Textarea label={t(locale, 'contact_form.request.label')}
