@@ -286,7 +286,7 @@ export function Select<T extends string = string>({
                         onKeyDown={onKeyDown}
                         className={css(
                             'w-full flex items-center justify-between gap-2 px-3 py-2 rounded-md border-1 bg-white text-left',
-                            'transition-colors focus-visible-facelift hover:cursor-pointer',
+                            'transition-colors hover:cursor-pointer focus-element',
                             error
                                 ? 'border-primary'
                                 : 'border-gray-30 hover:border-gray-80',
