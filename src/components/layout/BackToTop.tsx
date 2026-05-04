@@ -74,7 +74,7 @@ export default function BackToTop({ locale, threshold = 600 }: BackToTopProps) {
                     'bg-primary text-gray-10 shadow-cta',
                     'motion-safe:transition-all motion-safe:duration-300',
                     'hover:bg-primary-darker hover:cursor-pointer',
-                    'active:bg-primary-darkest',
+                    'active:bg-primary-darkest shadow-form',
                     'focus-element',
                     isVisible
                         ? 'opacity-100 translate-y-0 pointer-events-auto'
