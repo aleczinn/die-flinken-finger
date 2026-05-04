@@ -51,7 +51,8 @@ export default async function ContactSection({ locale, blok, background }: Conta
         <Section variant="capped"
                  background={background}
                  outerClassName="py-section"
-                 innerClassName="grid grid-cols-1 md:grid-cols-2 gap-8"
+                 // innerClassName="grid grid-cols-1 lg:grid-cols-2 gap-8"
+                 innerClassName="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-2 gap-8"
                  aria-labelledby={blok.headline ? headingId : undefined}
                  {...storyblokEditable(blok)}
         >
@@ -112,7 +113,7 @@ export default async function ContactSection({ locale, blok, background }: Conta
                 </ul>
             </div>
 
-            <ContactForm locale={locale} topics={topics} />
+            <ContactForm locale={locale} topics={topics} className="lg:col-span-2 xl:col-span-1" />
         </Section>
     );
 }
