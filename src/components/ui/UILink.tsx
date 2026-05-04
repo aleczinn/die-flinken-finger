@@ -36,7 +36,7 @@ const variantClasses: Record<LinkDesign, string> = {
     )
 }
 
-export function MyLink({
+export function UILink({
                            href,
                            design = 'primary',
                            icon,

@@ -3,7 +3,7 @@ import Section from '@/components/layout/Section';
 import { t } from "@/lib/i18n";
 import { IconMail, IconTelephone } from "@/components/icons";
 import { getConfig } from "@/lib/storyblok-queries";
-import { MyLink } from "@/components/ui/MyLink";
+import { UILink } from "@/components/ui/UILink";
 
 interface ServiceBarProps {
     locale: Locale;
@@ -20,19 +20,19 @@ export default async function ServiceBar({ locale }: ServiceBarProps) {
                  aria-label={t(locale, 'header.service_bar')}
         >
             <div className="flex flex-row gap-4">
-                <MyLink href={`tel:${config.telephone}`}
+                <UILink href={`tel:${config.telephone}`}
                         icon={<IconTelephone className="w-4 h-auto" />}
                         aria-label={t(locale, 'generic.telephone.long', config.telephone)}
                 >
                     {config.telephone}
-                </MyLink>
+                </UILink>
 
-                <MyLink href={`mailto:${config.email}`}
+                <UILink href={`mailto:${config.email}`}
                         icon={<IconMail className="w-4 h-auto" />}
                         aria-label={t(locale, 'generic.email.long', config.email)}
                 >
                     {config.email}
-                </MyLink>
+                </UILink>
             </div>
         </Section>
     );

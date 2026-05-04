@@ -14,7 +14,7 @@ import { buildLocalizedHref, resolveStoryblokLink } from "@/lib/locale/links";
 import OpeningHours from "@/components/modules/OpeningHours";
 import { storyblokEditable } from "@storyblok/react/rsc";
 import { Tagline } from "@/components/ui/Tagline";
-import { MyLink } from "@/components/ui/MyLink";
+import { UILink } from "@/components/ui/UILink";
 
 interface FooterProps {
 	locale: Locale;
@@ -69,19 +69,19 @@ export default async function Footer({ locale }: FooterProps) {
 						<div className="flex-1 min-h-8"></div>
 
 						<div className="flex flex-col gap-2">
-							<MyLink href={`tel:${config.telephone}`}
-									icon={<IconTelephone className="w-4 h-auto" />}
-									aria-label={t(locale, 'generic.telephone.long', config.telephone)}
+							<UILink href={`tel:${config.telephone}`}
+                                    icon={<IconTelephone className="w-4 h-auto" />}
+                                    aria-label={t(locale, 'generic.telephone.long', config.telephone)}
 							>
 								{config.telephone}
-							</MyLink>
+							</UILink>
 
-							<MyLink href={`mailto:${config.email}`}
-									icon={<IconMail className="w-4 h-auto" />}
-									aria-label={t(locale, 'generic.email.long', config.email)}
+							<UILink href={`mailto:${config.email}`}
+                                    icon={<IconMail className="w-4 h-auto" />}
+                                    aria-label={t(locale, 'generic.email.long', config.email)}
 							>
 								{config.email}
-							</MyLink>
+							</UILink>
 						</div>
 					</div>
 
