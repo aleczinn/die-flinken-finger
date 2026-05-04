@@ -65,7 +65,7 @@ export function Input({
             <div className={css(
                 'relative flex items-center rounded-md border-1 bg-white',
                 'transition-colors',
-                'focus-within:border-primary',
+                'focus-within:border-primary focus-within:shadow-form',
                 error ? 'border-error' : 'border-gray-30 hover:border-gray-80',
                 disabled && 'opacity-50 bg-gray-10',
             )}>

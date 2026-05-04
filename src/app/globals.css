@@ -66,6 +66,7 @@
 
     /* Shadow */
     --shadow-cta: 0 14px 30px -10px rgb(var(--color-primary-darker-rgb) / 0.45);
+    --shadow-form: 0 0 0 3px color-mix(in oklab, var(--color-primary) 20%, transparent);
 
     /* Z-Index */
     --z-index-popup: 9000;
@@ -150,8 +151,7 @@ input, textarea, select {
         }
 
         /* Trigger: Element selbst ODER ein Kind hat sichtbaren Fokus */
-        &:focus-visible,
-        &:has(:focus-visible) {
+        &:focus-visible {
             outline: none;
 
             &::after {
@@ -161,12 +161,6 @@ input, textarea, select {
                 z-index: 2;
             }
         }
-    }
-
-    /* Kind-Element bekommt keine eigene Browser-Outline,
-       weil das Eltern-::after die Anzeige übernimmt */
-    .focus-element :focus-visible {
-        outline: none;
     }
 }
 

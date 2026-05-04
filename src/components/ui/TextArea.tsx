@@ -81,7 +81,7 @@ export function Textarea({
                       className={css(
                           'w-full px-3 py-2 rounded-md border-1 bg-white resize-none',
                           'transition-colors',
-                          'focus:border-primary',
+                          'focus-within:border-primary focus-within:shadow-form',
                           'disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-10',
                           error ? 'border-error' : 'border-gray-30 hover:border-gray-80',
                       )}
