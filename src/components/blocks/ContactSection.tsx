@@ -40,6 +40,13 @@ export default async function ContactSection({ locale, blok, background }: Conta
         value: item.value || item.label,
     }));
 
+    const labels = {
+        address: t(locale, 'generic.address'),
+        telephone: t(locale, 'generic.telephone.short'),
+        email: t(locale, 'generic.email.short'),
+        opening_hours: t(locale, 'generic.opening_hours')
+    }
+
     return (
         <Section variant="capped"
                  background={background}
@@ -64,10 +71,10 @@ export default async function ContactSection({ locale, blok, background }: Conta
                     <li className="flex flex-row gap-4">
                         <IconLocationOutline className="p-3 bg-primary-lightest w-12 h-12 rounded-full text-primary" />
                         <div className="flex flex-col">
-                            <span className="font-semibold mb-1">Adresse</span>
-                            <span className="text-gray-70 text-sm">Flinke Finger GmbH</span>
-                            <span className="text-gray-70 text-sm">Musterstraße 42</span>
-                            <span className="text-gray-70 text-sm">12349 Musterdorf</span>
+                            <span className="font-semibold mb-1">{labels.address}</span>
+                            <span className="text-gray-70 text-sm">{config.company_name}</span>
+                            <span className="text-gray-70 text-sm">{config.address_street_house_number}</span>
+                            <span className="text-gray-70 text-sm">{config.address_plz_town}</span>
                         </div>
                     </li>
 
@@ -76,9 +83,9 @@ export default async function ContactSection({ locale, blok, background }: Conta
                             <IconTelephoneOutline className="p-3 bg-primary-lightest w-12 h-12 rounded-full text-primary" />
                             <div className="flex flex-col">
                                 <span className="font-semibold mb-1">
-                                    {t(locale, 'generic.telephone.short')}
+                                    {labels.telephone}
                                 </span>
-                                <span className="text-gray-70 text-sm">0123 4567890</span>
+                                <span className="text-gray-70 text-sm">{config.telephone}</span>
                             </div>
                         </a>
                     </li>
@@ -88,9 +95,9 @@ export default async function ContactSection({ locale, blok, background }: Conta
                             <IconMailOutline className="p-3 bg-primary-lightest w-12 h-12 rounded-full text-primary" />
                             <div className="flex flex-col">
                             <span className="font-semibold mb-1">
-                                {t(locale, 'generic.email.short')}
+                                {labels.email}
                             </span>
-                                <span className="text-gray-70 text-sm">info@flinke-finger.de</span>
+                                <span className="text-gray-70 text-sm">{config.email}</span>
                             </div>
                         </a>
                     </li>
@@ -98,7 +105,7 @@ export default async function ContactSection({ locale, blok, background }: Conta
                     <li className="flex flex-row gap-4">
                         <IconClockOutline className="p-3 bg-primary-lightest w-12 h-12 rounded-full text-primary" />
                         <div className="flex flex-col">
-                            <span className="font-semibold mb-1">Öffnungszeiten</span>
+                            <span className="font-semibold mb-1">{labels.opening_hours}</span>
                             <OpeningHours locale={locale} items={config?.opening_hours ?? []} className="gap-y-0! text-gray-70 text-sm" />
                         </div>
                     </li>

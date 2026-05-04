@@ -11,6 +11,7 @@
             "short": "E-Mail",
             "long": "E-Mail schreiben: {0}"
         },
+        "opening_hours": "Öffnungszeiten",
         "closed": "Geschlossen",
         "first_name": "Vorname",
         "last_name": "Nachname",
