@@ -1,7 +1,7 @@
 // src/components/ui/Textarea.tsx
 'use client';
 
-import { useId } from 'react';
+import { forwardRef, useId } from 'react';
 import { css } from '@/lib/utils';
 
 interface TextareaProps {
@@ -9,6 +9,7 @@ interface TextareaProps {
     labelHidden?: boolean;
     value: string;
     onChange: (value: string) => void;
+    onBlur: () => void;
     placeholder?: string;
     description?: string;
     error?: string;
@@ -18,25 +19,24 @@ interface TextareaProps {
     rows?: number;
     maxLength?: number;
     className?: string;
-    onBlur?: () => void;
 }
 
-export function Textarea({
-                             label,
-                             labelHidden = false,
-                             value,
-                             onChange,
-                             placeholder,
-                             description,
-                             error,
-                             disabled = false,
-                             required = false,
-                             name,
-                             rows = 6,
-                             maxLength,
-                             className,
-                             onBlur
-                         }: TextareaProps) {
+export const TextArea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
+                                                                            label,
+                                                                            labelHidden = false,
+                                                                            value,
+                                                                            onChange,
+                                                                            onBlur,
+                                                                            placeholder,
+                                                                            description,
+                                                                            error,
+                                                                            disabled = false,
+                                                                            required = false,
+                                                                            name,
+                                                                            rows = 6,
+                                                                            maxLength,
+                                                                            className
+                                                                        }: TextareaProps, ref) => {
     const baseId = useId();
     const fieldId = `${baseId}-field`;
     const descriptionId = `${baseId}-description`;
@@ -62,7 +62,8 @@ export function Textarea({
                 </span>
             )}
 
-            <textarea id={fieldId}
+            <textarea ref={ref}
+                      id={fieldId}
                       name={name}
                       value={value}
                       onChange={(e) => onChange(e.target.value)}
@@ -108,4 +109,6 @@ export function Textarea({
             </div>
         </div>
     );
-}
+});
+
+TextArea.displayName = 'TextArea';

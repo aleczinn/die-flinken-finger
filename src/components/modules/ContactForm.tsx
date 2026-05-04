@@ -2,7 +2,6 @@
 
 import { Locale } from "@/lib/locale/locales";
 import { Select } from "@/components/ui/Select";
-import { Textarea } from "@/components/ui/TextArea";
 import { FileUpload } from "@/components/ui/FileUpload";
 import { t } from "@/lib/i18n";
 import { useRef, useState } from "react";
@@ -11,6 +10,7 @@ import { css } from "@/lib/utils";
 import { IconSendOutline } from "@/components/icons";
 import { Input } from "@/components/ui/Input";
 import { required, validate, email, personName } from "@/lib/validation";
+import { TextArea } from "@/components/ui/TextArea";
 
 interface ContactFormProps {
     locale: Locale
@@ -36,18 +36,18 @@ export default function ContactForm({ locale, topics, className }: ContactFormPr
     const defaultValue = defaultTopic ? (defaultTopic.value || defaultTopic.label) : '';
 
     const [topic, setTopic] = useState(defaultValue ?? '');
-    const [message, setMessage] = useState('');
-    const [files, setFiles] = useState<File[]>([]);
-
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [emailValue, setEmailValue] = useState('');
+    const [message, setMessage] = useState('');
+    const [files, setFiles] = useState<File[]>([]);
+
     const firstNameRef = useRef<HTMLInputElement>(null);
     const sureNameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
+    const messageRef = useRef<HTMLTextAreaElement>(null);
 
     const [errors, setErrors] = useState<FormErrors>({});
-
 
     // Pro Feld eine Validate-Funktion. Wird bei Blur und bei Submit aufgerufen.
     const validators = {
@@ -81,7 +81,11 @@ export default function ContactForm({ locale, topics, className }: ContactFormPr
         setErrors(newErrors);
 
         if (Object.keys(newErrors).length > 0) {
-            // Optional: Fokus aufs erste fehlerhafte Feld setzen
+            // Fokus aufs erste fehlerhafte Feld setzen
+            if (newErrors.firstName) firstNameRef.current?.focus();
+            else if (newErrors.lastName) sureNameRef.current?.focus();
+            else if (newErrors.email) emailRef.current?.focus();
+            else if (newErrors.message) messageRef.current?.focus();
             return;
         }
 
@@ -99,7 +103,10 @@ export default function ContactForm({ locale, topics, className }: ContactFormPr
                     value={topic}
                     required
                     error={errors.topic}
-                    onChange={setTopic}
+                    onChange={(v: string) => {
+                        setTopic(v);
+                        validateField('topic');
+                    }}
                     placeholder={t(locale, 'contact_form.service.placeholder')}
                     className="mb-8"
             />
@@ -108,7 +115,7 @@ export default function ContactForm({ locale, topics, className }: ContactFormPr
                 <Input ref={firstNameRef}
                        label={t(locale, 'generic.first_name')}
                        value={firstName}
-                       onChange={setFirstName}
+                       onChange={(v: string) => { setFirstName(v); clearError('firstName'); }}
                        onBlur={() => validateField('firstName')}
                        error={errors.firstName}
                        required
@@ -118,7 +125,7 @@ export default function ContactForm({ locale, topics, className }: ContactFormPr
                 <Input ref={sureNameRef}
                        label={t(locale, 'generic.last_name')}
                        value={lastName}
-                       onChange={setLastName}
+                       onChange={(v: string) => { setLastName(v); clearError('lastName'); }}
                        onBlur={() => validateField('lastName')}
                        error={errors.lastName}
                        required
@@ -129,16 +136,17 @@ export default function ContactForm({ locale, topics, className }: ContactFormPr
             <Input ref={emailRef}
                    label={t(locale, 'generic.email.short')}
                    value={emailValue}
-                   onChange={setEmailValue}
+                   onChange={(v: string) => { setEmailValue(v); clearError('email'); }}
                    onBlur={() => validateField('email')}
                    error={errors.email}
                    required
                    autoComplete="email"
             />
 
-            <Textarea label={t(locale, 'contact_form.request.label')}
+            <TextArea ref={messageRef}
+                      label={t(locale, 'contact_form.request.label')}
                       value={message}
-                      onChange={setMessage}
+                      onChange={(v: string) => { setMessage(v); clearError('message'); }}
                       onBlur={() => validateField('message')}
                       error={errors.message}
                       name="message"
