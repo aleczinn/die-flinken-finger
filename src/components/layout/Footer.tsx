@@ -123,9 +123,9 @@ export default async function Footer({ locale }: FooterProps) {
 			<Section as="div"
 					 variant="capped"
 					 outerClassName="bg-gray-80"
-					 innerClassName="flex flex-row flex-wrap justify-between items-center py-6 gap-0 lg:gap-8"
+					 innerClassName="flex flex-row flex-wrap justify-between items-center py-6 gap-8"
 			>
-				<IconFullLogoLight className="w-48 h-auto mb-4" />
+				<IconFullLogoLight className="w-48 h-auto" />
 
 				{/*<span className="font-bold text-lg text-wrap text-center mb-8 lg:mb-0">Hier könnte ein Werbetext stehen</span>*/}
 
