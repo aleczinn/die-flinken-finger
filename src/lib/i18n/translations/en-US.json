@@ -59,6 +59,13 @@
             "description": "Please feel free to send us any additional documents or images—this will allow us to process your request more quickly and efficiently.",
             "field_description": "Click or drag a file into this area to upload it."
         },
+        "validation": {
+            "required": "Required",
+            "topic": "Please choose your topic",
+            "message": "Please describe your request",
+            "character": "Please do not enter any invalid characters",
+            "email": "Please enter a valid email address"
+        },
         "next": "Next",
         "submit": "Submit"
     },

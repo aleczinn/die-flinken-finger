@@ -8,18 +8,18 @@ const NAME_REGEX = /^[A-Za-zÀ-ÖØ-öø-ÿẞßÄÖÜäöü\s'-]+$/;
 
 export type Validator = (value: string) => string | null;
 
-export function required(message = 'Pflichtfeld'): Validator {
+export function required(message: string): Validator {
     return (value) => (value.trim() === '' ? message : null);
 }
 
-export function email(message = 'Bitte eine gültige E-Mail-Adresse eingeben'): Validator {
+export function email(message: string): Validator {
     return (value) => {
         if (value.trim() === '') return null; // leer = kein Email-Fehler (required ist separat)
         return EMAIL_REGEX.test(value) ? null : message;
     };
 }
 
-export function personName(message = 'Bitte einen gültigen Namen ohne Zahlen & Sonderzeichen eingeben'): Validator {
+export function personName(message: string): Validator {
     return (value) => {
         const trimmed = value.trim();
 

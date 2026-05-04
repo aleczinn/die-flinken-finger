@@ -49,13 +49,23 @@ export default function ContactForm({ locale, topics, className }: ContactFormPr
 
     const [errors, setErrors] = useState<FormErrors>({});
 
+    const labels = {
+        first_name: t(locale, 'generic.first_name'),
+        last_name: t(locale, 'generic.last_name'),
+        required: t(locale, 'contact_form.validation.required'),
+        topic: t(locale, 'contact_form.validation.topic'),
+        message: t(locale, 'contact_form.validation.message'),
+        character: t(locale, 'contact_form.validation.character'),
+        email: t(locale, 'contact_form.validation.email'),
+    }
+
     // Pro Feld eine Validate-Funktion. Wird bei Blur und bei Submit aufgerufen.
     const validators = {
-        topic: () => validate(topic, required('Bitte ein Thema wählen')),
-        firstName: () => validate(firstName, required('Vorname ist ein Pflichtfeld'), personName()),
-        lastName: () => validate(lastName, required('Nachname ist ein Pflichtfeld'), personName()),
-        email: () => validate(emailValue, required('E-Mail ist ein Pflichtfeld'), email()),
-        message: () => validate(message, required('Bitte beschreiben Sie Ihr Anliegen')),
+        topic: () => validate(topic, required(labels.topic)),
+        firstName: () => validate(firstName, required(labels.required), personName(labels.character)),
+        lastName: () => validate(lastName, required(labels.required), personName(labels.character)),
+        email: () => validate(emailValue, required(labels.required), email(labels.email)),
+        message: () => validate(message, required(labels.message)),
     } satisfies Record<keyof FormErrors, () => string | null>;
 
     const validateField = (field: keyof FormErrors) => {

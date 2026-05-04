@@ -59,6 +59,13 @@
             "description": "Gerne können Sie uns ergänzende Dokumente oder Bilder zusenden – so können wir Ihre Anfrage schneller und gezielter bearbeiten.",
             "field_description": "Klicken oder ziehen Sie eine Datei in diesen Bereich, um sie hochzuladen."
         },
+        "validation": {
+            "required": "Pflichtfeld",
+            "topic": "Bitte ein Thema wählen",
+            "message": "Bitte beschreiben Sie Ihr Anliegen",
+            "character": "Bitte keine ungültigen Zeichen eingeben",
+            "email": "Bitte gebe eine gültige E-Mail-Adresse ein"
+        },
         "next": "Weiter",
         "submit": "Anfrage senden"
     },
