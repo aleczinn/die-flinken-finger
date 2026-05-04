@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/Button";
 import { css } from "@/lib/utils";
 import { IconSendOutline } from "@/components/icons";
 import { Input } from "@/components/ui/Input";
-import { required, validate, email } from "@/lib/validation";
+import { required, validate, email, personName } from "@/lib/validation";
 
 interface ContactFormProps {
     locale: Locale
@@ -52,8 +52,8 @@ export default function ContactForm({ locale, topics, className }: ContactFormPr
     // Pro Feld eine Validate-Funktion. Wird bei Blur und bei Submit aufgerufen.
     const validators = {
         topic: () => validate(topic, required('Bitte ein Thema wählen')),
-        firstName: () => validate(firstName, required('Vorname ist ein Pflichtfeld')),
-        lastName: () => validate(lastName, required('Nachname ist ein Pflichtfeld')),
+        firstName: () => validate(firstName, required('Vorname ist ein Pflichtfeld'), personName()),
+        lastName: () => validate(lastName, required('Nachname ist ein Pflichtfeld'), personName()),
         email: () => validate(emailValue, required('E-Mail ist ein Pflichtfeld'), email()),
         message: () => validate(message, required('Bitte beschreiben Sie Ihr Anliegen')),
     } satisfies Record<keyof FormErrors, () => string | null>;
