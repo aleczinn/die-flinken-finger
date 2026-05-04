@@ -76,6 +76,10 @@ body {
     text-rendering: optimizeLegibility;
 }
 
+input, textarea, select {
+    outline: none;
+}
+
 @layer base {
     :root {
         --focus-radius: 0;
@@ -140,7 +144,9 @@ body {
             pointer-events: none;
         }
 
-        &:focus-visible {
+        /* Trigger: Element selbst ODER ein Kind hat sichtbaren Fokus */
+        &:focus-visible,
+        &:has(:focus-visible) {
             outline: none;
 
             &::after {
@@ -150,6 +156,12 @@ body {
                 z-index: 2;
             }
         }
+    }
+
+    /* Kind-Element bekommt keine eigene Browser-Outline,
+       weil das Eltern-::after die Anzeige übernimmt */
+    .focus-element :focus-visible {
+        outline: none;
     }
 }
 

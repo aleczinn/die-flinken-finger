@@ -77,13 +77,14 @@ export function Textarea({
                       ].filter(Boolean).join(' ') || undefined}
                       className={css(
                           'w-full px-3 py-2 rounded-md border-1 bg-white resize-none',
-                          'transition-colors focus-element',
+                          'transition-colors',
+                          'focus:border-primary',
                           'disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-10',
                           error ? 'border-primary' : 'border-gray-30 hover:border-gray-80',
                       )}
             />
 
-            <div className="flex items-start justify-between gap-2 min-h-[1rem]">
+            <div className="flex items-start justify-between gap-2 min-h-4">
                 {error ? (
                     <span id={errorId} role="alert" className="text-xs text-primary">
                         {error}
