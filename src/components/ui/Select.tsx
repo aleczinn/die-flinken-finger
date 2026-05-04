@@ -285,8 +285,9 @@ export function Select<T extends string = string>({
                         onClick={() => (isOpen ? close(false) : open())}
                         onKeyDown={onKeyDown}
                         className={css(
-                            'w-full flex items-center justify-between gap-2 px-3 py-2 rounded-md border-1 bg-white text-left',
-                            'transition-colors hover:cursor-pointer focus-element',
+                            'w-full flex items-center justify-between gap-2 px-3 py-2 rounded-md border-1 bg-white text-left outline-none',
+                            'transition-colors hover:cursor-pointer',
+                            'focus-visible:border-primary focus-visible:shadow-form',
                             error
                                 ? 'border-primary'
                                 : 'border-gray-30 hover:border-gray-80',
