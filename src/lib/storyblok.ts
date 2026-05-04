@@ -9,6 +9,7 @@ import Banner from "@/components/blocks/Banner";
 import ContactSection from "@/components/blocks/ContactSection";
 import Grid from "@/components/blocks/Grid";
 import BeforeAfterWithText from "@/components/blocks/BeforeAfterWithText";
+import Gallery from "@/components/blocks/Gallery";
 
 const cachedFetch = (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
 	return fetch(input, {
@@ -35,7 +36,8 @@ export const getStoryblokApi = storyblokInit({
 		banner: Banner,
 		contact_section: ContactSection,
 		grid: Grid,
-		before_after_with_text: BeforeAfterWithText
+		before_after_with_text: BeforeAfterWithText,
+		gallery: Gallery
 	},
 	apiOptions: {
 		/** Set the correct region for your space. Learn more: https://www.storyblok.com/docs/packages/storyblok-js#example-region-parameter */
