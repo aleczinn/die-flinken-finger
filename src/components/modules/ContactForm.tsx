@@ -22,7 +22,10 @@ interface ContactFormTopic {
 }
 
 export default function ContactForm({ locale, topics, className }: ContactFormProps) {
-    const [topic, setTopic] = useState('');
+    const defaultTopic = topics.length > 0 && topics[0];
+    const defaultValue = defaultTopic ? (defaultTopic.value || defaultTopic.label) : '';
+
+    const [topic, setTopic] = useState(defaultValue ?? '');
     const [message, setMessage] = useState('');
     const [files, setFiles] = useState<File[]>([]);
 
@@ -33,6 +36,7 @@ export default function ContactForm({ locale, topics, className }: ContactFormPr
         )}>
             <Select label={t(locale, 'contact_form.service.label')}
                     options={topics}
+                    value={topic}
                     required
                     value={topic}
                     onChange={setTopic}
@@ -63,17 +67,13 @@ export default function ContactForm({ locale, topics, className }: ContactFormPr
                         className="mb-8"
             />
 
-            <div className="flex flex-row justify-end">
-                <Button variant="primary" type="button">
-                    {t(locale, 'contact_form.next')}
-                </Button>
-            </div>
+            <span className="text-gray-70 text-sm mb-8">Wir verwenden Ihre Angaben zur Beantwortung Ihrer Anfrage. Weitere Informationen finden Sie in unseren Datenschutzhinweisen.</span>
 
-            {/*<Button variant="primary" type="button" iconLeft={*/}
-            {/*    <IconSendOutline className="w-4 h-auto" />*/}
-            {/*}>*/}
-            {/*    {t(locale, 'contact_form.submit')}*/}
-            {/*</Button>*/}
+            <Button variant="primary" type="button" iconLeft={
+                <IconSendOutline className="w-4 h-auto" />
+            }>
+                {t(locale, 'contact_form.submit')}
+            </Button>
         </div>
     );
 }
