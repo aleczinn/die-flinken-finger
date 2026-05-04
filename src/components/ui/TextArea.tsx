@@ -83,13 +83,13 @@ export function Textarea({
                           'transition-colors',
                           'focus:border-primary',
                           'disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-10',
-                          error ? 'border-primary' : 'border-gray-30 hover:border-gray-80',
+                          error ? 'border-error' : 'border-gray-30 hover:border-gray-80',
                       )}
             />
 
             <div className="flex items-start justify-between gap-2 min-h-4">
                 {error ? (
-                    <span id={errorId} role="alert" className="text-xs text-primary">
+                    <span id={errorId} role="alert" className="text-xs text-error">
                         {error}
                     </span>
                 ) : <span />}
