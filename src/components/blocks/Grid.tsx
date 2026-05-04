@@ -5,12 +5,13 @@ import { Headline } from "@/components/ui/Headline";
 import { Locale } from "@/lib/locale/locales";
 import { useId } from "react";
 import { Tagline } from "@/components/ui/Tagline";
-import { IconMail, IconSunOutline } from "@/components/icons";
+import { IconSunOutline } from "@/components/icons";
 import { Text } from "@/components/ui/Text";
-import { MyLink } from "@/components/ui/MyLink";
 import { css } from "@/lib/utils";
+import { resolveStoryblokLink } from "@/lib/locale/links";
+import { StoryblokLink } from "@/lib/storyblok-queries";
 
-interface HeroProps {
+interface GridProps {
     locale: Locale;
     blok: SbBlokData & {
         tagline?: string;
@@ -23,10 +24,10 @@ interface HeroProps {
 interface CardProps {
     title: string;
     description: string;
-    link: any;
+    link: StoryblokLink;
 }
 
-export default async function Grid({ locale, blok }: HeroProps) {
+export default async function Grid({ locale, blok }: GridProps) {
     const headingId = useId();
 
     return (
@@ -53,9 +54,9 @@ export default async function Grid({ locale, blok }: HeroProps) {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {blok.items.map((item: CardProps) => {
+                {blok.items.map(async (item: CardProps) => {
                     return (
-                        <Card key={item.title} title={item.title} description={item.description} link={item.link} />
+                        <Card key={item.title} locale={locale} title={item.title} description={item.description} link={item.link} />
                     );
                 })}
             </div>
@@ -63,9 +64,14 @@ export default async function Grid({ locale, blok }: HeroProps) {
     );
 };
 
-function Card({ title, description, link }: CardProps) {
+async function Card({ locale, title, description, link }: CardProps & { locale: Locale }) {
+    const href = await resolveStoryblokLink(link, locale.language);
+    if (!href) {
+        return null;
+    }
+
     return (
-        <a href="/"
+        <a href={href}
            className={css(
                'group flex flex-col bg-white border-1 border-solid border-gray-20 rounded-xl p-6 flex-1',
                'transition-transform duration-200',
