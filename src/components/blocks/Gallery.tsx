@@ -7,23 +7,27 @@ import { Tagline } from "@/components/ui/Tagline";
 import { Headline } from "@/components/ui/Headline";
 import { StoryblokAsset } from "@/components/storyblok/types";
 import { StoryblokLink } from "@/lib/storyblok-queries";
-import StoryblokRichTextRenderer from "@/components/storyblok/StoryblokRichTextRenderer";
 import { Text } from "@/components/ui/Text";
+import { UILink } from "@/components/ui/UILink";
+import { css } from "@/lib/utils";
+import { resolveStoryblokLink } from "@/lib/locale/links";
+import { StoryblokImage } from "@/components/storyblok/StoryblokImage";
 
 type GalleryLayout = 'left' | 'center' | 'right';
 type GalleryItemSize = 'default' | 'wide' | 'tall' | 'large';
 
 interface GalleryProps {
+    locale: Locale;
     blok: SbBlokData & {
         layout: GalleryLayout;
         tagline?: string;
         headline: string;
         description?: string;
-        items: GalleryItem[];
+        items: GalleryItemProps[];
     };
 }
 
-interface GalleryItem {
+interface GalleryItemProps extends SbBlokData {
     image: StoryblokAsset;
     tag?: string;
     title: string;
@@ -53,7 +57,7 @@ const sizeImageSizes: Record<GalleryItemSize, string> = {
     large:   '(min-width: 1024px) 47vw, 100vw',
 };
 
-export default function Gallery({ blok }: GalleryProps) {
+export default function Gallery({ locale, blok }: GalleryProps) {
     const headingId = useId();
 
     return (
@@ -68,20 +72,91 @@ export default function Gallery({ blok }: GalleryProps) {
             )}
 
             {blok.headline && (
-                <Headline id={headingId} as="h2" variant="h3" alignment={blok.layout} design="line" className="mb-8">
+                <Headline id={headingId} as="h2" variant="h3" alignment={blok.layout} design="line" className="mb-4">
                     {blok.headline}
                 </Headline>
             )}
 
             {blok.description && (
-                <Text className="text-gray-70 leading-relaxed max-w-prose" alignment={blok.layout}>
+                <Text className="text-gray-70 leading-relaxed max-w-prose mb-4" alignment={blok.layout}>
                     {blok.description}
                 </Text>
             )}
 
-            <div className="grid grid-cols-1 lg:grid-cols-4">
-
-            </div>
+            <ul className={css(
+                'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
+                'auto-rows-[14rem] md:auto-rows-[16rem] lg:auto-rows-[14rem]',
+                'gap-4 mt-4',
+            )}>
+                {blok.items?.map((item) => (
+                    <GalleryItem key={item._uid} locale={locale} item={item} />
+                ))}
+            </ul>
         </Section>
     );
 };
+
+async function GalleryItem({ locale, item }: { locale: Locale; item: GalleryItemProps }) {
+    const href = await resolveStoryblokLink(item.link ?? null, locale.language);
+    const size = item.size ?? 'default';
+
+    const inner = (
+        <>
+            {item.image?.filename && (
+                <StoryblokImage asset={item.image}
+                                width={sizeImageWidths[size]}
+                                sizes={sizeImageSizes[size]}
+                                background
+                                className="transition-transform duration-500 group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                />
+            )}
+
+            {/* Lesbarkeits-Overlay – decorative */}
+            <div className="absolute inset-0 bg-linear-to-t from-black/75 via-black/25 to-transparent"
+                 aria-hidden="true"
+            />
+
+            <div className="relative z-10 flex flex-col h-full p-6">
+                {item.tag && (
+                    <span className="self-start uppercase text-xs font-bold tracking-wider bg-primary text-white px-3 py-1 rounded-md">
+                        {item.tag}
+                    </span>
+                )}
+
+                <h3 className="mt-auto text-white font-semibold text-fluid-h5 text-pretty">
+                    {item.title}
+                </h3>
+            </div>
+        </>
+    );
+
+    const baseClasses = css(
+        'group relative overflow-hidden rounded-2xl bg-gray-30',
+        'min-h-56', // Mobile-Höhe, sonst kollabiert leeres Element
+        sizeClasses[size],
+    );
+
+    if (href) {
+        return (
+            <li {...storyblokEditable(item)} className={sizeClasses[size]}>
+                <UILink href={href}
+                      className={css(
+                          'block w-full h-full relative overflow-hidden rounded-2xl bg-gray-30',
+                          'min-h-56',
+                          'transition-shadow duration-200 hover:shadow-2xl shadow-black/20',
+                          'focus-element',
+                      )}
+                      aria-label={item.tag ? `${item.title} – ${item.tag}` : item.title}
+                >
+                    {inner}
+                </UILink>
+            </li>
+        );
+    }
+
+    return (
+        <li {...storyblokEditable(item)} className={baseClasses}>
+            {inner}
+        </li>
+    );
+}
