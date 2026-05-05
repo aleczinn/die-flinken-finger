@@ -8,6 +8,7 @@ const nextConfig = {
 		STORYBLOK_REGION: process.env.STORYBLOK_REGION,
 	},
 	images: {
+		deviceSizes: [640, 750, 828, 1080, 1200, 1366, 1536, 1920, 2048, 3840],
 		loaderFile: './src/lib/storyblokImageLoader.ts',
 		remotePatterns: [
 			{
