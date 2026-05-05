@@ -10,6 +10,7 @@ import { resolveStoryblokLink } from "@/lib/locale/links";
 import { useId } from "react";
 
 interface HeroProps {
+    locale: Locale;
     blok: SbBlokData & {
         background: any;
         headline: string;
@@ -20,7 +21,6 @@ interface HeroProps {
         secondary_button_link?: any;
     };
     priority?: boolean;
-    locale: Locale;
 }
 
 export default async function Hero({ blok, priority = false, locale }: HeroProps) {
