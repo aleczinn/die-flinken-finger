@@ -45,7 +45,6 @@
 
     /* Font Families */
     --font-display: var(--font-jakarta-sans, Arial, Helvetica, sans-serif);
-    --font-inter: var(--font-inter, Helvetica, Arial, sans-serif);
 
     /* Fluid Type Scale für Headlines — Range: 320px → 1440px Viewport */
     --text-fluid-h1: clamp(2.25rem, 1.607rem + 3.214vw, 4.5rem);     /* 36px → 72px */

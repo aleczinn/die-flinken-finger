@@ -31,7 +31,7 @@ export default async function Hero({ blok, priority = false, locale }: HeroProps
     // min height sagt aus: hero muss mindestens 22rem hoch sein ansonsten 90svh - header höhe
     return (
         <Section variant="none"
-                 className="relative w-full min-h-[max(22rem,calc(90svh-9.125rem))] flex items-center overflow-hidden isolate"
+                 className="relative w-full min-h-[max(22rem,calc(90lvh-9.125rem))] flex items-center overflow-hidden isolate"
                  aria-labelledby={blok.headline ? headingId : undefined}
                  {...storyblokEditable(blok)}
         >

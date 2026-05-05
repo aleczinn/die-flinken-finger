@@ -55,7 +55,7 @@ export function UILink({
     const showExternalIcon = !hasIcon && isExternal && !isSpecial;
 
     const classes = css(
-        'font-inter inline-flex flex-row items-center gap-2',
+        'inline-flex flex-row items-center gap-2',
         'transition-colors duration-200',
         'hover:cursor-pointer focus-element',
         variantClasses[design],

@@ -18,7 +18,7 @@ const alignmentClasses: Record<TaglineAlignment, string> = {
 export function Tagline({ alignment = 'left', children, className }: TaglineProps) {
     return (
         <span className={css(
-            'block font-inter w-full text-sm font-medium tracking-[0.2rem] text-primary uppercase',
+            'block w-full text-sm font-medium tracking-[0.2rem] text-primary uppercase',
             alignmentClasses[alignment],
             className
         )}>
