@@ -17,7 +17,7 @@ const nextConfig = {
 		],
 	},
 	experimental: {
-		inlineCss: true,
+		// inlineCss: true,
 	}
 };
 
