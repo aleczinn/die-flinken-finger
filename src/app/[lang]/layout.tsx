@@ -1,3 +1,4 @@
+import ReactDOM from 'react-dom';
 import { ReactNode } from 'react';
 import { availableLanguages, DEFAULT_LOCALE, getLocaleFromLang } from '@/lib/locale/locales';
 import { getConfig } from '@/lib/storyblok-queries';
@@ -22,6 +23,12 @@ export default async function LangLayout({ children, params,}: LangLayoutProps) 
 	const { lang } = await params;
 	const locale = getLocaleFromLang(lang) ?? DEFAULT_LOCALE;
 	const config = await getConfig(locale);
+
+	/*
+	 * Resource Hints – früh als möglich aufrufen
+	 * Vorteile: Next.js dedupliziert die Hints automatisch, platziert sie korrekt im <head> und überlegt sich Position/Reihenfolge im Stream.
+	 */
+	ReactDOM.preconnect('https://a.storyblok.com', { crossOrigin: 'anonymous' });
 
 	const orgSchema = {
 		'@context': 'https://schema.org',
