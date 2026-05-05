@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+@font-face {
+    font-family: 'PJS-Fallback';
+    src: local('Arial');
+    size-adjust: 102.93%;
+    ascent-override: 95.04%;
+    descent-override: 25.34%;
+    line-gap-override: 0%;
+}
+
 @theme {
     /* Colors */
     --color-primary-lightest: #FEEADB;

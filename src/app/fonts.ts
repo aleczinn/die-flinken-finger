@@ -11,6 +11,6 @@ export const jakartaSans = localFont({
 	variable: '--font-jakarta-sans',
 	display: 'swap',
 	preload: true,
-	fallback: ['Arial', 'Helvetica', 'sans-serif'],
-	adjustFontFallback: 'Arial',
+	fallback: ['PJS-Fallback', 'Arial', 'Helvetica', 'sans-serif'],
+	adjustFontFallback: false, // use own fallback font - https://screenspan.net/fallback
 });
